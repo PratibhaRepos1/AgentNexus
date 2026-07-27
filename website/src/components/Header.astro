@@ -1,0 +1,65 @@
+---
+const navLinks = [
+  { href: "/features", label: "Features" },
+  { href: "/pricing", label: "Pricing" },
+];
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 border-b border-slate-100 bg-white/80 backdrop-blur">
+  <input type="checkbox" id="nav-toggle" class="peer hidden" />
+
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <a href="/" class="font-display text-xl font-bold tracking-tight">
+      Chat<span class="brand-gradient-text">Biz</span>
+    </a>
+
+    <nav class="hidden items-center gap-8 md:flex">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              "text-sm font-medium transition-colors hover:text-violet-600",
+              currentPath === link.href ? "text-violet-600" : "text-slate-600",
+            ]}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        href="/demo"
+        class="brand-gradient rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-violet-200 transition-transform hover:scale-105"
+      >
+        Book a Free Demo
+      </a>
+    </nav>
+
+    <label
+      for="nav-toggle"
+      class="grid h-10 w-10 cursor-pointer place-items-center rounded-lg text-slate-700 md:hidden"
+      aria-label="Toggle menu"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </label>
+  </div>
+
+  <div class="hidden flex-col gap-1 border-t border-slate-100 bg-white px-6 py-4 peer-checked:flex md:hidden">
+    {
+      navLinks.map((link) => (
+        <a href={link.href} class="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">
+          {link.label}
+        </a>
+      ))
+    }
+    <a
+      href="/demo"
+      class="brand-gradient mt-2 rounded-full px-5 py-2.5 text-center text-sm font-semibold text-white"
+    >
+      Book a Free Demo
+    </a>
+  </div>
+</header>

@@ -49,6 +49,39 @@ A snapshot of what's actually implemented and verified working, as of this point
 - **SSRF-safe URL import** — rejects attempts to fetch internal/private network addresses.
 - **Fast, reliable startup** — the AI model warms up in ~5 seconds, not the 90+ seconds it took before a caching fix.
 
+## Pricing Plans
+
+Four plans: a genuinely usable free tier to let customers experience the product, plus three paid tiers to convert and grow them.
+
+| | Free | Basic | Business ⭐ | Growth |
+|---|---|---|---|---|
+| Price | ₹0 | ₹1,999/mo | ₹3,999/mo | ₹7,999/mo |
+| Websites | 1 | 1 | 3 | 10 |
+| AI conversations | 50/mo | 1,000/mo | 5,000/mo | 20,000/mo |
+| Knowledge base | ✓ | ✓ | ✓ | ✓ |
+| Document upload | 2 | 20 | Unlimited | Unlimited |
+| Lead capture | ✓ | ✓ | ✓ | ✓ |
+| Analytics | Basic | Standard | Advanced | Advanced |
+| Product catalog | 10 | 100 | Unlimited | Unlimited |
+| Conversation history | 7 days | 90 days | Unlimited | Unlimited |
+| Email notifications | ✓ | ✓ | ✓ | ✓ |
+| WhatsApp notifications | ✗ | ✗ | ✓ | ✓ |
+| Instagram integration | ✗ | ✗ | ✓ | ✓ |
+| Multi-language | ✗ | 2 languages | Unlimited | Unlimited |
+| Multi-currency | ✗ | ✓ | ✓ | ✓ |
+| Custom branding | ✗ | ✓ | ✓ | ✓ |
+| API access | ✗ | ✗ | +₹999/mo add-on | ✓ |
+| Priority support | ✗ | ✗ | ✓ | ✓ |
+
+### Billing & Usage Policy
+
+- **Overage (conversations)**: no hard cutoff on a paid plan. Once a business crosses its monthly conversation quota, the widget keeps working and extra conversations bill at a flat per-block rate — ₹99 per additional 100 conversations, charged at month-end or on next invoice. Free plan is the exception: it hard-stops at 50/mo and prompts an upgrade, since it's meant to be a taste, not a working tier.
+- **Usage nudges**: in-app/email alert at 80% and 100% of monthly conversation quota, with a one-click upgrade link — this is the main free→paid and tier→tier conversion lever, so it should ship alongside the plans, not as an afterthought.
+- **Annual billing**: every paid plan also offered as an annual price at ~2 months free (i.e., pay for 10 months, get 12) — improves cash flow and cuts churn versus monthly-only billing.
+- **API access add-on**: ₹999/mo, purchasable on Business without upgrading to Growth; bundled free on Growth.
+- **Free-plan abuse guard**: one free business per verified email + phone number (OTP), not per browser/signup — otherwise the 50/mo cap is trivially bypassed by creating multiple free accounts.
+- **Plan changes**: upgrades apply immediately (prorated); downgrades apply at the next billing cycle, not instantly, so a business doesn't lose access mid-month to something they already paid for.
+
 ---
 
 *Not yet built (known gaps, tracked separately): live human-agent handoff mid-conversation, business-hours-aware responses, full multi-page website crawling (only single-page import exists), multi-language support, billing/subscription automation.*

@@ -1,0 +1,128 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHero from "../components/PageHero.astro";
+
+const reassurances = [
+  "15-minute walkthrough, tailored to your business type",
+  "We'll set up a sample FAQ/document live on the call",
+  "No pressure, no credit card — free plan available either way",
+];
+---
+
+<Layout
+  title="Book a Free Demo"
+  description="Book a free, no-pressure demo of ChatBiz and see your own FAQs and documents answering customer questions in minutes."
+  path="/demo"
+>
+  <PageHero
+    line1="Book your"
+    line2="free demo"
+    subheading="Tell us a bit about your business and we'll reach out to schedule a walkthrough."
+  />
+
+  <section class="mx-auto max-w-2xl px-6 py-16">
+    <ul class="mb-10 grid gap-3 sm:grid-cols-3">
+      {
+        reassurances.map((r) => (
+          <li class="rounded-xl border border-slate-100 bg-white p-4 text-center text-xs font-medium text-slate-500 shadow-sm">
+            {r}
+          </li>
+        ))
+      }
+    </ul>
+
+    <form id="demo-form" class="space-y-5 rounded-3xl border border-slate-100 bg-white p-8 shadow-sm">
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label for="name" class="text-sm font-medium text-slate-700">Your name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+          />
+        </div>
+        <div>
+          <label for="business" class="text-sm font-medium text-slate-700">Business name</label>
+          <input
+            type="text"
+            id="business"
+            name="business"
+            required
+            class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+          />
+        </div>
+      </div>
+
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label for="email" class="text-sm font-medium text-slate-700">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+          />
+        </div>
+        <div>
+          <label for="phone" class="text-sm font-medium text-slate-700">Phone (optional)</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label for="website" class="text-sm font-medium text-slate-700">Your website (optional)</label>
+        <input
+          type="url"
+          id="website"
+          name="website"
+          placeholder="https://"
+          class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+        />
+      </div>
+
+      <div>
+        <label for="message" class="text-sm font-medium text-slate-700">Anything specific you want to see?</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="3"
+          class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+        ></textarea>
+      </div>
+
+      <button
+        type="submit"
+        class="brand-gradient w-full rounded-full px-6 py-3.5 text-sm font-semibold text-white shadow-sm shadow-violet-200 transition-transform hover:scale-[1.02]"
+      >
+        Request My Free Demo
+      </button>
+
+      <p id="demo-form-status" class="hidden text-center text-sm font-medium text-emerald-600" role="status"></p>
+    </form>
+  </section>
+
+  <script>
+    const form = document.getElementById("demo-form") as HTMLFormElement | null;
+    const status = document.getElementById("demo-form-status");
+
+    form?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      // TODO: wire this to a real endpoint (e.g. the ChatBiz backend's leads API,
+      // or a form service) before launch — this is a placeholder confirmation only.
+      form.reset();
+      form.classList.add("hidden");
+      if (status) {
+        status.textContent = "Thanks! We'll be in touch within one business day to schedule your demo.";
+        status.classList.remove("hidden");
+      }
+    });
+  </script>
+</Layout>

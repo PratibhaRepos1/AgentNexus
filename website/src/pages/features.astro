@@ -1,0 +1,322 @@
+---
+import Layout from "../layouts/Layout.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import CTASection from "../components/CTASection.astro";
+import PageHero from "../components/PageHero.astro";
+import chatVideo from "../assets/chatbot video.mp4";
+
+const valueProps = [
+  "⚡ 2-Minute Setup",
+  "🧠 Trained on Your Business",
+  "🎯 Converts Visitors into Leads",
+  "📈 Actionable Business Insights",
+  "🌍 Ready for Global Businesses",
+];
+
+const whyChoose = [
+  "2-minute setup",
+  "AI trained on your business",
+  "Capture more leads automatically",
+  "Increase customer engagement",
+  "Reduce support workload",
+  "Available 24/7",
+  "Works on any website",
+  "Scales with your business",
+];
+---
+
+<Layout
+  title="Features"
+  description="Everything you need to automate customer support, capture leads, and grow your business — all in one platform."
+  path="/features"
+>
+  <PageHero
+    line1="Powerful AI Features for"
+    line2="Modern Businesses"
+    subheading="Everything you need to automate customer support, capture leads, and grow your business — all in one platform."
+  >
+    <div slot="extra" class="relative mx-auto mt-6 max-w-3xl text-center">
+      <p class="text-lg text-indigo-50">
+        Whether you're a retail store, clinic, restaurant, coaching center, real estate agency, or service
+        business, ChatBiz helps you engage visitors 24/7 and convert them into customers.
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        {
+          valueProps.map((v) => (
+            <span class="rounded-full border border-white/30 bg-white/15 px-4 py-2 text-sm font-semibold text-white backdrop-blur">
+              {v}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </PageHero>
+
+  <section class="mx-auto max-w-6xl px-6 py-16">
+    <!-- AI Chat Assistant -->
+    <FeatureRow icon="🤖" title="AI Chat Assistant" description="Intelligent conversations that understand your business, powered by your own content.">
+      <video
+        id="chat-demo-video"
+        class="w-full max-w-sm rounded-2xl shadow-lg"
+        src={chatVideo}
+        autoplay
+        loop
+        muted
+        playsinline
+        aria-label="Live demo of the ChatBiz AI chat widget answering a customer question"
+      />
+      <script>
+        const video = document.getElementById("chat-demo-video") as HTMLVideoElement | null;
+        if (video && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          video.removeAttribute("autoplay");
+          video.removeAttribute("loop");
+          video.pause();
+          video.controls = true;
+        }
+      </script>
+      <ul slot="details" class="grid grid-cols-1 gap-x-6 gap-y-2 text-base text-slate-600 sm:grid-cols-2">
+        <li><span class="text-emerald-500">✓</span> AI-powered chatbot</li>
+        <li><span class="text-emerald-500">✓</span> One-line website installation</li>
+        <li><span class="text-emerald-500">✓</span> Website URL training</li>
+        <li><span class="text-emerald-500">✓</span> Multi-format document upload</li>
+        <li><span class="text-emerald-500">✓</span> FAQ management</li>
+        <li><span class="text-emerald-500">✓</span> Product &amp; service knowledge</li>
+        <li><span class="text-emerald-500">✓</span> Conversation memory</li>
+        <li><span class="text-emerald-500">✓</span> Smart intent detection</li>
+        <li><span class="text-emerald-500">✓</span> AI personality selection</li>
+        <li><span class="text-emerald-500">✓</span> Custom welcome message</li>
+        <li><span class="text-emerald-500">✓</span> Suggested questions</li>
+        <li><span class="text-emerald-500">✓</span> Custom fallback responses</li>
+      </ul>
+      <div slot="footer" class="mt-4 grid grid-cols-3 gap-3">
+        <div class="rounded-xl bg-white p-3 text-center shadow-sm">
+          <p class="font-display text-lg font-bold text-slate-900">&lt;2s</p>
+          <p class="text-xs text-slate-400">Avg. response time</p>
+        </div>
+        <div class="rounded-xl bg-white p-3 text-center shadow-sm">
+          <p class="font-display text-lg font-bold text-slate-900">24/7</p>
+          <p class="text-xs text-slate-400">Always available</p>
+        </div>
+        <div class="rounded-xl bg-white p-3 text-center shadow-sm">
+          <p class="font-display text-lg font-bold text-slate-900">0</p>
+          <p class="text-xs text-slate-400">Missed enquiries</p>
+        </div>
+      </div>
+    </FeatureRow>
+
+    <!-- AI Knowledge Base -->
+    <FeatureRow icon="📚" title="AI Knowledge Base" description="No coding required — upload documents or import your website and ChatBiz builds the knowledge base automatically.">
+      <div class="w-full max-w-sm text-center">
+        <div class="flex flex-wrap justify-center gap-2">
+          <span class="rounded-full bg-violet-50 px-3 py-1.5 text-sm font-medium text-violet-600">FAQs</span>
+          <span class="rounded-full bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-600">Documents</span>
+          <span class="rounded-full bg-indigo-50 px-3 py-1.5 text-sm font-medium text-indigo-600">Catalog</span>
+        </div>
+        <div class="mx-auto mt-3 h-6 w-px bg-slate-300"></div>
+        <div class="mx-auto mt-1 max-w-[85%] rounded-xl rounded-tl-sm bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
+          Grounded answer <span class="text-emerald-500">✓</span>
+        </div>
+      </div>
+      <ul slot="details" class="grid grid-cols-2 gap-x-6 gap-y-2 text-base text-slate-600">
+        <li><span class="text-emerald-500">✓</span> Website URLs</li>
+        <li><span class="text-emerald-500">✓</span> PDF documents</li>
+        <li><span class="text-emerald-500">✓</span> Microsoft Word</li>
+        <li><span class="text-emerald-500">✓</span> Excel files</li>
+        <li><span class="text-emerald-500">✓</span> CSV files</li>
+        <li><span class="text-emerald-500">✓</span> Text files</li>
+        <li><span class="text-emerald-500">✓</span> FAQ database</li>
+        <li><span class="text-emerald-500">✓</span> Product catalog</li>
+      </ul>
+    </FeatureRow>
+
+    <!-- Lead Generation -->
+    <FeatureRow icon="🎯" title="Lead Generation" description="Never lose a potential customer — automatically collect their details the moment your AI senses buying interest.">
+      <div class="w-full max-w-sm rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
+        <div class="mb-3 flex items-center justify-between">
+          <span class="text-sm font-semibold text-slate-500">Contact details</span>
+          <span class="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-600">New lead</span>
+        </div>
+        <div class="mb-2 h-3 w-full rounded-full bg-slate-200"></div>
+        <div class="mb-3 h-3 w-3/4 rounded-full bg-slate-200"></div>
+        <div class="brand-gradient rounded-full py-2 text-center text-sm font-semibold text-white">Contact Me</div>
+      </div>
+      <ul slot="details" class="grid grid-cols-2 gap-x-6 gap-y-2 text-base text-slate-600">
+        <li><span class="text-emerald-500">✓</span> Name</li>
+        <li><span class="text-emerald-500">✓</span> Email</li>
+        <li><span class="text-emerald-500">✓</span> Phone number</li>
+        <li><span class="text-emerald-500">✓</span> Customer message</li>
+        <li><span class="text-emerald-500">✓</span> Lead status</li>
+        <li><span class="text-emerald-500">✓</span> Lead history</li>
+        <li><span class="text-emerald-500">✓</span> Email notifications</li>
+      </ul>
+    </FeatureRow>
+
+    <!-- Business Analytics -->
+    <FeatureRow icon="📊" title="Business Analytics" description="Understand what your customers are asking, and make smarter decisions with built-in analytics.">
+      <div class="grid w-full max-w-sm grid-cols-3 gap-3">
+        <div class="rounded-xl bg-white p-4 text-center shadow-sm">
+          <p class="font-display text-2xl font-bold text-slate-900">42</p>
+          <p class="text-xs text-slate-400">Leads</p>
+        </div>
+        <div class="rounded-xl bg-white p-4 text-center shadow-sm">
+          <p class="font-display text-2xl font-bold text-slate-900">128</p>
+          <p class="text-xs text-slate-400">Chats</p>
+        </div>
+        <div class="rounded-xl bg-white p-4 text-center shadow-sm">
+          <p class="font-display text-2xl font-bold text-slate-900">76%</p>
+          <p class="text-xs text-slate-400">Answered</p>
+        </div>
+      </div>
+      <ul slot="details" class="grid grid-cols-2 gap-x-6 gap-y-2 text-base text-slate-600">
+        <li><span class="text-emerald-500">✓</span> Visitor count</li>
+        <li><span class="text-emerald-500">✓</span> AI conversations</li>
+        <li><span class="text-emerald-500">✓</span> Total messages</li>
+        <li><span class="text-emerald-500">✓</span> Leads generated</li>
+        <li><span class="text-emerald-500">✓</span> Top questions</li>
+        <li><span class="text-emerald-500">✓</span> Popular products</li>
+        <li><span class="text-emerald-500">✓</span> Conversation history</li>
+        <li><span class="text-emerald-500">✓</span> Customer insights</li>
+      </ul>
+    </FeatureRow>
+
+    <!-- Multi-Language -->
+    <FeatureRow icon="🌍" title="Multi-Language Support" description="Speak your customer's language and deliver localized experiences with AI.">
+      <div class="brand-gradient grid h-24 w-24 place-items-center rounded-3xl text-5xl text-white shadow-lg">🌍</div>
+      <ul slot="details" class="space-y-2 text-base text-slate-600">
+        <li><span class="text-emerald-500">✓</span> 🇺🇸 English</li>
+        <li><span class="text-emerald-500">✓</span> 🇳🇱 Dutch</li>
+        <li><span class="text-emerald-500">✓</span> 🇳🇴 Norwegian</li>
+        <li class="text-slate-400">🇮🇳 Hindi — coming soon</li>
+        <li class="text-slate-400">More languages coming soon</li>
+      </ul>
+    </FeatureRow>
+
+    <!-- Multi-Currency -->
+    <FeatureRow icon="💱" title="Multi-Currency Ready" description="Perfect for businesses serving customers worldwide.">
+      <div class="brand-gradient grid h-24 w-24 place-items-center rounded-3xl text-5xl text-white shadow-lg">💱</div>
+      <ul slot="details" class="grid grid-cols-2 gap-x-6 gap-y-2 text-base text-slate-600">
+        <li><span class="text-emerald-500">✓</span> ₹ Indian Rupee</li>
+        <li><span class="text-emerald-500">✓</span> $ US Dollar</li>
+        <li><span class="text-emerald-500">✓</span> € Euro</li>
+        <li><span class="text-emerald-500">✓</span> kr Norwegian Krone</li>
+        <li class="col-span-2 text-slate-400">More currencies available</li>
+      </ul>
+    </FeatureRow>
+
+    <!-- Widget Customization -->
+    <FeatureRow icon="🎨" title="Widget Customization" description="Match your chatbot with your brand, down to the last detail.">
+      <div class="w-full max-w-sm text-center">
+        <div class="flex justify-center gap-3">
+          <span class="h-8 w-8 rounded-full bg-violet-500 ring-2 ring-violet-200 ring-offset-2"></span>
+          <span class="h-8 w-8 rounded-full bg-blue-500"></span>
+          <span class="h-8 w-8 rounded-full bg-emerald-500"></span>
+          <span class="h-8 w-8 rounded-full bg-amber-500"></span>
+        </div>
+        <div class="mx-auto mt-4 w-40 rounded-lg border border-slate-200 bg-white px-4 py-2 text-left text-sm text-slate-500 shadow-sm">
+          Bot name: <span class="font-semibold text-slate-700">Aria</span>
+        </div>
+      </div>
+      <ul slot="details" class="grid grid-cols-2 gap-x-6 gap-y-2 text-base text-slate-600">
+        <li><span class="text-emerald-500">✓</span> Brand color</li>
+        <li><span class="text-emerald-500">✓</span> Chatbot name</li>
+        <li><span class="text-emerald-500">✓</span> Welcome message</li>
+        <li><span class="text-emerald-500">✓</span> Widget position</li>
+        <li><span class="text-emerald-500">✓</span> Theme</li>
+        <li class="text-slate-400">Bot avatar — coming soon</li>
+        <li class="col-span-2 text-slate-400">Light &amp; dark mode — coming soon</li>
+      </ul>
+    </FeatureRow>
+
+    <!-- Instant Notifications -->
+    <FeatureRow icon="🔔" title="Instant Notifications" description="Never miss a customer enquiry — get notified the moment it happens.">
+      <div class="w-full max-w-sm rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
+        <div class="flex items-center gap-3">
+          <span class="grid h-10 w-10 place-items-center rounded-full bg-blue-100 text-xl">📧</span>
+          <div class="text-left">
+            <p class="text-sm font-semibold text-slate-700">New lead captured</p>
+            <p class="text-xs text-slate-400">Sent to owner's inbox</p>
+          </div>
+        </div>
+      </div>
+      <ul slot="details" class="space-y-2 text-base text-slate-600">
+        <li><span class="text-emerald-500">✓</span> Email</li>
+        <li class="text-slate-400">WhatsApp — coming soon</li>
+        <li class="text-slate-400">Instagram — coming soon</li>
+        <li><span class="text-emerald-500">✓</span> Gmail</li>
+        <li class="text-slate-400">Slack &amp; Microsoft Teams — planned</li>
+      </ul>
+    </FeatureRow>
+
+    <!-- Build Customer Trust -->
+    <FeatureRow icon="⭐" title="Build Customer Trust" description="Show visitors you're a trusted, established business.">
+      <div class="brand-gradient grid h-24 w-24 place-items-center rounded-3xl text-5xl text-white shadow-lg">⭐</div>
+      <ul slot="details" class="space-y-2 text-base text-slate-600">
+        <li><span class="text-emerald-500">✓</span> Google reviews</li>
+        <li><span class="text-emerald-500">✓</span> Contact form</li>
+        <li><span class="text-emerald-500">✓</span> Business information</li>
+        <li class="text-slate-400">Operating hours — coming soon</li>
+        <li class="text-slate-400">Location &amp; map — coming soon</li>
+      </ul>
+    </FeatureRow>
+
+    <!-- Security -->
+    <FeatureRow icon="🔒" title="Enterprise-Grade Security" description="Built with security from day one, not bolted on later.">
+      <div class="text-center">
+        <div class="brand-gradient mx-auto grid h-20 w-20 place-items-center rounded-3xl text-4xl text-white shadow-lg">🔒</div>
+        <div class="mt-4 flex items-center justify-center gap-2 text-sm font-medium">
+          <span class="rounded-lg bg-white px-3 py-1.5 text-slate-500 shadow-sm">Business A</span>
+          <span class="text-slate-400">✕</span>
+          <span class="rounded-lg bg-white px-3 py-1.5 text-slate-500 shadow-sm">Business B</span>
+        </div>
+      </div>
+      <ul slot="details" class="grid grid-cols-2 gap-x-6 gap-y-2 text-base text-slate-600">
+        <li><span class="text-emerald-500">✓</span> Multi-tenant architecture</li>
+        <li><span class="text-emerald-500">✓</span> Secure data isolation</li>
+        <li><span class="text-emerald-500">✓</span> Shadow DOM widget</li>
+        <li><span class="text-emerald-500">✓</span> Rate limiting</li>
+        <li><span class="text-emerald-500">✓</span> Secure URL import</li>
+        <li><span class="text-emerald-500">✓</span> SSL encryption</li>
+        <li class="col-span-2 text-slate-400">GDPR ready — planned</li>
+      </ul>
+    </FeatureRow>
+
+    <!-- Easy Installation -->
+    <FeatureRow icon="⚡" title="Easy Installation" description="Launch your AI assistant in under 2 minutes. Just copy and paste one line into your website.">
+      <div class="w-full max-w-sm">
+        <div class="rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
+          <div class="mb-3 flex gap-1.5">
+            <span class="h-2.5 w-2.5 rounded-full bg-slate-300"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-slate-300"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-slate-300"></span>
+          </div>
+          <div class="rounded-lg bg-slate-900 px-4 py-3 font-mono text-xs leading-relaxed text-blue-300 sm:text-sm">
+            &lt;script src="https://cdn.chatbiz.ai/chatbiz.js"&gt;<br />&lt;/script&gt;
+          </div>
+        </div>
+        <div class="brand-gradient mx-auto -mt-5 grid h-11 w-11 place-items-center rounded-full text-lg text-white shadow-md">
+          💬
+        </div>
+      </div>
+      <ul slot="details" class="space-y-2 text-base text-slate-600">
+        <li><span class="text-emerald-500">✓</span> No plugins</li>
+        <li><span class="text-emerald-500">✓</span> No coding</li>
+        <li><span class="text-emerald-500">✓</span> No complicated setup</li>
+      </ul>
+    </FeatureRow>
+  </section>
+
+  <!-- Why Businesses Choose ChatBiz -->
+  <section class="mx-auto max-w-6xl px-6 pb-20">
+    <div class="rounded-3xl border border-slate-200 bg-slate-50 p-10 shadow-sm shadow-slate-200/60">
+      <h3 class="font-display text-center text-3xl font-bold text-slate-900">🚀 Why Businesses Choose ChatBiz</h3>
+      <ul class="mx-auto mt-8 grid max-w-4xl grid-cols-2 gap-x-8 gap-y-3 text-lg text-slate-600 sm:grid-cols-4">
+        {whyChoose.map((item) => <li><span class="text-emerald-500">✓</span> {item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <CTASection
+    heading="See it running on your own content"
+    subheading="Book a free demo and we'll set up your FAQs, documents, and catalog together."
+  />
+</Layout>

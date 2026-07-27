@@ -1,0 +1,23 @@
+---
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+const hasDetails = Astro.slots.has("details");
+---
+
+<div class="flex flex-col rounded-3xl border border-slate-200 bg-slate-50 p-5 shadow-sm shadow-slate-200/60 transition-shadow hover:shadow-md">
+  <div class="brand-gradient flex h-44 items-center justify-center rounded-2xl p-5 shadow-sm shadow-violet-200">
+    <slot />
+  </div>
+  <h3 class="font-display mt-5 text-lg font-semibold text-slate-900">{title}</h3>
+  <p class="mt-2 text-sm leading-relaxed text-slate-500">{description}</p>
+  {
+    hasDetails && (
+      <div class="mt-4 rounded-2xl bg-blue-50 p-4">
+        <slot name="details" />
+      </div>
+    )
+  }
+</div>
