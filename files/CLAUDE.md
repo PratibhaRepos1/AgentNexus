@@ -4,7 +4,7 @@ Guidance for Claude (and any AI coding assistant) working in this repository.
 
 ## Project
 
-**ChatBiz** — a multi-tenant AI chatbot platform for small businesses (retail, service providers, restaurants, clinics, real estate, local shops). Each business gets a branded, embeddable chat widget backed by RAG over their own FAQs/documents, plus an admin dashboard for managing content and leads.
+**ChatCraft** — a multi-tenant AI chatbot platform for small businesses (retail, service providers, restaurants, clinics, real estate, local shops). Each business gets a branded, embeddable chat widget backed by RAG over their own FAQs/documents, plus an admin dashboard for managing content and leads.
 
 ## Tech Stack
 
@@ -33,7 +33,7 @@ No paid SaaS is required to build and demo the MVP.
 ## Repository Structure
 
 ```
-chatbiz/
+chatcraft/
 ├── frontend/                  # React + TypeScript
 │   ├── src/
 │   │   ├── widget/             # Embeddable chat widget (built separately, exposed as <script>)

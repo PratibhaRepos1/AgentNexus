@@ -16,13 +16,13 @@ interface Props {
 }
 
 const genSession = () => `sess_${Math.random().toString(36).slice(2, 10)}`
-const SESSION_KEY = 'chatbiz_session'
+const SESSION_KEY = 'chatcraft_session'
 const DEFAULT_API_BASE_URL = 'http://localhost:8000'
 
 export function ChatWindow({
   businessId,
   welcomeMessage = 'Hi! How can I help you today?',
-  primaryColor = '#6366f1',
+  primaryColor = '#ff6b00',
   apiBaseUrl = DEFAULT_API_BASE_URL,
 }: Props) {
   const sessionId = useRef(sessionStorage.getItem(SESSION_KEY) || (() => {

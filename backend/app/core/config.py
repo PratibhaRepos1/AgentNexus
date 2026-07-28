@@ -11,10 +11,10 @@ _ROOT_ENV_FILE = Path(__file__).resolve().parents[3] / ".env"
 
 
 class Settings(BaseSettings):
-    app_name: str = "ChatBiz API"
+    app_name: str = "ChatCraft API"
     debug: bool = False
 
-    database_url: str = "postgresql://chatbiz:chatbiz@localhost:5432/chatbiz"
+    database_url: str = "postgresql://chatcraft:chatcraft@localhost:5432/chatcraft"
 
     secret_key: str = "change-me-in-production"
     algorithm: str = "HS256"

@@ -14,7 +14,7 @@ class Business(Base):
     slug = Column(Text, unique=True, nullable=False)
     industry = Column(Text, default="other")
     logo_url = Column(Text, nullable=True)
-    primary_color = Column(Text, default="#6366f1")
+    primary_color = Column(Text, default="#ff6b00")
     plan = Column(Text, default="free")
     status = Column(Text, default="trial")
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))

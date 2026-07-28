@@ -15,13 +15,13 @@ async def notify_new_lead(business_name: str, contact_email: str, lead: Lead) ->
     provider = get_notification_provider()
     subject = f"New lead from {business_name}"
     html = f"""
-        <p>You've got a new lead from your ChatBiz widget on <strong>{business_name}</strong>.</p>
+        <p>You've got a new lead from your ChatCraft widget on <strong>{business_name}</strong>.</p>
         <ul>
             <li><strong>Name:</strong> {lead.name}</li>
             <li><strong>Email:</strong> {lead.email or "-"}</li>
             <li><strong>Phone:</strong> {lead.phone or "-"}</li>
             <li><strong>Message:</strong> {lead.message or "-"}</li>
         </ul>
-        <p>Log in to your ChatBiz dashboard to follow up.</p>
+        <p>Log in to your ChatCraft dashboard to follow up.</p>
     """
     await provider.send_email(to=contact_email, subject=subject, html=html)

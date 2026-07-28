@@ -15,7 +15,7 @@ const DEFAULT_WELCOME_MESSAGE = 'Hi! How can I help you today?'
 
 export function Widget({
   businessId,
-  primaryColor = '#6366f1',
+  primaryColor = '#ff6b00',
   welcomeMessage,
   botName = 'Support Chat',
   apiBaseUrl = DEFAULT_API_BASE_URL,

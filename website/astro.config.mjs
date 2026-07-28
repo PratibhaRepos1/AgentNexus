@@ -8,7 +8,7 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   // TODO: replace with the real production domain once it's registered/deployed.
-  site: 'https://chatbiz.app',
+  site: 'https://chatcraft.app',
 
   vite: {
     plugins: [tailwindcss()]

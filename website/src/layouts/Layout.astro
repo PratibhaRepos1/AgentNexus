@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { title, description, path = "/" } = Astro.props;
-const siteUrl = Astro.site ?? new URL("https://chatbiz.app");
+const siteUrl = Astro.site ?? new URL("https://chatcraft.app");
 const canonicalUrl = new URL(path, siteUrl).toString();
 const ogImage = new URL("/og-image.png", siteUrl).toString();
 ---
@@ -24,17 +24,17 @@ const ogImage = new URL("/og-image.png", siteUrl).toString();
     <link rel="canonical" href={canonicalUrl} />
     <meta name="generator" content={Astro.generator} />
 
-    <title>{title} · ChatBiz</title>
+    <title>{title} · ChatCraft</title>
     <meta name="description" content={description} />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content={`${title} · ChatBiz`} />
+    <meta property="og:title" content={`${title} · ChatCraft`} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={`${title} · ChatBiz`} />
+    <meta name="twitter:title" content={`${title} · ChatCraft`} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
   </head>

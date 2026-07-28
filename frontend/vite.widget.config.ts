@@ -10,8 +10,7 @@ export default defineConfig({
     outDir: 'dist/widget',
     lib: {
       entry: 'src/widget/widget-main.tsx',
-      name: 'ChatBizWidget',
-      fileName: 'widget',
+      name: 'ChatCraftWidget',
       formats: ['iife'],
     },
     rollupOptions: {
@@ -19,6 +18,10 @@ export default defineConfig({
       output: {
         globals: {},
         inlineDynamicImports: true,
+        // Vite's lib mode appends the format (".iife.js") to a string
+        // fileName; entryFileNames overrides that so the emitted file stays
+        // "widget.js", matching the embed snippet and build:widget's copy step.
+        entryFileNames: 'widget.js',
       },
     },
   },

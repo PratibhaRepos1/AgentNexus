@@ -1,6 +1,48 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
+/*
+ * Brand palette: Royal Orange (primary) / Warm Gold (secondary) / Deep Charcoal
+ * (text) / Soft Cream (background). Remapped onto the "violet" (primary),
+ * "indigo" (secondary), and "slate" (neutral, text, background) token names so
+ * every existing violet, indigo, and slate utility across the site repaints
+ * without touching each usage individually.
+ */
+@theme {
+  --color-violet-50: #fff8f2;
+  --color-violet-100: #fff0e6;
+  --color-violet-200: #ffdabf;
+  --color-violet-300: #ffc499;
+  --color-violet-400: #ff974c;
+  --color-violet-500: #ff6b00;
+  --color-violet-600: #e05e00;
+  --color-violet-700: #b84d00;
+  --color-violet-800: #943e00;
+  --color-violet-900: #6b2d00;
+
+  --color-indigo-50: #fefbf4;
+  --color-indigo-100: #fef6e9;
+  --color-indigo-200: #fce9c8;
+  --color-indigo-300: #fbdba7;
+  --color-indigo-400: #f8c165;
+  --color-indigo-500: #f5a623;
+  --color-indigo-600: #d8921f;
+  --color-indigo-700: #b07819;
+  --color-indigo-800: #8e6014;
+  --color-indigo-900: #67460f;
+
+  --color-slate-50: #fff8f0;
+  --color-slate-100: #efe8e1;
+  --color-slate-200: #d8d2cc;
+  --color-slate-300: #bdb8b2;
+  --color-slate-400: #9d9994;
+  --color-slate-500: #7c7976;
+  --color-slate-600: #615f5c;
+  --color-slate-700: #4a4947;
+  --color-slate-800: #333232;
+  --color-slate-900: #1a1a1a;
+}
+
 :root {
   --font-body: Colfax, colfax-web, "Proxima Nova", "Open Sans", "Gill Sans MT", "Gill Sans", Corbel, Arial, sans-serif;
 }
@@ -15,11 +57,11 @@ body {
 
 /* Signature vibrant gradient used across hero/CTA sections */
 .brand-gradient {
-  background-image: linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%);
+  background-image: linear-gradient(135deg, #ff6b00 0%, #f5a623 100%);
 }
 
 .brand-gradient-text {
-  background-image: linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%);
+  background-image: linear-gradient(135deg, #ff6b00 0%, #f5a623 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

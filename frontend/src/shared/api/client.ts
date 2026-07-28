@@ -6,7 +6,7 @@ export const api = axios.create({
 })
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('chatbiz_token')
+  const token = localStorage.getItem('chatcraft_token')
   if (token) config.headers.Authorization = `Bearer ${token}`
   return config
 })
@@ -15,7 +15,7 @@ api.interceptors.response.use(
   (r) => r,
   (err) => {
     if (err.response?.status === 401) {
-      localStorage.removeItem('chatbiz_token')
+      localStorage.removeItem('chatcraft_token')
       window.location.href = '/login'
     }
     return Promise.reject(err)

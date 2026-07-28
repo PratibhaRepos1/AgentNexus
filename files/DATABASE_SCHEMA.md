@@ -1,4 +1,4 @@
-# ChatBiz — Database Schema (PostgreSQL + pgvector)
+# ChatCraft — Database Schema (PostgreSQL + pgvector)
 
 ## Conventions
 - Every tenant-scoped table has a `business_id UUID` foreign key, indexed.

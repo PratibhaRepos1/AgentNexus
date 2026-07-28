@@ -42,7 +42,7 @@ export function DashboardPage() {
         <h1 className="text-4xl font-bold text-white">
           {business ? `${business.name} Dashboard` : 'Dashboard'}
         </h1>
-        <p className="text-base text-indigo-50 mt-1">Welcome back! Here's your chatbot at a glance.</p>
+        <p className="text-base text-brand-50 mt-1">Welcome back! Here's your chatbot at a glance.</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

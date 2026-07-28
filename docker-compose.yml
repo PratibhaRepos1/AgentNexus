@@ -4,15 +4,15 @@ services:
   db:
     image: pgvector/pgvector:pg16
     environment:
-      POSTGRES_USER: chatbiz
-      POSTGRES_PASSWORD: chatbiz
-      POSTGRES_DB: chatbiz
+      POSTGRES_USER: chatcraft
+      POSTGRES_PASSWORD: chatcraft
+      POSTGRES_DB: chatcraft
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U chatbiz"]
+      test: ["CMD-SHELL", "pg_isready -U chatcraft"]
       interval: 5s
       retries: 10
 
@@ -22,7 +22,7 @@ services:
       dockerfile: Dockerfile
     env_file: .env
     environment:
-      DATABASE_URL: postgresql://chatbiz:chatbiz@db:5432/chatbiz
+      DATABASE_URL: postgresql://chatcraft:chatcraft@db:5432/chatcraft
     ports:
       - "8000:8000"
     depends_on:

@@ -1,4 +1,4 @@
-# ChatBiz — High-Level Project Document
+# ChatCraft — High-Level Project Document
 
 ## 1. Vision
 

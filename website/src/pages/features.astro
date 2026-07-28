@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import FeatureBentoCard from "../components/FeatureBentoCard.astro";
 import CTASection from "../components/CTASection.astro";
 import PageHero from "../components/PageHero.astro";
-import chatVideo from "../assets/chatbot video.mp4";
+import chatVideo from "../assets/chatbot v1.mp4";
 
 const valueProps = [
   "2-Minute Setup",
@@ -38,7 +38,7 @@ const whyChoose = [
     <div slot="extra" class="relative mx-auto mt-6 max-w-3xl text-center">
       <p class="text-lg text-indigo-50">
         Whether you're a retail store, clinic, restaurant, coaching center, real estate agency, or service
-        business, ChatBiz helps you engage visitors 24/7 and convert them into customers.
+        business, ChatCraft helps you engage visitors 24/7 and convert them into customers.
       </p>
       <div class="mt-6 flex flex-wrap justify-center gap-3">
         {
@@ -92,7 +92,7 @@ const whyChoose = [
               </div>
             </div>
             <div class="mt-6 rounded-xl border border-violet-200 bg-violet-50 px-4 py-3 text-sm text-violet-700">
-              The reply on the right is generated live by ChatBiz's AI, answering from this business's real
+              The reply on the right is generated live by ChatCraft's AI, answering from this business's real
               FAQs and catalog — not a scripted demo.
             </div>
           </div>
@@ -105,7 +105,7 @@ const whyChoose = [
               loop
               muted
               playsinline
-              aria-label="Live demo of the ChatBiz AI chat widget answering a customer question"
+              aria-label="Live demo of the ChatCraft AI chat widget answering a customer question"
             />
           </div>
         </div>
@@ -123,7 +123,7 @@ const whyChoose = [
       <!-- AI Knowledge Base -->
       <FeatureBentoCard
         title="AI Knowledge Base"
-        description="No coding required — upload documents or import your website and ChatBiz builds the knowledge base automatically."
+        description="No coding required — upload documents or import your website and ChatCraft builds the knowledge base automatically."
         dot="bg-blue-500"
         span="lg:col-span-3"
       >
@@ -367,7 +367,7 @@ const whyChoose = [
               <span class="h-2.5 w-2.5 rounded-full bg-slate-300"></span>
             </div>
             <div class="rounded-lg bg-slate-900 px-4 py-3 font-mono text-xs leading-relaxed text-blue-300 sm:text-sm">
-              &lt;script src="https://cdn.chatbiz.ai/chatbiz.js"&gt;<br />&lt;/script&gt;
+              &lt;script src="https://cdn.chatcraft.ai/chatcraft.js"&gt;<br />&lt;/script&gt;
             </div>
           </div>
         </div>
@@ -375,10 +375,10 @@ const whyChoose = [
     </div>
   </section>
 
-  <!-- Why Businesses Choose ChatBiz -->
+  <!-- Why Businesses Choose ChatCraft -->
   <section class="mx-auto max-w-[1440px] px-6 pb-20">
     <div class="rounded-3xl border border-slate-300 bg-white p-10 shadow-sm shadow-slate-200/60">
-      <h3 class="font-display text-center text-3xl font-bold text-slate-900">Why Businesses Choose ChatBiz</h3>
+      <h3 class="font-display text-center text-3xl font-bold text-slate-900">Why Businesses Choose ChatCraft</h3>
       <ul class="mx-auto mt-8 grid max-w-4xl grid-cols-2 gap-x-8 gap-y-3 text-lg text-slate-600 sm:grid-cols-4">
         {whyChoose.map((item) => <li><span class="text-emerald-500">✓</span> {item}</li>)}
       </ul>
