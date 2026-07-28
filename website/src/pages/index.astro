@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import BentoCard from "../components/BentoCard.astro";
 import CTASection from "../components/CTASection.astro";
+import dashboardVideo from "../assets/chatcraft dashbaord analysis.mp4";
 
 const steps = [
   {
@@ -61,42 +62,19 @@ const plans = [
         </div>
       </div>
 
-      <!-- Right: chat widget mockup -->
-      <div class="relative mx-auto w-full max-w-md">
+      <!-- Right: chat widget screenshot -->
+      <div class="relative mx-auto w-full max-w-xs">
         <div class="absolute inset-0 translate-x-6 translate-y-6 rotate-3 rounded-3xl bg-blue-100"></div>
         <div class="absolute inset-0 translate-x-3 translate-y-3 -rotate-1 rounded-3xl bg-blue-100"></div>
 
-        <div class="relative overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-xl shadow-indigo-100">
-          <div class="flex items-center gap-3 border-b border-slate-100 px-5 py-4">
-            <div class="brand-gradient grid h-9 w-9 place-items-center rounded-full text-white">🤖</div>
-            <div>
-              <p class="font-display text-sm font-semibold text-slate-900">ChatCraft Assistant</p>
-              <p class="flex items-center gap-1 text-xs text-emerald-500">
-                <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Online
-              </p>
-            </div>
-          </div>
+        <img
+          src="/images/hero-widget-screenshot.png"
+          alt="ChatCraft AI chat widget answering a customer's question about opening hours and pricing"
+          class="relative w-full rounded-3xl border border-slate-100 shadow-xl shadow-indigo-100"
+        />
 
-          <div class="space-y-3 px-5 py-6">
-            <div class="max-w-[75%] rounded-2xl rounded-tl-sm bg-slate-100 px-4 py-2.5 text-sm text-slate-700">
-              Hi! Do you deliver outside the city?
-            </div>
-            <div class="ml-auto max-w-[75%] rounded-2xl rounded-tr-sm bg-violet-600 px-4 py-2.5 text-sm text-white">
-              Yes — we deliver statewide, usually within 2 business days 🚚
-            </div>
-            <div class="max-w-[75%] rounded-2xl rounded-tl-sm bg-slate-100 px-4 py-2.5 text-sm text-slate-700">
-              Perfect, can I get a callback?
-            </div>
-          </div>
-
-          <div class="flex items-center gap-2 border-t border-slate-100 px-5 py-3">
-            <div class="flex-1 rounded-full bg-slate-100 px-4 py-2 text-sm text-slate-400">Type a message…</div>
-            <div class="brand-gradient grid h-8 w-8 place-items-center rounded-full text-white">➤</div>
-          </div>
-        </div>
-
-        <div class="brand-gradient absolute -bottom-5 -right-5 grid h-14 w-14 place-items-center rounded-full text-2xl text-white shadow-lg shadow-violet-200">
-          💬
+        <div class="absolute -bottom-5 -right-5">
+          <img src="/images/hero-chat-bubble.png" alt="" aria-hidden="true" class="h-14 w-14 rounded-full shadow-lg shadow-violet-200" />
           <span class="absolute -top-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-amber-400 text-[10px] font-bold text-white">1</span>
         </div>
       </div>
@@ -120,6 +98,29 @@ const plans = [
         A chat widget that's actually grounded in your business — plus the dashboard to run it.
       </p>
     </div>
+
+    <div class="mx-auto mt-10 max-w-4xl">
+      <video
+        id="dashboard-demo-video"
+        class="aspect-[1908/988] w-full rounded-2xl border border-slate-100 object-cover shadow-xl shadow-indigo-100"
+        src={dashboardVideo}
+        autoplay
+        loop
+        muted
+        playsinline
+        controls
+        aria-label="Walkthrough of the ChatCraft dashboard — conversations, leads, and analytics"
+      />
+    </div>
+    <script>
+      const dashboardVideoEl = document.getElementById("dashboard-demo-video") as HTMLVideoElement | null;
+      if (dashboardVideoEl && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        dashboardVideoEl.removeAttribute("autoplay");
+        dashboardVideoEl.removeAttribute("loop");
+        dashboardVideoEl.pause();
+      }
+    </script>
+
     <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <!-- One-line embed -->
       <BentoCard title="One-line embed" description="Drop a single script tag on your site. No app to install, no iframe headaches.">
