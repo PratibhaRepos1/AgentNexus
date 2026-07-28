@@ -125,7 +125,7 @@ const faqs = [
     subheading="Start free. Pay only once ChatBiz is genuinely earning its keep."
   />
 
-  <section class="mx-auto max-w-6xl px-6 py-16">
+  <section class="mx-auto max-w-[1440px] px-6 py-16">
     <div class="grid gap-6 lg:grid-cols-4">
       {
         plans.map((plan) => (
@@ -134,7 +134,7 @@ const faqs = [
               "flex flex-col rounded-3xl border p-7",
               plan.featured
                 ? "brand-gradient border-transparent text-white shadow-2xl shadow-violet-200 lg:-translate-y-3"
-                : "border-slate-200 bg-white",
+                : "border-slate-300 bg-white",
             ]}
           >
             {plan.featured && (
@@ -184,7 +184,7 @@ const faqs = [
       <div class="mt-10 space-y-4">
         {
           faqs.map((item) => (
-            <details class="group rounded-2xl border border-slate-200 bg-white p-5 open:shadow-sm">
+            <details class="group rounded-2xl border border-slate-300 bg-white p-5 open:shadow-sm">
               <summary class="flex cursor-pointer list-none items-center justify-between font-display font-semibold text-slate-900">
                 {item.q}
                 <span class="ml-4 text-violet-500 transition-transform group-open:rotate-45">+</span>

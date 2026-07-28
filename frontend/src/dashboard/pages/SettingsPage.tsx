@@ -36,26 +36,26 @@ export function SettingsPage() {
   return (
     <div className="space-y-6 max-w-2xl">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Chatbot Settings</h1>
-        <p className="text-sm text-gray-500 mt-1">Customize how your chatbot speaks and behaves.</p>
+        <h1 className="text-4xl font-bold text-slate-900">Chatbot Settings</h1>
+        <p className="text-base text-slate-500 mt-1">Customize how your chatbot speaks and behaves.</p>
       </div>
 
       <Card title="Personality">
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Tone</label>
-            <select className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" value={form.tone || 'friendly'} onChange={set('tone')}>
+            <label className="block text-base font-medium text-slate-700 mb-1">Tone</label>
+            <select className="w-full rounded-xl border border-slate-300 px-3 py-2 text-base" value={form.tone || 'friendly'} onChange={set('tone')}>
               {['friendly', 'formal', 'concise', 'playful'].map((t) => <option key={t} value={t}>{t}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Welcome message</label>
-            <textarea className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" rows={2}
+            <label className="block text-base font-medium text-slate-700 mb-1">Welcome message</label>
+            <textarea className="w-full rounded-xl border border-slate-300 px-3 py-2 text-base" rows={2}
               value={form.welcome_message || ''} onChange={set('welcome_message')} />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Fallback message</label>
-            <textarea className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" rows={2}
+            <label className="block text-base font-medium text-slate-700 mb-1">Fallback message</label>
+            <textarea className="w-full rounded-xl border border-slate-300 px-3 py-2 text-base" rows={2}
               value={form.fallback_message || ''} onChange={set('fallback_message')} />
           </div>
         </div>
@@ -71,8 +71,8 @@ export function SettingsPage() {
       <Card title="AI Provider">
         <div className="space-y-3">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">LLM Provider</label>
-            <select className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" value={form.llm_provider || 'groq'} onChange={set('llm_provider')}>
+            <label className="block text-base font-medium text-slate-700 mb-1">LLM Provider</label>
+            <select className="w-full rounded-xl border border-slate-300 px-3 py-2 text-base" value={form.llm_provider || 'groq'} onChange={set('llm_provider')}>
               {['groq', 'gemini', 'ollama'].map((p) => <option key={p} value={p}>{p}</option>)}
             </select>
           </div>
@@ -81,7 +81,7 @@ export function SettingsPage() {
       </Card>
 
       <Button loading={mut.isPending} onClick={() => mut.mutate(form)}>Save settings</Button>
-      {mut.isSuccess && <p className="text-sm text-green-600">Settings saved!</p>}
+      {mut.isSuccess && <p className="text-base text-green-600">Settings saved!</p>}
     </div>
   )
 }

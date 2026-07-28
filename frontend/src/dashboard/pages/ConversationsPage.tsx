@@ -42,8 +42,8 @@ export function ConversationsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Conversations</h1>
-        <p className="text-sm text-gray-500 mt-1">All chat sessions with your website visitors.</p>
+        <h1 className="text-4xl font-bold text-slate-900">Conversations</h1>
+        <p className="text-base text-slate-500 mt-1">All chat sessions with your website visitors.</p>
       </div>
 
       <div className="space-y-3">
@@ -56,12 +56,12 @@ export function ConversationsPage() {
               <div className="flex items-center gap-3">
                 <MessageSquare size={18} className="text-brand-500" />
                 <div>
-                  <p className="text-sm font-medium text-gray-900">Session {conv.session_id.slice(0, 8)}…</p>
-                  <p className="text-xs text-gray-400">{new Date(conv.started_at).toLocaleString()}</p>
+                  <p className="text-lg font-medium text-slate-900">Session {conv.session_id.slice(0, 8)}…</p>
+                  <p className="text-sm text-slate-400">{new Date(conv.started_at).toLocaleString()}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <span className={clsx('text-xs px-2 py-0.5 rounded-full', conv.status === 'open' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500')}>
+                <span className={clsx('text-sm px-2 py-0.5 rounded-full', conv.status === 'open' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500')}>
                   {conv.status}
                 </span>
                 <button
@@ -71,20 +71,20 @@ export function ConversationsPage() {
                       deleteMut.mutate(conv.id)
                     }
                   }}
-                  className="p-1 rounded hover:bg-red-50 text-gray-400 hover:text-red-600"
+                  className="p-1 rounded hover:bg-red-50 text-slate-400 hover:text-red-600"
                   aria-label="Delete conversation"
                 >
                   <Trash2 size={14} />
                 </button>
-                {open === conv.id ? <ChevronUp size={16} className="text-gray-400" /> : <ChevronDown size={16} className="text-gray-400" />}
+                {open === conv.id ? <ChevronUp size={16} className="text-slate-400" /> : <ChevronDown size={16} className="text-slate-400" />}
               </div>
             </button>
 
             {open === conv.id && conv.messages.length > 0 && (
-              <div className="mt-4 space-y-2 border-t border-gray-100 pt-4">
+              <div className="mt-4 space-y-2 border-t border-slate-100 pt-4">
                 {conv.messages.map((msg) => (
                   <div key={msg.id} className={clsx('flex', msg.sender === 'visitor' ? 'justify-start' : 'justify-end')}>
-                    <div className={clsx('max-w-xs px-3 py-2 rounded-2xl text-sm', msg.sender === 'visitor' ? 'bg-gray-100 text-gray-800' : 'bg-brand-500 text-white')}>
+                    <div className={clsx('max-w-xs px-3 py-2 rounded-2xl text-base', msg.sender === 'visitor' ? 'bg-slate-100 text-slate-800' : 'bg-brand-500 text-white')}>
                       {msg.content}
                     </div>
                   </div>
@@ -94,7 +94,7 @@ export function ConversationsPage() {
           </Card>
         ))}
         {conversations.length === 0 && (
-          <div className="text-center py-12 text-gray-400 text-sm">No conversations yet.</div>
+          <div className="text-center py-12 text-slate-400 text-base">No conversations yet.</div>
         )}
       </div>
     </div>
