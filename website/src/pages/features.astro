@@ -53,7 +53,7 @@ const whyChoose = [
   </PageHero>
 
   <section class="mx-auto max-w-[1440px] px-6 py-16">
-    <div class="grid grid-cols-1 items-start gap-6 lg:grid-cols-6">
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-6">
       <!-- AI Chat Assistant (flagship, full width) -->
       <FeatureBentoCard
         title="AI Chat Assistant"
@@ -63,7 +63,7 @@ const whyChoose = [
       >
         <div class="mt-6 grid gap-8 lg:grid-cols-2">
           <div>
-            <ul class="grid grid-cols-1 gap-x-6 gap-y-2 text-sm text-slate-600 sm:grid-cols-2">
+            <ul class="grid grid-cols-1 gap-x-6 gap-y-2 text-base text-slate-600 sm:grid-cols-2">
               <li><span class="text-emerald-500">✓</span> AI-powered chatbot</li>
               <li><span class="text-emerald-500">✓</span> One-line website installation</li>
               <li><span class="text-emerald-500">✓</span> Website URL training</li>
@@ -96,10 +96,10 @@ const whyChoose = [
               FAQs and catalog — not a scripted demo.
             </div>
           </div>
-          <div class="flex items-start justify-center">
+          <div class="grid w-full items-start justify-items-center">
             <video
               id="chat-demo-video"
-              class="max-h-[420px] w-full max-w-sm rounded-2xl object-cover object-top shadow-lg"
+              class="max-h-[440px] w-full max-w-sm rounded-2xl object-cover object-top shadow-lg"
               src={chatVideo}
               autoplay
               loop
@@ -127,7 +127,7 @@ const whyChoose = [
         dot="bg-blue-500"
         span="lg:col-span-3"
       >
-        <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-slate-600">
+        <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-base text-slate-600">
           <li><span class="text-emerald-500">✓</span> Website URLs</li>
           <li><span class="text-emerald-500">✓</span> PDF documents</li>
           <li><span class="text-emerald-500">✓</span> Microsoft Word</li>
@@ -144,7 +144,7 @@ const whyChoose = [
             <span class="rounded-full bg-indigo-50 px-3 py-1.5 text-sm font-medium text-indigo-600">Catalog</span>
           </div>
           <div class="mx-auto mt-3 h-6 w-px bg-slate-200"></div>
-          <div class="mx-auto mt-1 max-w-[85%] rounded-xl rounded-tl-sm bg-slate-50 px-4 py-3 text-sm text-slate-600">
+          <div class="mx-auto mt-1 max-w-[85%] rounded-xl rounded-tl-sm bg-slate-50 px-4 py-3 text-base text-slate-600">
             Grounded answer <span class="text-emerald-500">✓</span>
           </div>
         </div>
@@ -157,7 +157,7 @@ const whyChoose = [
         dot="bg-emerald-500"
         span="lg:col-span-3"
       >
-        <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-slate-600">
+        <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-base text-slate-600">
           <li><span class="text-emerald-500">✓</span> Name</li>
           <li><span class="text-emerald-500">✓</span> Email</li>
           <li><span class="text-emerald-500">✓</span> Phone number</li>
@@ -184,7 +184,7 @@ const whyChoose = [
         dot="bg-amber-500"
         span="lg:col-span-4"
       >
-        <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-slate-600">
+        <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-base text-slate-600">
           <li><span class="text-emerald-500">✓</span> Visitor count</li>
           <li><span class="text-emerald-500">✓</span> AI conversations</li>
           <li><span class="text-emerald-500">✓</span> Total messages</li>
@@ -217,7 +217,7 @@ const whyChoose = [
         dot="bg-indigo-500"
         span="lg:col-span-2"
       >
-        <ul class="mt-4 space-y-2 text-sm text-slate-600">
+        <ul class="mt-4 space-y-2 text-base text-slate-600">
           <li><span class="text-emerald-500">✓</span> Email</li>
           <li class="text-slate-400">WhatsApp — coming soon</li>
           <li class="text-slate-400">Instagram — coming soon</li>
@@ -242,7 +242,7 @@ const whyChoose = [
         dot="bg-blue-500"
         span="lg:col-span-2"
       >
-        <ul class="mt-4 space-y-2 text-sm text-slate-600">
+        <ul class="mt-4 space-y-2 text-base text-slate-600">
           <li><span class="text-emerald-500">✓</span> English</li>
           <li><span class="text-emerald-500">✓</span> Dutch</li>
           <li><span class="text-emerald-500">✓</span> Norwegian</li>
@@ -263,7 +263,7 @@ const whyChoose = [
         dot="bg-emerald-500"
         span="lg:col-span-2"
       >
-        <ul class="mt-4 space-y-2 text-sm text-slate-600">
+        <ul class="mt-4 space-y-2 text-base text-slate-600">
           <li><span class="text-emerald-500">✓</span> Indian Rupee</li>
           <li><span class="text-emerald-500">✓</span> US Dollar</li>
           <li><span class="text-emerald-500">✓</span> Euro</li>
@@ -284,7 +284,7 @@ const whyChoose = [
         dot="bg-violet-500"
         span="lg:col-span-2"
       >
-        <ul class="mt-4 space-y-2 text-sm text-slate-600">
+        <ul class="mt-4 space-y-2 text-base text-slate-600">
           <li><span class="text-emerald-500">✓</span> Brand color</li>
           <li><span class="text-emerald-500">✓</span> Chatbot name</li>
           <li><span class="text-emerald-500">✓</span> Welcome message</li>
@@ -312,7 +312,7 @@ const whyChoose = [
         dot="bg-amber-500"
         span="lg:col-span-3"
       >
-        <ul class="mt-4 space-y-2 text-sm text-slate-600">
+        <ul class="mt-4 space-y-2 text-base text-slate-600">
           <li><span class="text-emerald-500">✓</span> Google reviews</li>
           <li><span class="text-emerald-500">✓</span> Contact form</li>
           <li><span class="text-emerald-500">✓</span> Business information</li>
@@ -332,7 +332,7 @@ const whyChoose = [
         dot="bg-indigo-500"
         span="lg:col-span-3"
       >
-        <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-slate-600">
+        <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-base text-slate-600">
           <li><span class="text-emerald-500">✓</span> Multi-tenant architecture</li>
           <li><span class="text-emerald-500">✓</span> Secure data isolation</li>
           <li><span class="text-emerald-500">✓</span> Shadow DOM widget</li>
@@ -355,7 +355,7 @@ const whyChoose = [
         span="lg:col-span-6"
       >
         <div class="mt-6 flex flex-col items-center gap-6 lg:flex-row lg:justify-between">
-          <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-slate-600">
+          <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-base text-slate-600">
             <li><span class="text-emerald-500">✓</span> No plugins</li>
             <li><span class="text-emerald-500">✓</span> No coding</li>
             <li><span class="text-emerald-500">✓</span> No complicated setup</li>

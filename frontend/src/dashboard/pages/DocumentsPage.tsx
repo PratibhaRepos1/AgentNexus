@@ -17,7 +17,7 @@ interface Doc {
 const statusIcon = (status: string) => {
   if (status === 'embedded') return <CheckCircle size={14} className="text-green-500" />
   if (status === 'failed') return <AlertCircle size={14} className="text-red-500" />
-  return <Loader2 size={14} className="text-gray-400 animate-spin" />
+  return <Loader2 size={14} className="text-slate-400 animate-spin" />
 }
 
 export function DocumentsPage() {
@@ -74,8 +74,8 @@ export function DocumentsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Documents</h1>
-          <p className="text-sm text-gray-500 mt-1">Upload PDF, Word, Excel, CSV, or TXT files to train your chatbot.</p>
+          <h1 className="text-4xl font-bold text-slate-900">Documents</h1>
+          <p className="text-base text-slate-500 mt-1">Upload PDF, Word, Excel, CSV, or TXT files to train your chatbot.</p>
         </div>
         <Button size="sm" loading={uploadMut.isPending} onClick={() => fileRef.current?.click()}>
           <Upload size={16} className="mr-1" /> Upload
@@ -84,7 +84,7 @@ export function DocumentsPage() {
       </div>
 
       <Card title="Fetch from a web page">
-        <p className="text-sm text-gray-500 mb-3">
+        <p className="text-base text-slate-500 mb-3">
           Import the text content of a single page from your website (e.g. an About or FAQ page) directly into your chatbot's knowledge base.
         </p>
         <div className="flex gap-2">
@@ -108,23 +108,23 @@ export function DocumentsPage() {
           <Card key={doc.id}>
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <FileText size={20} className="text-gray-400" />
+                <FileText size={20} className="text-slate-400" />
                 <div>
-                  <p className="text-sm font-medium text-gray-900">{doc.filename}</p>
+                  <p className="text-lg font-medium text-slate-900">{doc.filename}</p>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     {statusIcon(doc.status)}
-                    <span className="text-xs text-gray-500 capitalize">{doc.status}</span>
+                    <span className="text-sm text-slate-500 capitalize">{doc.status}</span>
                   </div>
                 </div>
               </div>
-              <button onClick={() => deleteMut.mutate(doc.id)} className="p-1.5 rounded hover:bg-red-50 text-gray-400 hover:text-red-600">
+              <button onClick={() => deleteMut.mutate(doc.id)} className="p-1.5 rounded hover:bg-red-50 text-slate-400 hover:text-red-600">
                 <Trash2 size={14} />
               </button>
             </div>
           </Card>
         ))}
         {docs.length === 0 && (
-          <div className="text-center py-12 text-gray-400 text-sm">No documents uploaded yet.</div>
+          <div className="text-center py-12 text-slate-400 text-base">No documents uploaded yet.</div>
         )}
       </div>
     </div>

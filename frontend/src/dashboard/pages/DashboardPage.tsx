@@ -31,28 +31,30 @@ export function DashboardPage() {
     : ''
 
   const stats = [
-    { label: 'Conversations', value: summary?.conversation_count ?? '—', icon: MessageSquare, color: 'text-blue-500' },
-    { label: 'Leads captured', value: summary?.lead_count ?? '—', icon: Users, color: 'text-green-500' },
-    { label: 'Visitor messages', value: summary?.message_count ?? '—', icon: TrendingUp, color: 'text-purple-500' },
+    { label: 'Conversations', value: summary?.conversation_count ?? '—', icon: MessageSquare, bg: 'bg-blue-100', fg: 'text-blue-600' },
+    { label: 'Leads captured', value: summary?.lead_count ?? '—', icon: Users, bg: 'bg-emerald-100', fg: 'text-emerald-600' },
+    { label: 'Visitor messages', value: summary?.message_count ?? '—', icon: TrendingUp, bg: 'bg-violet-100', fg: 'text-violet-600' },
   ]
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">
+      <div className="brand-gradient rounded-2xl p-6 shadow-sm shadow-brand-200 sm:p-8">
+        <h1 className="text-4xl font-bold text-white">
           {business ? `${business.name} Dashboard` : 'Dashboard'}
         </h1>
-        <p className="text-sm text-gray-500 mt-1">Welcome back! Here's your chatbot at a glance.</p>
+        <p className="text-base text-indigo-50 mt-1">Welcome back! Here's your chatbot at a glance.</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {stats.map(({ label, value, icon: Icon, color }) => (
+        {stats.map(({ label, value, icon: Icon, bg, fg }) => (
           <Card key={label}>
             <div className="flex items-center gap-4">
-              <Icon className={color} size={28} />
+              <div className={`grid h-12 w-12 flex-shrink-0 place-items-center rounded-xl ${bg}`}>
+                <Icon className={fg} size={22} />
+              </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">{value}</p>
-                <p className="text-sm text-gray-500">{label}</p>
+                <p className="text-3xl font-bold text-slate-900">{value}</p>
+                <p className="text-base text-slate-500">{label}</p>
               </div>
             </div>
           </Card>
@@ -63,9 +65,17 @@ export function DashboardPage() {
         <Card title="Top visitor questions">
           <ul className="space-y-2">
             {summary.top_questions.map((q, i) => (
-              <li key={i} className="flex items-start justify-between text-sm">
-                <span className="text-gray-700 flex-1 mr-4">{q.question}</span>
-                <span className="text-gray-400 font-medium">{q.count}×</span>
+              <li key={i} className="flex items-center justify-between gap-4 text-base">
+                <span className="text-slate-700 flex-1">{q.question}</span>
+                <span
+                  className={
+                    i === 0
+                      ? 'brand-gradient flex-shrink-0 rounded-full px-2.5 py-1 text-sm font-bold text-white shadow-sm shadow-brand-200'
+                      : 'flex-shrink-0 rounded-full bg-violet-100 px-2.5 py-1 text-sm font-bold text-violet-700'
+                  }
+                >
+                  {q.count}×
+                </span>
               </li>
             ))}
           </ul>
@@ -73,16 +83,16 @@ export function DashboardPage() {
       )}
 
       <Card title="Embed your chatbot">
-        <p className="text-sm text-gray-600 mb-3">
-          Copy this snippet and paste it before <code className="bg-gray-100 px-1 rounded">&lt;/body&gt;</code> on your website.
+        <p className="text-base text-slate-600 mb-3">
+          Copy this snippet and paste it before <code className="bg-slate-100 px-1 rounded">&lt;/body&gt;</code> on your website.
         </p>
-        <div className="flex items-start gap-3 bg-gray-50 rounded-lg p-3 border border-gray-200">
-          <Code size={18} className="text-gray-400 mt-0.5 flex-shrink-0" />
-          <code className="text-xs text-gray-700 break-all">{embedScript}</code>
+        <div className="flex items-start gap-3 bg-slate-50 rounded-lg p-3 border border-slate-200">
+          <Code size={18} className="text-slate-400 mt-0.5 flex-shrink-0" />
+          <code className="text-sm text-slate-700 break-all">{embedScript}</code>
         </div>
         <button
           onClick={() => navigator.clipboard.writeText(embedScript)}
-          className="mt-3 text-xs text-brand-600 hover:underline"
+          className="mt-3 text-sm text-brand-600 hover:underline"
         >
           Copy to clipboard
         </button>

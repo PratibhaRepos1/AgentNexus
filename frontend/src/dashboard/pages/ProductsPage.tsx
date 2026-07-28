@@ -67,8 +67,8 @@ export function ProductsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Products & Services</h1>
-          <p className="text-sm text-gray-500 mt-1">Help your chatbot answer product questions.</p>
+          <h1 className="text-4xl font-bold text-slate-900">Products & Services</h1>
+          <p className="text-base text-slate-500 mt-1">Help your chatbot answer product questions.</p>
         </div>
         <Button size="sm" onClick={() => setAdding(true)}><Plus size={16} className="mr-1" />Add</Button>
       </div>
@@ -99,24 +99,24 @@ export function ProductsPage() {
             ) : (
               <div>
                 <div className="flex items-start justify-between">
-                  <p className="font-semibold text-gray-900 text-sm">{p.name}</p>
+                  <p className="font-semibold text-slate-900 text-lg">{p.name}</p>
                   <div className="flex gap-1">
-                    <button onClick={() => startEdit(p)} className="p-1 rounded hover:bg-gray-100 text-gray-400"><Pencil size={13} /></button>
-                    <button onClick={() => deleteMut.mutate(p.id)} className="p-1 rounded hover:bg-red-50 text-gray-400 hover:text-red-500"><Trash2 size={13} /></button>
+                    <button onClick={() => startEdit(p)} className="p-1 rounded hover:bg-slate-100 text-slate-400"><Pencil size={13} /></button>
+                    <button onClick={() => deleteMut.mutate(p.id)} className="p-1 rounded hover:bg-red-50 text-slate-400 hover:text-red-500"><Trash2 size={13} /></button>
                   </div>
                 </div>
-                {p.description && <p className="text-xs text-gray-500 mt-1 line-clamp-2">{p.description}</p>}
+                {p.description && <p className="text-base text-slate-500 mt-1 line-clamp-2">{p.description}</p>}
                 {p.price != null && (
-                  <p className="mt-2 text-sm font-medium text-brand-600">{p.currency} {Number(p.price).toFixed(2)}</p>
+                  <p className="mt-2 text-lg font-medium text-brand-600">{p.currency} {Number(p.price).toFixed(2)}</p>
                 )}
-                {p.category && <span className="mt-1 inline-block text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{p.category}</span>}
+                {p.category && <span className="mt-1 inline-block text-sm bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">{p.category}</span>}
               </div>
             )}
           </Card>
         ))}
       </div>
       {products.length === 0 && !adding && (
-        <div className="text-center py-12 text-gray-400 text-sm">No products yet.</div>
+        <div className="text-center py-12 text-slate-400 text-base">No products yet.</div>
       )}
     </div>
   )
