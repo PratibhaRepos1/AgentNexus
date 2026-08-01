@@ -1,4 +1,4 @@
-# ChatCraft — Architecture Document
+# AgentNexus — Architecture Document
 
 ## 1. System Overview
 
@@ -54,7 +54,7 @@ graph TB
 ## 2. Components
 
 ### 2.1 Chat Widget (React, embeddable)
-- Ships as a small standalone JS bundle loaded via `<script src="https://cdn.chatcraft.app/widget.js" data-business="biz_123"></script>`.
+- Ships as a small standalone JS bundle loaded via `<script src="https://cdn.agentnexus.app/widget.js" data-business="biz_123"></script>`.
 - Talks only to the public chat API (`/api/chat/*`) — no admin credentials.
 - Renders in an iframe or shadow DOM to avoid CSS collisions with the host site.
 

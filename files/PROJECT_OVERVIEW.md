@@ -1,4 +1,4 @@
-# ChatCraft — High-Level Project Document
+# AgentNexus — High-Level Project Document
 
 ## 1. Vision
 

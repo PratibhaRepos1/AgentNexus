@@ -11,10 +11,10 @@ _ROOT_ENV_FILE = Path(__file__).resolve().parents[3] / ".env"
 
 
 class Settings(BaseSettings):
-    app_name: str = "ChatCraft API"
+    app_name: str = "AgentNexus API"
     debug: bool = False
 
-    database_url: str = "postgresql://chatcraft:chatcraft@localhost:5432/chatcraft"
+    database_url: str = "postgresql://agentnexus:agentnexus@localhost:5432/agentnexus"
 
     secret_key: str = "change-me-in-production"
     algorithm: str = "HS256"

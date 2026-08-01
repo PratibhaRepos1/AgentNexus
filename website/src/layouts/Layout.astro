@@ -16,7 +16,7 @@ interface Props {
 }
 
 const { title, description, path = "/", page, titleKey, descriptionKey } = Astro.props;
-const siteUrl = Astro.site ?? new URL("https://chatcraft.app");
+const siteUrl = Astro.site ?? new URL("https://agentnexus.app");
 const canonicalUrl = new URL(path, siteUrl).toString();
 const ogImage = new URL("/og-image.png", siteUrl).toString();
 ---
@@ -37,7 +37,7 @@ const ogImage = new URL("/og-image.png", siteUrl).toString();
     -->
     <script is:inline>
       try {
-        var storedLang = localStorage.getItem("chatcraft:lang");
+        var storedLang = localStorage.getItem("agentnexus:lang");
         if (storedLang && storedLang !== "en") {
           document.documentElement.classList.add("i18n-loading");
         }
@@ -46,17 +46,17 @@ const ogImage = new URL("/og-image.png", siteUrl).toString();
       }
     </script>
 
-    <title data-i18n-doc-title={titleKey}>{title} · ChatCraft</title>
+    <title data-i18n-doc-title={titleKey}>{title} · AgentNexus</title>
     <meta name="description" content={description} data-i18n-meta-desc={descriptionKey} />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content={`${title} · ChatCraft`} data-i18n-meta-title={titleKey} />
+    <meta property="og:title" content={`${title} · AgentNexus`} data-i18n-meta-title={titleKey} />
     <meta property="og:description" content={description} data-i18n-meta-desc={descriptionKey} />
     <meta property="og:image" content={ogImage} />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={`${title} · ChatCraft`} data-i18n-meta-title={titleKey} />
+    <meta name="twitter:title" content={`${title} · AgentNexus`} data-i18n-meta-title={titleKey} />
     <meta name="twitter:description" content={description} data-i18n-meta-desc={descriptionKey} />
     <meta name="twitter:image" content={ogImage} />
   </head>
@@ -67,15 +67,15 @@ const ogImage = new URL("/og-image.png", siteUrl).toString();
     </main>
     <Footer />
     <script define:vars={{ page }}>
-      window.__CHATCRAFT_PAGE__ = page;
+      window.__AGENTNEXUS_PAGE__ = page;
     </script>
     <script>
       import { initI18n, getStoredLanguage, SUPPORTED_LANGUAGES } from "../lib/i18n/translationService";
       import { init as initCurrency } from "../stores/currencyStore";
       import { DEFAULT_CURRENCY } from "../config/currency";
 
-      const chatcraftPage = (window as { __CHATCRAFT_PAGE__?: string }).__CHATCRAFT_PAGE__;
-      void initI18n(chatcraftPage);
+      const agentnexusPage = (window as { __AGENTNEXUS_PAGE__?: string }).__AGENTNEXUS_PAGE__;
+      void initI18n(agentnexusPage);
 
       // Currency follows the selected language as one combined switch (see SUPPORTED_LANGUAGES).
       const storedLang = getStoredLanguage();

@@ -33,8 +33,8 @@ export const DEFAULT_CURRENCY: CurrencyCode = "USD";
 export const RATE_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
 export const STORAGE_KEYS = {
-  CURRENCY: "chatcraft_currency",
-  RATE_CACHE: "chatcraft_exchange_rate",
+  CURRENCY: "agentnexus_currency",
+  RATE_CACHE: "agentnexus_exchange_rate",
 } as const;
 
-export const CURRENCY_CHANGE_EVENT = "chatcraft:currencychange";
+export const CURRENCY_CHANGE_EVENT = "agentnexus:currencychange";

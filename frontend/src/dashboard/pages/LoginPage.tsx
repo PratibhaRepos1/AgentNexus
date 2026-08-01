@@ -30,7 +30,7 @@ export function LoginPage() {
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
       <div className="w-full max-w-sm bg-white rounded-2xl border border-slate-300 shadow-md p-8">
         <h1 className="text-4xl font-bold text-slate-900 mb-1">Welcome back</h1>
-        <p className="text-base text-slate-500 mb-6">Sign in to your ChatCraft dashboard</p>
+        <p className="text-base text-slate-500 mb-6">Sign in to your AgentNexus dashboard</p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
           <div>

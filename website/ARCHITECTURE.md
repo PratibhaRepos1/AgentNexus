@@ -1,6 +1,6 @@
-# ChatCraft Marketing Site — Architecture
+# AgentNexus Marketing Site — Architecture
 
-Promotion/marketing site for ChatCraft: home page, features, pricing, and free-demo booking.
+Promotion/marketing site for AgentNexus: home page, features, pricing, and free-demo booking.
 Separate from `frontend/` (the admin/analytics dashboard, a React SPA) — this is a
 purely static, SEO-first site with a different tech stack for a different job.
 
@@ -8,7 +8,7 @@ purely static, SEO-first site with a different tech stack for a different job.
 
 `frontend/` is a logged-in, data-heavy React SPA — SEO doesn't matter there, it's behind auth.
 This site is the opposite: it's the thing small-business owners find via Google before they've
-ever heard of ChatCraft, so page-load speed and crawlability are the whole game. A client-rendered
+ever heard of AgentNexus, so page-load speed and crawlability are the whole game. A client-rendered
 SPA is the wrong tool for that job — hence a separate static-generation project instead of adding
 public routes to the dashboard app.
 
@@ -62,20 +62,20 @@ let the two drift.
 
 ## Known gaps / before going live
 
-- **`site` domain is a placeholder** (`https://chatcraft.app` in `astro.config.mjs` and
+- **`site` domain is a placeholder** (`https://agentnexus.app` in `astro.config.mjs` and
   `public/robots.txt`) — replace with the real registered domain before deploying, otherwise the
   sitemap and canonical URLs will point to the wrong host.
 - **No `og-image.png`** yet — `Layout.astro` references `/og-image.png` for social share previews;
   add a real 1200×630 image to `public/` before launch or social shares will show a broken image.
 - **Demo form has no backend.** `src/pages/demo.astro` currently just shows a client-side "thanks"
   message on submit — it doesn't send the lead anywhere. Before launch, wire it to either:
-  - the ChatCraft backend's leads/notifications pipeline (a new public `POST` endpoint), or
+  - the AgentNexus backend's leads/notifications pipeline (a new public `POST` endpoint), or
   - a form service (Netlify Forms, Formspree, etc.) if hosting on a platform that supports it.
 - **No analytics** wired up yet (e.g. Plausible, GA4, or Vercel Analytics) — needed to actually
   measure organic traffic and demo-request conversion once live.
 - **No testimonials/social proof yet** — the home page has a placeholder social-proof strip
   ("Built for retail shops, clinics, restaurants...") instead of real customer logos/quotes, since
-  ChatCraft doesn't have paying customers yet. Replace once available.
+  AgentNexus doesn't have paying customers yet. Replace once available.
 
 ## Commands
 

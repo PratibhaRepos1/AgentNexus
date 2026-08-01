@@ -18,7 +18,7 @@ function mount() {
   const apiBaseUrl = script?.dataset.apiUrl || DEFAULT_API_BASE_URL
 
   if (!businessId) {
-    console.warn('[ChatCraft] Missing data-business attribute on widget script tag.')
+    console.warn('[AgentNexus] Missing data-business attribute on widget script tag.')
     return
   }
 
@@ -33,7 +33,7 @@ function mount() {
   shadow.appendChild(style)
 
   const mountPoint = document.createElement('div')
-  mountPoint.id = 'chatcraft-root'
+  mountPoint.id = 'agentnexus-root'
   shadow.appendChild(mountPoint)
 
   createRoot(mountPoint).render(

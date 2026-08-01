@@ -19,25 +19,25 @@ interface RegisterData {
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  token: localStorage.getItem('chatcraft_token'),
+  token: localStorage.getItem('agentnexus_token'),
 
   login: async (email, password) => {
     const { data } = await api.post('/auth/login', { email, password })
     queryClient.clear()
-    localStorage.setItem('chatcraft_token', data.access_token)
+    localStorage.setItem('agentnexus_token', data.access_token)
     set({ token: data.access_token })
   },
 
   register: async (data) => {
     const res = await api.post('/auth/register', data)
     queryClient.clear()
-    localStorage.setItem('chatcraft_token', res.data.access_token)
+    localStorage.setItem('agentnexus_token', res.data.access_token)
     set({ token: res.data.access_token })
   },
 
   logout: () => {
     queryClient.clear()
-    localStorage.removeItem('chatcraft_token')
+    localStorage.removeItem('agentnexus_token')
     set({ token: null })
   },
 }))

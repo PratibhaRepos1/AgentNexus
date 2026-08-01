@@ -27,9 +27,9 @@ export const SUPPORTED_LANGUAGES: LanguageDefinition[] = [
 
 export const DEFAULT_LANGUAGE: LanguageCode = "en";
 
-const STORAGE_KEY = "chatcraft:lang";
-export const LANG_CHANGE_EVENT = "chatcraft:langchange";
-const TITLE_SUFFIX = " · ChatCraft";
+const STORAGE_KEY = "agentnexus:lang";
+export const LANG_CHANGE_EVENT = "agentnexus:langchange";
+const TITLE_SUFFIX = " · AgentNexus";
 
 type TranslationDict = Record<string, unknown>;
 

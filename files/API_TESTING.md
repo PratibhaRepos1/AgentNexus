@@ -1,4 +1,4 @@
-# ChatCraft — Swagger API Testing Guide
+# AgentNexus — Swagger API Testing Guide
 
 A walkthrough for manually testing every backend endpoint via the interactive Swagger UI at
 **http://127.0.0.1:8000/docs**. Follow it top to bottom the first time — later sections depend on
@@ -6,7 +6,7 @@ data created in earlier ones (a business, a JWT, an FAQ, etc.).
 
 Backend must be running first:
 ```powershell
-cd "C:\Pratibha2026\ProjectsIn2026\AI Projects\ChatCraft\backend"
+cd "C:\Pratibha2026\ProjectsIn2026\AI Projects\AgentNexus\backend"
 uv run uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 

@@ -1,13 +1,13 @@
 {
   "SEO": {
     "TITLE": "AI-chattevindu for små bedrifter",
-    "DESCRIPTION": "ChatCraft gir bedriften din et AI-chattevindu med egen merkevare som svarer på kundespørsmål ut fra dine egne FAQ-er, dokumenter og produktkatalog — døgnet rundt. Gratis plan tilgjengelig."
+    "DESCRIPTION": "AgentNexus gir bedriften din et AI-chattevindu med egen merkevare som svarer på kundespørsmål ut fra dine egne FAQ-er, dokumenter og produktkatalog — døgnet rundt. Gratis plan tilgjengelig."
   },
   "HERO": {
     "EYEBROW": "Gå aldri glipp av en kunde",
     "TITLE": "AI-chattevindu for bedriftens nettside",
     "SUBTITLE": "Lag en AI-chatbot trent på dine egne FAQ-er, dokumenter og produktkatalog — legg den til på nettsiden din med én kodelinje, og la den svare kunder, samle inn leads og drive salg, døgnet rundt.",
-    "IMAGE_ALT": "ChatCraft AI-chattevindu som svarer på et kundespørsmål om åpningstider og priser"
+    "IMAGE_ALT": "AgentNexus AI-chattevindu som svarer på et kundespørsmål om åpningstider og priser"
   },
   "SOCIAL_PROOF": {
     "TEXT": "Laget for butikker, klinikker, restauranter, eiendomsmeglere og servicebedrifter"
@@ -16,7 +16,7 @@
     "HEADING_PLAIN": "Alt du trenger,",
     "HEADING_ACCENT": "ingenting du ikke trenger",
     "SUBHEADING": "Et chattevindu som faktisk er forankret i din bedrift — pluss dashbordet som styrer det.",
-    "VIDEO_ALT": "Gjennomgang av ChatCraft-dashbordet — samtaler, leads og analyser",
+    "VIDEO_ALT": "Gjennomgang av AgentNexus-dashbordet — samtaler, leads og analyser",
     "SEE_ALL_LINK": "Se alle funksjoner →"
   },
   "BENTO": {

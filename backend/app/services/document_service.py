@@ -104,7 +104,7 @@ async def _fetch_url_text(url: str) -> str:
     _assert_public_url(url)
     async with httpx.AsyncClient(timeout=15, follow_redirects=True) as client:
         try:
-            resp = await client.get(url, headers={"User-Agent": "ChatCraftBot/1.0"})
+            resp = await client.get(url, headers={"User-Agent": "AgentNexusBot/1.0"})
         except httpx.HTTPError:
             raise HTTPException(status_code=400, detail="Could not fetch that URL")
     if resp.status_code >= 400:
