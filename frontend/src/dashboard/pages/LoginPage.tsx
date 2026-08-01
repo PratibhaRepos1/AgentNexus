@@ -33,7 +33,12 @@ export function LoginPage() {
         <p className="text-base text-slate-500 mb-6">Sign in to your ChatCraft dashboard</p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          <Input label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <div>
+            <Input label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <Link to="/forgot-password" className="mt-1 inline-block text-sm text-brand-600 hover:underline">
+              Forgot password?
+            </Link>
+          </div>
           {error && <p className="text-sm text-red-500">{error}</p>}
           <Button type="submit" loading={loading} className="w-full">Sign in</Button>
         </form>

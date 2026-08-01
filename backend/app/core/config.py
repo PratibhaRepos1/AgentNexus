@@ -33,6 +33,9 @@ class Settings(BaseSettings):
     resend_api_key: str = ""
     notification_from_email: str = "onboarding@resend.dev"
 
+    # Where dashboard-facing links in emails (e.g. password reset) should point.
+    frontend_url: str = "http://localhost:5173"
+
     embedding_model: str = "all-MiniLM-L6-v2"
     chunk_size: int = 600
     chunk_overlap: int = 50
