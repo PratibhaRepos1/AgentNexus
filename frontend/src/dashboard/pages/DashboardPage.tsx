@@ -40,7 +40,7 @@ export function DashboardPage() {
     <div className="space-y-6">
       <div className="brand-gradient rounded-2xl p-6 shadow-sm shadow-brand-200 sm:p-8">
         <h1 className="text-4xl font-bold text-white">
-          {business ? `${business.name} Dashboard` : 'Dashboard'}
+          {business ? `${business.name}` : 'Dashboard'}
         </h1>
         <p className="text-base text-brand-50 mt-1">Welcome back! Here's your chatbot at a glance.</p>
       </div>
