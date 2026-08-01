@@ -8,6 +8,7 @@ import { Button } from '../../shared/components/Button'
 import { Input } from '../../shared/components/Input'
 import { UsageMeter } from '../../shared/components/UsageMeter'
 import { PlanGate } from '../../shared/components/PlanGate'
+import { CheckoutModal } from '../components/CheckoutModal'
 import { usePlan, usePlanCatalog, PlanCatalogEntry } from '../../shared/hooks/usePlan'
 
 // WhatsApp/Instagram are real plan features but have no backend integration
@@ -216,11 +217,21 @@ export function PlanPage() {
   const qc = useQueryClient()
   const { data: status } = usePlan()
   const { data: catalog } = usePlanCatalog()
+  const [checkoutPlan, setCheckoutPlan] = useState<PlanCatalogEntry | null>(null)
 
+  // Free needs no payment step; paid plans go through checkout first.
   const chooseMutation = useMutation({
     mutationFn: (plan: string) => api.patch('/businesses/me/plan', { plan }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['plan'] }),
   })
+
+  const handleChoosePlan = (entry: PlanCatalogEntry) => {
+    if (entry.price_usd === 0) {
+      chooseMutation.mutate(entry.key)
+    } else {
+      setCheckoutPlan(entry)
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -282,7 +293,7 @@ export function PlanPage() {
                 variant={isPopular ? 'secondary' : isCurrent ? 'secondary' : 'primary'}
                 disabled={isCurrent}
                 loading={chooseMutation.isPending && chooseMutation.variables === entry.key}
-                onClick={() => chooseMutation.mutate(entry.key)}
+                onClick={() => handleChoosePlan(entry)}
               >
                 {isCurrent ? 'Current plan' : `Choose ${entry.name}`}
               </Button>
@@ -306,6 +317,8 @@ export function PlanPage() {
       {chooseMutation.isError && (
         <p className="text-base text-red-600">Couldn't switch plans. Please try again.</p>
       )}
+
+      {checkoutPlan && <CheckoutModal plan={checkoutPlan} onClose={() => setCheckoutPlan(null)} />}
     </div>
   )
 }
