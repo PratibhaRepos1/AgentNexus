@@ -1,0 +1,12 @@
+{
+  "USD": {
+    "symbol": "$",
+    "locale": "en-US",
+    "code": "USD"
+  },
+  "NOK": {
+    "symbol": "kr",
+    "locale": "nb-NO",
+    "code": "NOK"
+  }
+}

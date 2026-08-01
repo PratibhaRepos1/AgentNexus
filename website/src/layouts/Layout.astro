@@ -7,9 +7,15 @@ interface Props {
   title: string;
   description: string;
   path?: string;
+  /** Which page-JSON namespace (src/assets/i18n/<lang>/<page>.json) drives client-side translation on this page. Omit for pages with no translation JSON (e.g. demo). */
+  page?: "home" | "features" | "pricing";
+  /** Dot-path into that page's JSON for the translated <title> (e.g. "SEO.TITLE"). */
+  titleKey?: string;
+  /** Dot-path into that page's JSON for the translated meta description (e.g. "SEO.DESCRIPTION"). */
+  descriptionKey?: string;
 }
 
-const { title, description, path = "/" } = Astro.props;
+const { title, description, path = "/", page, titleKey, descriptionKey } = Astro.props;
 const siteUrl = Astro.site ?? new URL("https://chatcraft.app");
 const canonicalUrl = new URL(path, siteUrl).toString();
 const ogImage = new URL("/og-image.png", siteUrl).toString();
@@ -24,18 +30,34 @@ const ogImage = new URL("/og-image.png", siteUrl).toString();
     <link rel="canonical" href={canonicalUrl} />
     <meta name="generator" content={Astro.generator} />
 
-    <title>{title} · ChatCraft</title>
-    <meta name="description" content={description} />
+    <!--
+      Runs before paint: if a returning visitor has a non-default language stored,
+      hide <body> (see html.i18n-loading in global.css) until the client-side i18n
+      bootstrap (at the end of <body>) applies it, avoiding an English flash.
+    -->
+    <script is:inline>
+      try {
+        var storedLang = localStorage.getItem("chatcraft:lang");
+        if (storedLang && storedLang !== "en") {
+          document.documentElement.classList.add("i18n-loading");
+        }
+      } catch (_e) {
+        /* localStorage unavailable (privacy mode, etc.) — fall back to English, no guard needed */
+      }
+    </script>
+
+    <title data-i18n-doc-title={titleKey}>{title} · ChatCraft</title>
+    <meta name="description" content={description} data-i18n-meta-desc={descriptionKey} />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content={`${title} · ChatCraft`} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={`${title} · ChatCraft`} data-i18n-meta-title={titleKey} />
+    <meta property="og:description" content={description} data-i18n-meta-desc={descriptionKey} />
     <meta property="og:image" content={ogImage} />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={`${title} · ChatCraft`} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={`${title} · ChatCraft`} data-i18n-meta-title={titleKey} />
+    <meta name="twitter:description" content={description} data-i18n-meta-desc={descriptionKey} />
     <meta name="twitter:image" content={ogImage} />
   </head>
   <body class="bg-slate-50 text-slate-900 antialiased">
@@ -44,5 +66,21 @@ const ogImage = new URL("/og-image.png", siteUrl).toString();
       <slot />
     </main>
     <Footer />
+    <script define:vars={{ page }}>
+      window.__CHATCRAFT_PAGE__ = page;
+    </script>
+    <script>
+      import { initI18n, getStoredLanguage, SUPPORTED_LANGUAGES } from "../lib/i18n/translationService";
+      import { init as initCurrency } from "../stores/currencyStore";
+      import { DEFAULT_CURRENCY } from "../config/currency";
+
+      const chatcraftPage = (window as { __CHATCRAFT_PAGE__?: string }).__CHATCRAFT_PAGE__;
+      void initI18n(chatcraftPage);
+
+      // Currency follows the selected language as one combined switch (see SUPPORTED_LANGUAGES).
+      const storedLang = getStoredLanguage();
+      const currencyForLang = SUPPORTED_LANGUAGES.find((l) => l.code === storedLang)?.currency ?? DEFAULT_CURRENCY;
+      void initCurrency(currencyForLang);
+    </script>
   </body>
 </html>

@@ -1,0 +1,130 @@
+{
+  "SEO": {
+    "TITLE": "Pricing",
+    "DESCRIPTION": "Simple, honest ChatCraft pricing — a genuinely usable free plan, plus Basic, Business, and Growth tiers for growing businesses."
+  },
+  "PAGE_HERO": {
+    "LINE1": "Simple,",
+    "LINE2": "honest pricing",
+    "SUBHEADING": "Start free. Pay only once ChatCraft is genuinely earning its keep."
+  },
+  "MOST_POPULAR_BADGE": "⭐ Most Popular",
+  "PLANS": [
+    {
+      "NAME": "Free",
+      "PRICE_USD": 0,
+      "PERIOD": "forever",
+      "TAGLINE": "Try it for real, no card required.",
+      "CTA": "Start Free",
+      "FEATURED": false,
+      "FEATURES": [
+        "1 website",
+        "50 AI conversations/mo",
+        "Knowledge base",
+        "2 document uploads",
+        "Lead capture",
+        "Basic analytics",
+        "10 products in catalog",
+        "7-day conversation history",
+        "Email notifications"
+      ]
+    },
+    {
+      "NAME": "Basic",
+      "PRICE_USD": 24,
+      "PERIOD": "/mo",
+      "TAGLINE": "For a single business finding its footing.",
+      "CTA": "Choose Basic",
+      "FEATURED": false,
+      "FEATURES": [
+        "1 website",
+        "1,000 AI conversations/mo",
+        "Knowledge base",
+        "20 document uploads",
+        "Lead capture",
+        "Standard analytics",
+        "100 products in catalog",
+        "90-day conversation history",
+        "Email notifications",
+        "2 languages",
+        "Multi-currency",
+        "Custom branding"
+      ]
+    },
+    {
+      "NAME": "Business",
+      "PRICE_USD": 48,
+      "PERIOD": "/mo",
+      "TAGLINE": "Most businesses land here.",
+      "CTA": "Choose Business",
+      "FEATURED": true,
+      "FEATURES": [
+        "3 websites",
+        "5,000 AI conversations/mo",
+        "Knowledge base",
+        "Unlimited document uploads",
+        "Lead capture",
+        "Advanced analytics",
+        "Unlimited products",
+        "Unlimited conversation history",
+        "Email + WhatsApp notifications",
+        "Instagram integration",
+        "Unlimited languages",
+        "Multi-currency",
+        "Custom branding",
+        "API access (+$12/mo add-on)",
+        "Priority support"
+      ]
+    },
+    {
+      "NAME": "Growth",
+      "PRICE_USD": 96,
+      "PERIOD": "/mo",
+      "TAGLINE": "For multi-location or high-traffic businesses.",
+      "CTA": "Choose Growth",
+      "FEATURED": false,
+      "FEATURES": [
+        "10 websites",
+        "20,000 AI conversations/mo",
+        "Knowledge base",
+        "Unlimited document uploads",
+        "Lead capture",
+        "Advanced analytics",
+        "Unlimited products",
+        "Unlimited conversation history",
+        "Email + WhatsApp notifications",
+        "Instagram integration",
+        "Unlimited languages",
+        "Multi-currency",
+        "Custom branding",
+        "API access included",
+        "Priority support"
+      ]
+    }
+  ],
+  "FAQ": {
+    "HEADING": "Billing FAQ",
+    "ITEMS": [
+      {
+        "Q": "What happens if I go over my monthly conversation limit?",
+        "A": "Your widget keeps working — nothing shuts off mid-month. Extra conversations on paid plans bill at $1.20 per additional 100 conversations. The Free plan is the only one that pauses at its cap, since it's meant as a taste of the product."
+      },
+      {
+        "Q": "Can I pay yearly?",
+        "A": "Yes — every paid plan is available on an annual billing cycle at roughly 2 months free (pay for 10, get 12)."
+      },
+      {
+        "Q": "Can I change plans later?",
+        "A": "Upgrades apply immediately and are prorated. Downgrades take effect at your next billing cycle, so you keep what you already paid for."
+      },
+      {
+        "Q": "Is the Free plan really free forever?",
+        "A": "Yes. It's intentionally limited (1 website, 50 conversations/mo) so you can fully try the product, not a time-boxed trial."
+      }
+    ]
+  },
+  "CTA": {
+    "HEADING": "Still deciding?",
+    "SUBHEADING": "Book a free demo and we'll help you pick the right plan."
+  }
+}

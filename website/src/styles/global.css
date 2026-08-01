@@ -66,3 +66,12 @@ body {
   background-clip: text;
   color: transparent;
 }
+
+/*
+ * i18n FOUC guard: only added by an inline head script, and only when the visitor's
+ * stored language isn't the default (English is server-rendered, so this never applies
+ * to first-time visitors). Removed once the stored language's translations are applied.
+ */
+html.i18n-loading body {
+  visibility: hidden;
+}

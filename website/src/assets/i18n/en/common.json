@@ -1,0 +1,22 @@
+{
+  "NAV": {
+    "FEATURES": "Features",
+    "PRICING": "Pricing"
+  },
+  "BUTTONS": {
+    "BOOK_DEMO": "Book a Free Demo",
+    "SEE_PRICING": "See Pricing"
+  },
+  "LANGUAGE": {
+    "SWITCH_LABEL": "Language",
+    "EN_NAME": "English",
+    "NO_NAME": "Norsk"
+  },
+  "A11Y": {
+    "TOGGLE_MENU": "Toggle menu"
+  },
+  "MESSAGES": {
+    "NO_CREDIT_CARD": "No credit card needed",
+    "MOST_POPULAR": "Most Popular"
+  }
+}

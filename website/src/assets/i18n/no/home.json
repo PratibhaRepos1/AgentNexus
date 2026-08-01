@@ -1,0 +1,96 @@
+{
+  "SEO": {
+    "TITLE": "AI-chattevindu for små bedrifter",
+    "DESCRIPTION": "ChatCraft gir bedriften din et AI-chattevindu med egen merkevare som svarer på kundespørsmål ut fra dine egne FAQ-er, dokumenter og produktkatalog — døgnet rundt. Gratis plan tilgjengelig."
+  },
+  "HERO": {
+    "EYEBROW": "Gå aldri glipp av en kunde",
+    "TITLE": "AI-chattevindu for bedriftens nettside",
+    "SUBTITLE": "Lag en AI-chatbot trent på dine egne FAQ-er, dokumenter og produktkatalog — legg den til på nettsiden din med én kodelinje, og la den svare kunder, samle inn leads og drive salg, døgnet rundt.",
+    "IMAGE_ALT": "ChatCraft AI-chattevindu som svarer på et kundespørsmål om åpningstider og priser"
+  },
+  "SOCIAL_PROOF": {
+    "TEXT": "Laget for butikker, klinikker, restauranter, eiendomsmeglere og servicebedrifter"
+  },
+  "FEATURES_SECTION": {
+    "HEADING_PLAIN": "Alt du trenger,",
+    "HEADING_ACCENT": "ingenting du ikke trenger",
+    "SUBHEADING": "Et chattevindu som faktisk er forankret i din bedrift — pluss dashbordet som styrer det.",
+    "VIDEO_ALT": "Gjennomgang av ChatCraft-dashbordet — samtaler, leads og analyser",
+    "SEE_ALL_LINK": "Se alle funksjoner →"
+  },
+  "BENTO": {
+    "ONE_LINE_EMBED": {
+      "TITLE": "Ett-linjes installasjon",
+      "DESCRIPTION": "Legg til én enkelt script-tag på nettsiden din. Ingen app å installere, ingen iframe-hodepine."
+    },
+    "KNOWS_YOUR_BUSINESS": {
+      "TITLE": "Kjenner faktisk din bedrift",
+      "DESCRIPTION": "Svarer ut fra dine egne FAQ-er, dokumenter og produktkatalog — ikke generisk nettkunnskap.",
+      "TAG_FAQS": "FAQ-er",
+      "TAG_DOCUMENTS": "Dokumenter",
+      "TAG_CATALOG": "Katalog",
+      "GROUNDED_ANSWER": "Forankret svar"
+    },
+    "UPLOAD_ANYTHING": {
+      "TITLE": "Last opp nesten hva som helst",
+      "DESCRIPTION": "PDF, Word, Excel, CSV, eller bare lim inn en URL fra din eksisterende nettside."
+    },
+    "NEVER_MISSES_LEAD": {
+      "TITLE": "Går aldri glipp av et lead",
+      "DESCRIPTION": "Et kontaktskjema dukker automatisk opp idet boten fornemmer kjøpsinteresse.",
+      "CONTACT_DETAILS": "Kontaktopplysninger",
+      "NEW_LEAD": "Nytt lead",
+      "CONTACT_ME": "Kontakt meg"
+    },
+    "ON_BRAND": {
+      "TITLE": "På merkevare, hver gang",
+      "DESCRIPTION": "Dine farger, botens navn, din tone — vennlig, formell eller lekende.",
+      "BOT_NAME_LABEL": "Botnavn:",
+      "BOT_NAME_VALUE": "Aria"
+    },
+    "MULTI_TENANT": {
+      "TITLE": "Bygget for trygg flerbrukerdrift",
+      "DESCRIPTION": "Hver bedrifts data er fullstendig isolert — ingen datalekkasjer på tvers, noensinne.",
+      "BUSINESS_A": "Bedrift A",
+      "BUSINESS_B": "Bedrift B"
+    }
+  },
+  "HOW_IT_WORKS": {
+    "HEADING": "I gang på tre steg",
+    "STEPS": [
+      {
+        "STEP": "01",
+        "TITLE": "Legg til kunnskapen din",
+        "DESCRIPTION": "Last opp dokumenter, importer en nettside, eller skriv FAQ-er — tar minutter, ikke dager."
+      },
+      {
+        "STEP": "02",
+        "TITLE": "Lim inn én script-tag",
+        "DESCRIPTION": "Legg widgeten til på nettsiden din. Den tilpasser seg merkevaren din automatisk."
+      },
+      {
+        "STEP": "03",
+        "TITLE": "La den jobbe døgnet rundt",
+        "DESCRIPTION": "Kundene får svar umiddelbart. Du får kvalifiserte leads rett i innboksen."
+      }
+    ]
+  },
+  "PRICING_TEASER": {
+    "HEADING": "Enkel, ærlig prising",
+    "SUBHEADING": "Start gratis. Oppgrader først når du får reell verdi.",
+    "PLANS": [
+      { "NAME": "Gratis", "PRICE_USD": 0, "PERIOD": "", "CTA": "Start gratis", "FEATURED": false },
+      { "NAME": "Basic", "PRICE_USD": 24, "PERIOD": "/mnd", "CTA": "Velg Basic", "FEATURED": false },
+      { "NAME": "Business", "PRICE_USD": 48, "PERIOD": "/mnd", "CTA": "Velg Business", "FEATURED": true },
+      { "NAME": "Vekst", "PRICE_USD": 96, "PERIOD": "/mnd", "CTA": "Velg Vekst", "FEATURED": false }
+    ],
+    "FOOTER_TEXT_BEFORE_LINK": "Full sammenligning av planer og faktureringsdetaljer finner du på",
+    "FOOTER_TEXT_LINK": "prissiden",
+    "FOOTER_TEXT_AFTER_LINK": "."
+  },
+  "CTA": {
+    "HEADING": "Klar for å slutte å miste kunder på grunn av trege svar?",
+    "SUBHEADING": "Sett opp AI-chattevinduet ditt på få minutter — gratis plan, ingen kredittkort nødvendig."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "NAV": {
+    "FEATURES": "Funksjoner",
+    "PRICING": "Priser"
+  },
+  "BUTTONS": {
+    "BOOK_DEMO": "Book en gratis demo",
+    "SEE_PRICING": "Se priser"
+  },
+  "LANGUAGE": {
+    "SWITCH_LABEL": "Språk",
+    "EN_NAME": "Engelsk",
+    "NO_NAME": "Norsk"
+  },
+  "A11Y": {
+    "TOGGLE_MENU": "Åpne/lukk meny"
+  },
+  "MESSAGES": {
+    "NO_CREDIT_CARD": "Ingen kredittkort nødvendig",
+    "MOST_POPULAR": "Mest populær"
+  }
+}

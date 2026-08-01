@@ -1,0 +1,59 @@
+---
+// Renders one button per entry in SUPPORTED_CURRENCIES, so adding a currency to the
+// registry in config/currency.ts (plus an entry in assets/currencies.json) is enough to add
+// it here too — no markup changes.
+import { SUPPORTED_CURRENCIES, DEFAULT_CURRENCY } from "../config/currency";
+
+const BASE_CLASSES = "currency-switch-btn rounded-full px-2.5 py-1 text-xs font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500";
+const ACTIVE_CLASSES = "bg-slate-900 text-white shadow-sm";
+const INACTIVE_CLASSES = "text-slate-500 hover:text-slate-900";
+---
+
+<div
+  class="inline-flex items-center gap-0.5 rounded-full border border-slate-200 bg-white/70 p-0.5"
+  role="group"
+  aria-label="Currency"
+>
+  {
+    SUPPORTED_CURRENCIES.map((currency) => (
+      <button
+        type="button"
+        class:list={[BASE_CLASSES, currency.code === DEFAULT_CURRENCY ? ACTIVE_CLASSES : INACTIVE_CLASSES]}
+        data-currency={currency.code}
+        aria-pressed={currency.code === DEFAULT_CURRENCY ? "true" : "false"}
+        aria-label={currency.name}
+      >
+        <span aria-hidden="true">{currency.flag}</span> {currency.code}
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  import { setCurrency, subscribe } from "../stores/currencyStore";
+  import type { CurrencyCode } from "../config/currency";
+
+  const BASE = "currency-switch-btn rounded-full px-2.5 py-1 text-xs font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500";
+  const ACTIVE = "bg-slate-900 text-white shadow-sm";
+  const INACTIVE = "text-slate-500 hover:text-slate-900";
+
+  function setActiveButtons(currency: string): void {
+    document.querySelectorAll<HTMLButtonElement>(".currency-switch-btn").forEach((btn) => {
+      const isActive = btn.dataset.currency === currency;
+      btn.className = `${BASE} ${isActive ? ACTIVE : INACTIVE}`;
+      btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+  }
+
+  document.querySelectorAll<HTMLButtonElement>(".currency-switch-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const currency = btn.dataset.currency as CurrencyCode | undefined;
+      if (currency) setCurrency(currency);
+    });
+  });
+
+  // subscribe() fires immediately with whatever state currencyStore currently holds, and
+  // again once the Layout bootstrap's init() reads the real stored currency — so the
+  // buttons always end up correct regardless of script execution order.
+  subscribe((state) => setActiveButtons(state.currency));
+</script>

@@ -1,7 +1,14 @@
 ---
+// Currency follows the selected language as one combined switch (see SUPPORTED_LANGUAGES
+// in translationService.ts), so there's no separate CurrencySwitcher rendered here — the
+// component still exists (src/components/CurrencySwitcher.astro) if independent currency
+// selection is ever wanted again.
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import en from "../assets/i18n/en/common.json";
+
 const navLinks = [
-  { href: "/features", label: "Features" },
-  { href: "/pricing", label: "Pricing" },
+  { href: "/features", label: en.NAV.FEATURES, key: "NAV.FEATURES" },
+  { href: "/pricing", label: en.NAV.PRICING, key: "NAV.PRICING" },
 ];
 const currentPath = Astro.url.pathname;
 ---
@@ -14,11 +21,12 @@ const currentPath = Astro.url.pathname;
       Chat<span class="brand-gradient-text">Craft</span>
     </a>
 
-    <nav class="hidden items-center gap-8 md:flex">
+    <nav class="hidden items-center gap-6 md:flex">
       {
         navLinks.map((link) => (
           <a
             href={link.href}
+            data-i18n={link.key}
             class:list={[
               "text-sm font-medium transition-colors hover:text-violet-600",
               currentPath === link.href ? "text-violet-600" : "text-slate-600",
@@ -28,11 +36,13 @@ const currentPath = Astro.url.pathname;
           </a>
         ))
       }
+      <LanguageSwitcher />
       <a
         href="/demo"
+        data-i18n="BUTTONS.BOOK_DEMO"
         class="brand-gradient rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-violet-200 transition-transform hover:scale-105"
       >
-        Book a Free Demo
+        {en.BUTTONS.BOOK_DEMO}
       </a>
     </nav>
 
@@ -40,6 +50,7 @@ const currentPath = Astro.url.pathname;
       for="nav-toggle"
       class="grid h-10 w-10 cursor-pointer place-items-center rounded-lg text-slate-700 md:hidden"
       aria-label="Toggle menu"
+      data-i18n-attr="aria-label:A11Y.TOGGLE_MENU"
     >
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -47,19 +58,23 @@ const currentPath = Astro.url.pathname;
     </label>
   </div>
 
-  <div class="hidden flex-col gap-1 border-t border-slate-100 bg-white px-6 py-4 peer-checked:flex md:hidden">
+  <div class="hidden flex-col gap-3 border-t border-slate-100 bg-white px-6 py-4 peer-checked:flex md:hidden">
     {
       navLinks.map((link) => (
-        <a href={link.href} class="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">
+        <a href={link.href} data-i18n={link.key} class="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">
           {link.label}
         </a>
       ))
     }
+    <div class="px-3">
+      <LanguageSwitcher />
+    </div>
     <a
       href="/demo"
+      data-i18n="BUTTONS.BOOK_DEMO"
       class="brand-gradient mt-2 rounded-full px-5 py-2.5 text-center text-sm font-semibold text-white"
     >
-      Book a Free Demo
+      {en.BUTTONS.BOOK_DEMO}
     </a>
   </div>
 </header>

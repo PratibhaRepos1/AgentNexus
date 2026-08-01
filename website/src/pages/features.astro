@@ -4,46 +4,40 @@ import FeatureBentoCard from "../components/FeatureBentoCard.astro";
 import CTASection from "../components/CTASection.astro";
 import PageHero from "../components/PageHero.astro";
 import chatVideo from "../assets/chatbot v1.mp4";
+import en from "../assets/i18n/en/features.json";
 
-const valueProps = [
-  "2-Minute Setup",
-  "Trained on Your Business",
-  "Converts Visitors into Leads",
-  "Actionable Business Insights",
-  "Ready for Global Businesses",
-];
-
-const whyChoose = [
-  "2-minute setup",
-  "AI trained on your business",
-  "Capture more leads automatically",
-  "Increase customer engagement",
-  "Reduce support workload",
-  "Available 24/7",
-  "Works on any website",
-  "Scales with your business",
-];
+const f = en.FEATURES;
+const valueProps = en.VALUE_PROPS;
+const whyChoose = en.WHY_CHOOSE.ITEMS;
 ---
 
 <Layout
-  title="Features"
-  description="Everything you need to automate customer support, capture leads, and grow your business — all in one platform."
+  title={en.SEO.TITLE}
+  description={en.SEO.DESCRIPTION}
   path="/features"
+  page="features"
+  titleKey="SEO.TITLE"
+  descriptionKey="SEO.DESCRIPTION"
 >
   <PageHero
-    line1="Powerful AI Features for"
-    line2="Modern Businesses"
-    subheading="Everything you need to automate customer support, capture leads, and grow your business — all in one platform."
+    line1={en.PAGE_HERO.LINE1}
+    line2={en.PAGE_HERO.LINE2}
+    subheading={en.PAGE_HERO.SUBHEADING}
+    line1Key="PAGE_HERO.LINE1"
+    line2Key="PAGE_HERO.LINE2"
+    subheadingKey="PAGE_HERO.SUBHEADING"
   >
     <div slot="extra" class="relative mx-auto mt-6 max-w-3xl text-center">
-      <p class="text-lg text-indigo-50">
-        Whether you're a retail store, clinic, restaurant, coaching center, real estate agency, or service
-        business, ChatCraft helps you engage visitors 24/7 and convert them into customers.
+      <p class="text-lg text-indigo-50" data-i18n="PAGE_HERO.EXTRA_INTRO">
+        {en.PAGE_HERO.EXTRA_INTRO}
       </p>
       <div class="mt-6 flex flex-wrap justify-center gap-3">
         {
-          valueProps.map((v) => (
-            <span class="rounded-full border border-white/30 bg-white/15 px-4 py-2 text-sm font-semibold text-white backdrop-blur">
+          valueProps.map((v, i) => (
+            <span
+              class="rounded-full border border-white/30 bg-white/15 px-4 py-2 text-sm font-semibold text-white backdrop-blur"
+              data-i18n={`VALUE_PROPS.${i}`}
+            >
               {v}
             </span>
           ))
@@ -60,42 +54,38 @@ const whyChoose = [
           <div>
             <div class="flex items-center gap-2.5">
               <span class="h-2.5 w-2.5 rounded-full bg-violet-500" />
-              <h3 class="font-display text-2xl font-bold text-slate-900">AI Chat Assistant</h3>
+              <h3 class="font-display text-2xl font-bold text-slate-900" data-i18n="FEATURES.AI_CHAT_ASSISTANT.TITLE">
+                {f.AI_CHAT_ASSISTANT.TITLE}
+              </h3>
             </div>
-            <p class="mt-3 max-w-md text-lg text-slate-500">
-              Intelligent conversations that understand your business, powered by your own content.
+            <p class="mt-3 max-w-md text-lg text-slate-500" data-i18n="FEATURES.AI_CHAT_ASSISTANT.DESCRIPTION">
+              {f.AI_CHAT_ASSISTANT.DESCRIPTION}
             </p>
             <ul class="mt-6 grid grid-cols-1 gap-x-6 gap-y-2 text-base text-slate-600 sm:grid-cols-2">
-              <li><span class="text-emerald-500">✓</span> AI-powered chatbot</li>
-              <li><span class="text-emerald-500">✓</span> One-line website installation</li>
-              <li><span class="text-emerald-500">✓</span> Website URL training</li>
-              <li><span class="text-emerald-500">✓</span> Multi-format document upload</li>
-              <li><span class="text-emerald-500">✓</span> FAQ management</li>
-              <li><span class="text-emerald-500">✓</span> Product &amp; service knowledge</li>
-              <li><span class="text-emerald-500">✓</span> Conversation memory</li>
-              <li><span class="text-emerald-500">✓</span> Smart intent detection</li>
-              <li><span class="text-emerald-500">✓</span> AI personality selection</li>
-              <li><span class="text-emerald-500">✓</span> Custom welcome message</li>
-              <li><span class="text-emerald-500">✓</span> Suggested questions</li>
-              <li><span class="text-emerald-500">✓</span> Custom fallback responses</li>
+              {
+                f.AI_CHAT_ASSISTANT.BULLETS.map((b, i) => (
+                  <li>
+                    <span class="text-emerald-500">✓</span> <span data-i18n={`FEATURES.AI_CHAT_ASSISTANT.BULLETS.${i}`}>{b}</span>
+                  </li>
+                ))
+              }
             </ul>
             <div class="mt-6 grid grid-cols-3 gap-3">
-              <div class="rounded-xl bg-slate-100 p-3 text-center shadow-sm">
-                <p class="font-display text-lg font-bold text-slate-900">&lt;2s</p>
-                <p class="text-xs text-slate-400">Avg. response time</p>
-              </div>
-              <div class="rounded-xl bg-slate-100 p-3 text-center shadow-sm">
-                <p class="font-display text-lg font-bold text-slate-900">24/7</p>
-                <p class="text-xs text-slate-400">Always available</p>
-              </div>
-              <div class="rounded-xl bg-slate-100 p-3 text-center shadow-sm">
-                <p class="font-display text-lg font-bold text-slate-900">0</p>
-                <p class="text-xs text-slate-400">Missed enquiries</p>
-              </div>
+              {
+                f.AI_CHAT_ASSISTANT.STATS.map((stat, i) => (
+                  <div class="rounded-xl bg-slate-100 p-3 text-center shadow-sm">
+                    <p class="font-display text-lg font-bold text-slate-900" data-i18n={`FEATURES.AI_CHAT_ASSISTANT.STATS.${i}.VALUE`}>
+                      {stat.VALUE}
+                    </p>
+                    <p class="text-xs text-slate-400" data-i18n={`FEATURES.AI_CHAT_ASSISTANT.STATS.${i}.LABEL`}>
+                      {stat.LABEL}
+                    </p>
+                  </div>
+                ))
+              }
             </div>
-            <div class="mt-6 rounded-xl border border-violet-200 bg-violet-50 px-4 py-3 text-sm text-violet-700">
-              The reply on the right is generated live by ChatCraft's AI, answering from this business's real
-              FAQs and catalog — not a scripted demo.
+            <div class="mt-6 rounded-xl border border-violet-200 bg-violet-50 px-4 py-3 text-sm text-violet-700" data-i18n="FEATURES.AI_CHAT_ASSISTANT.CALLOUT">
+              {f.AI_CHAT_ASSISTANT.CALLOUT}
             </div>
           </div>
           <div class="flex w-full justify-center self-start">
@@ -107,7 +97,8 @@ const whyChoose = [
               loop
               muted
               playsinline
-              aria-label="Live demo of the ChatCraft AI chat widget answering a customer question"
+              aria-label={f.AI_CHAT_ASSISTANT.VIDEO_ALT}
+              data-i18n-attr="aria-label:FEATURES.AI_CHAT_ASSISTANT.VIDEO_ALT"
             />
           </div>
         </div>
@@ -124,114 +115,141 @@ const whyChoose = [
 
       <!-- AI Knowledge Base -->
       <FeatureBentoCard
-        title="AI Knowledge Base"
-        description="No coding required — upload documents or import your website and ChatCraft builds the knowledge base automatically."
+        title={f.KNOWLEDGE_BASE.TITLE}
+        description={f.KNOWLEDGE_BASE.DESCRIPTION}
+        titleKey="FEATURES.KNOWLEDGE_BASE.TITLE"
+        descriptionKey="FEATURES.KNOWLEDGE_BASE.DESCRIPTION"
         dot="bg-blue-500"
         span="lg:col-span-3"
       >
         <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-base text-slate-600">
-          <li><span class="text-emerald-500">✓</span> Website URLs</li>
-          <li><span class="text-emerald-500">✓</span> PDF documents</li>
-          <li><span class="text-emerald-500">✓</span> Microsoft Word</li>
-          <li><span class="text-emerald-500">✓</span> Excel files</li>
-          <li><span class="text-emerald-500">✓</span> CSV files</li>
-          <li><span class="text-emerald-500">✓</span> Text files</li>
-          <li><span class="text-emerald-500">✓</span> FAQ database</li>
-          <li><span class="text-emerald-500">✓</span> Product catalog</li>
+          {
+            f.KNOWLEDGE_BASE.BULLETS.map((b, i) => (
+              <li>
+                <span class="text-emerald-500">✓</span> <span data-i18n={`FEATURES.KNOWLEDGE_BASE.BULLETS.${i}`}>{b}</span>
+              </li>
+            ))
+          }
         </ul>
         <div class="mt-6 rounded-2xl border border-slate-300 bg-slate-100 p-4 text-center">
           <div class="flex flex-wrap justify-center gap-2">
-            <span class="rounded-full bg-violet-50 px-3 py-1.5 text-sm font-medium text-violet-600">FAQs</span>
-            <span class="rounded-full bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-600">Documents</span>
-            <span class="rounded-full bg-indigo-50 px-3 py-1.5 text-sm font-medium text-indigo-600">Catalog</span>
+            <span class="rounded-full bg-violet-50 px-3 py-1.5 text-sm font-medium text-violet-600" data-i18n="FEATURES.KNOWLEDGE_BASE.TAG_FAQS">
+              {f.KNOWLEDGE_BASE.TAG_FAQS}
+            </span>
+            <span class="rounded-full bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-600" data-i18n="FEATURES.KNOWLEDGE_BASE.TAG_DOCUMENTS">
+              {f.KNOWLEDGE_BASE.TAG_DOCUMENTS}
+            </span>
+            <span class="rounded-full bg-indigo-50 px-3 py-1.5 text-sm font-medium text-indigo-600" data-i18n="FEATURES.KNOWLEDGE_BASE.TAG_CATALOG">
+              {f.KNOWLEDGE_BASE.TAG_CATALOG}
+            </span>
           </div>
           <div class="mx-auto mt-3 h-6 w-px bg-slate-200"></div>
           <div class="mx-auto mt-1 max-w-[85%] rounded-xl rounded-tl-sm bg-slate-50 px-4 py-3 text-base text-slate-600">
-            Grounded answer <span class="text-emerald-500">✓</span>
+            <span data-i18n="FEATURES.KNOWLEDGE_BASE.GROUNDED_ANSWER">{f.KNOWLEDGE_BASE.GROUNDED_ANSWER}</span> <span class="text-emerald-500">✓</span>
           </div>
         </div>
       </FeatureBentoCard>
 
       <!-- Lead Generation -->
       <FeatureBentoCard
-        title="Lead Generation"
-        description="Never lose a potential customer — automatically collect their details the moment your AI senses buying interest."
+        title={f.LEAD_GENERATION.TITLE}
+        description={f.LEAD_GENERATION.DESCRIPTION}
+        titleKey="FEATURES.LEAD_GENERATION.TITLE"
+        descriptionKey="FEATURES.LEAD_GENERATION.DESCRIPTION"
         dot="bg-emerald-500"
         span="lg:col-span-3"
       >
         <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-base text-slate-600">
-          <li><span class="text-emerald-500">✓</span> Name</li>
-          <li><span class="text-emerald-500">✓</span> Email</li>
-          <li><span class="text-emerald-500">✓</span> Phone number</li>
-          <li><span class="text-emerald-500">✓</span> Customer message</li>
-          <li><span class="text-emerald-500">✓</span> Lead status</li>
-          <li><span class="text-emerald-500">✓</span> Lead history</li>
-          <li><span class="text-emerald-500">✓</span> Email notifications</li>
+          {
+            f.LEAD_GENERATION.BULLETS.map((b, i) => (
+              <li>
+                <span class="text-emerald-500">✓</span> <span data-i18n={`FEATURES.LEAD_GENERATION.BULLETS.${i}`}>{b}</span>
+              </li>
+            ))
+          }
         </ul>
         <div class="mt-6 rounded-2xl border border-slate-300 bg-slate-100 p-4">
           <div class="mb-3 flex items-center justify-between">
-            <span class="text-sm font-semibold text-slate-500">Contact details</span>
-            <span class="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-600">New lead</span>
+            <span class="text-sm font-semibold text-slate-500" data-i18n="FEATURES.LEAD_GENERATION.CONTACT_DETAILS">
+              {f.LEAD_GENERATION.CONTACT_DETAILS}
+            </span>
+            <span class="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-600" data-i18n="FEATURES.LEAD_GENERATION.NEW_LEAD">
+              {f.LEAD_GENERATION.NEW_LEAD}
+            </span>
           </div>
           <div class="mb-2 h-3 w-full rounded-full bg-slate-200"></div>
           <div class="mb-3 h-3 w-3/4 rounded-full bg-slate-200"></div>
-          <div class="brand-gradient rounded-full py-2 text-center text-sm font-semibold text-white">Contact Me</div>
+          <div class="brand-gradient rounded-full py-2 text-center text-sm font-semibold text-white" data-i18n="FEATURES.LEAD_GENERATION.CONTACT_ME">
+            {f.LEAD_GENERATION.CONTACT_ME}
+          </div>
         </div>
       </FeatureBentoCard>
 
       <!-- Business Analytics -->
       <FeatureBentoCard
-        title="Business Analytics"
-        description="Understand what your customers are asking, and make smarter decisions with built-in analytics."
+        title={f.BUSINESS_ANALYTICS.TITLE}
+        description={f.BUSINESS_ANALYTICS.DESCRIPTION}
+        titleKey="FEATURES.BUSINESS_ANALYTICS.TITLE"
+        descriptionKey="FEATURES.BUSINESS_ANALYTICS.DESCRIPTION"
         dot="bg-amber-500"
         span="lg:col-span-4"
       >
         <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-base text-slate-600">
-          <li><span class="text-emerald-500">✓</span> Visitor count</li>
-          <li><span class="text-emerald-500">✓</span> AI conversations</li>
-          <li><span class="text-emerald-500">✓</span> Total messages</li>
-          <li><span class="text-emerald-500">✓</span> Leads generated</li>
-          <li><span class="text-emerald-500">✓</span> Top questions</li>
-          <li><span class="text-emerald-500">✓</span> Popular products</li>
-          <li><span class="text-emerald-500">✓</span> Conversation history</li>
-          <li><span class="text-emerald-500">✓</span> Customer insights</li>
+          {
+            f.BUSINESS_ANALYTICS.BULLETS.map((b, i) => (
+              <li>
+                <span class="text-emerald-500">✓</span> <span data-i18n={`FEATURES.BUSINESS_ANALYTICS.BULLETS.${i}`}>{b}</span>
+              </li>
+            ))
+          }
         </ul>
         <div class="mt-6 grid grid-cols-3 gap-3">
-          <div class="rounded-xl border border-slate-300 bg-slate-100 p-4 text-center">
-            <p class="font-display text-2xl font-bold text-slate-900">42</p>
-            <p class="text-xs text-slate-400">Leads</p>
-          </div>
-          <div class="rounded-xl border border-slate-300 bg-slate-100 p-4 text-center">
-            <p class="font-display text-2xl font-bold text-slate-900">128</p>
-            <p class="text-xs text-slate-400">Chats</p>
-          </div>
-          <div class="rounded-xl border border-slate-300 bg-slate-100 p-4 text-center">
-            <p class="font-display text-2xl font-bold text-slate-900">76%</p>
-            <p class="text-xs text-slate-400">Answered</p>
-          </div>
+          {
+            f.BUSINESS_ANALYTICS.STATS.map((stat, i) => (
+              <div class="rounded-xl border border-slate-300 bg-slate-100 p-4 text-center">
+                <p class="font-display text-2xl font-bold text-slate-900" data-i18n={`FEATURES.BUSINESS_ANALYTICS.STATS.${i}.VALUE`}>
+                  {stat.VALUE}
+                </p>
+                <p class="text-xs text-slate-400" data-i18n={`FEATURES.BUSINESS_ANALYTICS.STATS.${i}.LABEL`}>
+                  {stat.LABEL}
+                </p>
+              </div>
+            ))
+          }
         </div>
       </FeatureBentoCard>
 
       <!-- Instant Notifications -->
       <FeatureBentoCard
-        title="Instant Notifications"
-        description="Never miss a customer enquiry — get notified the moment it happens."
+        title={f.NOTIFICATIONS.TITLE}
+        description={f.NOTIFICATIONS.DESCRIPTION}
+        titleKey="FEATURES.NOTIFICATIONS.TITLE"
+        descriptionKey="FEATURES.NOTIFICATIONS.DESCRIPTION"
         dot="bg-indigo-500"
         span="lg:col-span-2"
       >
         <ul class="mt-4 space-y-2 text-base text-slate-600">
-          <li><span class="text-emerald-500">✓</span> Email</li>
-          <li class="text-slate-400">WhatsApp — coming soon</li>
-          <li class="text-slate-400">Instagram — coming soon</li>
-          <li><span class="text-emerald-500">✓</span> Gmail</li>
-          <li class="text-slate-400">Slack &amp; Microsoft Teams — planned</li>
+          {
+            f.NOTIFICATIONS.ITEMS.map((item, i) => (
+              <li class:list={[!item.AVAILABLE && "text-slate-400"]}>
+                {item.AVAILABLE && <span class="text-emerald-500">✓ </span>}
+                <span data-i18n={`FEATURES.NOTIFICATIONS.ITEMS.${i}.TEXT`}>{item.TEXT}</span>
+              </li>
+            ))
+          }
         </ul>
         <div class="mt-6 rounded-2xl border border-slate-300 bg-slate-100 p-4">
           <div class="flex items-center gap-3">
-            <span class="grid h-9 w-9 place-items-center rounded-full bg-blue-100 text-xs font-bold text-blue-600">New</span>
+            <span class="grid h-9 w-9 place-items-center rounded-full bg-blue-100 text-xs font-bold text-blue-600" data-i18n="FEATURES.NOTIFICATIONS.MOCK_NEW_BADGE">
+              {f.NOTIFICATIONS.MOCK_NEW_BADGE}
+            </span>
             <div class="text-left">
-              <p class="text-sm font-semibold text-slate-700">New lead captured</p>
-              <p class="text-xs text-slate-400">Sent to owner's inbox</p>
+              <p class="text-sm font-semibold text-slate-700" data-i18n="FEATURES.NOTIFICATIONS.MOCK_TITLE">
+                {f.NOTIFICATIONS.MOCK_TITLE}
+              </p>
+              <p class="text-xs text-slate-400" data-i18n="FEATURES.NOTIFICATIONS.MOCK_SUBTEXT">
+                {f.NOTIFICATIONS.MOCK_SUBTEXT}
+              </p>
             </div>
           </div>
         </div>
@@ -239,16 +257,22 @@ const whyChoose = [
 
       <!-- Multi-Language -->
       <FeatureBentoCard
-        title="Multi-Language Support"
-        description="Speak your customer's language and deliver localized experiences with AI."
+        title={f.MULTI_LANGUAGE.TITLE}
+        description={f.MULTI_LANGUAGE.DESCRIPTION}
+        titleKey="FEATURES.MULTI_LANGUAGE.TITLE"
+        descriptionKey="FEATURES.MULTI_LANGUAGE.DESCRIPTION"
         dot="bg-blue-500"
         span="lg:col-span-2"
       >
         <ul class="mt-4 space-y-2 text-base text-slate-600">
-          <li><span class="text-emerald-500">✓</span> English</li>
-          <li><span class="text-emerald-500">✓</span> Dutch</li>
-          <li><span class="text-emerald-500">✓</span> Norwegian</li>
-          <li class="text-slate-400">Hindi — coming soon</li>
+          {
+            f.MULTI_LANGUAGE.ITEMS.map((item, i) => (
+              <li class:list={[!item.AVAILABLE && "text-slate-400"]}>
+                {item.AVAILABLE && <span class="text-emerald-500">✓ </span>}
+                <span data-i18n={`FEATURES.MULTI_LANGUAGE.ITEMS.${i}.TEXT`}>{item.TEXT}</span>
+              </li>
+            ))
+          }
         </ul>
         <div class="mt-6 flex flex-wrap gap-2 rounded-2xl border border-slate-300 bg-slate-100 p-4">
           <span class="rounded-full bg-white px-3 py-1.5 text-sm font-semibold text-indigo-700 shadow-sm">EN</span>
@@ -260,16 +284,21 @@ const whyChoose = [
 
       <!-- Multi-Currency -->
       <FeatureBentoCard
-        title="Multi-Currency Ready"
-        description="Perfect for businesses serving customers worldwide."
+        title={f.MULTI_CURRENCY.TITLE}
+        description={f.MULTI_CURRENCY.DESCRIPTION}
+        titleKey="FEATURES.MULTI_CURRENCY.TITLE"
+        descriptionKey="FEATURES.MULTI_CURRENCY.DESCRIPTION"
         dot="bg-emerald-500"
         span="lg:col-span-2"
       >
         <ul class="mt-4 space-y-2 text-base text-slate-600">
-          <li><span class="text-emerald-500">✓</span> Indian Rupee</li>
-          <li><span class="text-emerald-500">✓</span> US Dollar</li>
-          <li><span class="text-emerald-500">✓</span> Euro</li>
-          <li><span class="text-emerald-500">✓</span> Norwegian Krone</li>
+          {
+            f.MULTI_CURRENCY.ITEMS.map((item, i) => (
+              <li>
+                <span class="text-emerald-500">✓</span> <span data-i18n={`FEATURES.MULTI_CURRENCY.ITEMS.${i}`}>{item}</span>
+              </li>
+            ))
+          }
         </ul>
         <div class="mt-6 flex flex-wrap gap-2 rounded-2xl border border-slate-300 bg-slate-100 p-4">
           <span class="rounded-full bg-white px-3 py-1.5 text-sm font-semibold text-indigo-700 shadow-sm">₹ INR</span>
@@ -281,18 +310,22 @@ const whyChoose = [
 
       <!-- Widget Customization -->
       <FeatureBentoCard
-        title="Widget Customization"
-        description="Match your chatbot with your brand, down to the last detail."
+        title={f.WIDGET_CUSTOMIZATION.TITLE}
+        description={f.WIDGET_CUSTOMIZATION.DESCRIPTION}
+        titleKey="FEATURES.WIDGET_CUSTOMIZATION.TITLE"
+        descriptionKey="FEATURES.WIDGET_CUSTOMIZATION.DESCRIPTION"
         dot="bg-violet-500"
         span="lg:col-span-2"
       >
         <ul class="mt-4 space-y-2 text-base text-slate-600">
-          <li><span class="text-emerald-500">✓</span> Brand color</li>
-          <li><span class="text-emerald-500">✓</span> Chatbot name</li>
-          <li><span class="text-emerald-500">✓</span> Welcome message</li>
-          <li><span class="text-emerald-500">✓</span> Widget position</li>
-          <li><span class="text-emerald-500">✓</span> Theme</li>
-          <li class="text-slate-400">Bot avatar — coming soon</li>
+          {
+            f.WIDGET_CUSTOMIZATION.ITEMS.map((item, i) => (
+              <li class:list={[!item.AVAILABLE && "text-slate-400"]}>
+                {item.AVAILABLE && <span class="text-emerald-500">✓ </span>}
+                <span data-i18n={`FEATURES.WIDGET_CUSTOMIZATION.ITEMS.${i}.TEXT`}>{item.TEXT}</span>
+              </li>
+            ))
+          }
         </ul>
         <div class="mt-6 rounded-2xl border border-slate-300 bg-slate-100 p-4 text-center">
           <div class="flex justify-center gap-2">
@@ -302,65 +335,86 @@ const whyChoose = [
             <span class="h-6 w-6 rounded-full bg-amber-500"></span>
           </div>
           <div class="mx-auto mt-3 rounded-lg border border-slate-300 px-3 py-1.5 text-left text-sm text-slate-500">
-            Bot name: <span class="font-semibold text-slate-700">Aria</span>
+            <span data-i18n="FEATURES.WIDGET_CUSTOMIZATION.BOT_NAME_LABEL">{f.WIDGET_CUSTOMIZATION.BOT_NAME_LABEL}</span>{" "}
+            <span class="font-semibold text-slate-700" data-i18n="FEATURES.WIDGET_CUSTOMIZATION.BOT_NAME_VALUE">{f.WIDGET_CUSTOMIZATION.BOT_NAME_VALUE}</span>
           </div>
         </div>
       </FeatureBentoCard>
 
       <!-- Build Customer Trust -->
       <FeatureBentoCard
-        title="Build Customer Trust"
-        description="Show visitors you're a trusted, established business."
+        title={f.CUSTOMER_TRUST.TITLE}
+        description={f.CUSTOMER_TRUST.DESCRIPTION}
+        titleKey="FEATURES.CUSTOMER_TRUST.TITLE"
+        descriptionKey="FEATURES.CUSTOMER_TRUST.DESCRIPTION"
         dot="bg-amber-500"
         span="lg:col-span-3"
       >
         <ul class="mt-4 space-y-2 text-base text-slate-600">
-          <li><span class="text-emerald-500">✓</span> Google reviews</li>
-          <li><span class="text-emerald-500">✓</span> Contact form</li>
-          <li><span class="text-emerald-500">✓</span> Business information</li>
-          <li class="text-slate-400">Operating hours — coming soon</li>
-          <li class="text-slate-400">Location &amp; map — coming soon</li>
+          {
+            f.CUSTOMER_TRUST.ITEMS.map((item, i) => (
+              <li class:list={[!item.AVAILABLE && "text-slate-400"]}>
+                {item.AVAILABLE && <span class="text-emerald-500">✓ </span>}
+                <span data-i18n={`FEATURES.CUSTOMER_TRUST.ITEMS.${i}.TEXT`}>{item.TEXT}</span>
+              </li>
+            ))
+          }
         </ul>
         <div class="mt-6 rounded-2xl border border-slate-300 bg-slate-100 px-6 py-4 text-center">
-          <p class="font-display text-3xl font-bold text-slate-900">4.9<span class="text-lg text-slate-400">/5</span></p>
-          <p class="text-xs text-slate-400">120+ Google reviews</p>
+          <p class="font-display text-3xl font-bold text-slate-900">
+            <span data-i18n="FEATURES.CUSTOMER_TRUST.RATING_VALUE">{f.CUSTOMER_TRUST.RATING_VALUE}</span><span class="text-lg text-slate-400" data-i18n="FEATURES.CUSTOMER_TRUST.RATING_MAX">{f.CUSTOMER_TRUST.RATING_MAX}</span>
+          </p>
+          <p class="text-xs text-slate-400" data-i18n="FEATURES.CUSTOMER_TRUST.REVIEWS_LABEL">{f.CUSTOMER_TRUST.REVIEWS_LABEL}</p>
         </div>
       </FeatureBentoCard>
 
       <!-- Security -->
       <FeatureBentoCard
-        title="Enterprise-Grade Security"
-        description="Built with security from day one, not bolted on later."
+        title={f.SECURITY.TITLE}
+        description={f.SECURITY.DESCRIPTION}
+        titleKey="FEATURES.SECURITY.TITLE"
+        descriptionKey="FEATURES.SECURITY.DESCRIPTION"
         dot="bg-indigo-500"
         span="lg:col-span-3"
       >
         <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-base text-slate-600">
-          <li><span class="text-emerald-500">✓</span> Multi-tenant architecture</li>
-          <li><span class="text-emerald-500">✓</span> Secure data isolation</li>
-          <li><span class="text-emerald-500">✓</span> Shadow DOM widget</li>
-          <li><span class="text-emerald-500">✓</span> Rate limiting</li>
-          <li><span class="text-emerald-500">✓</span> Secure URL import</li>
-          <li><span class="text-emerald-500">✓</span> SSL encryption</li>
+          {
+            f.SECURITY.BULLETS.map((b, i) => (
+              <li>
+                <span class="text-emerald-500">✓</span> <span data-i18n={`FEATURES.SECURITY.BULLETS.${i}`}>{b}</span>
+              </li>
+            ))
+          }
         </ul>
         <div class="mt-6 flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-slate-100 p-4 text-sm font-medium">
-          <span class="rounded-lg bg-white px-3 py-1.5 text-slate-500 shadow-sm">Business A</span>
+          <span class="rounded-lg bg-white px-3 py-1.5 text-slate-500 shadow-sm" data-i18n="FEATURES.SECURITY.BUSINESS_A">
+            {f.SECURITY.BUSINESS_A}
+          </span>
           <span class="text-slate-400">✕</span>
-          <span class="rounded-lg bg-white px-3 py-1.5 text-slate-500 shadow-sm">Business B</span>
+          <span class="rounded-lg bg-white px-3 py-1.5 text-slate-500 shadow-sm" data-i18n="FEATURES.SECURITY.BUSINESS_B">
+            {f.SECURITY.BUSINESS_B}
+          </span>
         </div>
       </FeatureBentoCard>
 
       <!-- Easy Installation (closing, full width) -->
       <FeatureBentoCard
-        title="Easy Installation"
-        description="Launch your AI assistant in under 2 minutes. Just copy and paste one line into your website. No plugins, no coding, no complicated setup."
+        title={f.EASY_INSTALLATION.TITLE}
+        description={f.EASY_INSTALLATION.DESCRIPTION}
+        titleKey="FEATURES.EASY_INSTALLATION.TITLE"
+        descriptionKey="FEATURES.EASY_INSTALLATION.DESCRIPTION"
         dot="bg-violet-500"
         span="lg:col-span-6"
       >
         <div class="mt-6 flex flex-col items-center gap-6 lg:flex-row lg:justify-between">
           <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-base text-slate-600">
-            <li><span class="text-emerald-500">✓</span> No plugins</li>
-            <li><span class="text-emerald-500">✓</span> No coding</li>
-            <li><span class="text-emerald-500">✓</span> No complicated setup</li>
+            {
+              f.EASY_INSTALLATION.BULLETS.map((b, i) => (
+                <li>
+                  <span class="text-emerald-500">✓</span> <span data-i18n={`FEATURES.EASY_INSTALLATION.BULLETS.${i}`}>{b}</span>
+                </li>
+              ))
+            }
           </ul>
           <div class="w-full max-w-md rounded-xl border border-slate-300 bg-slate-100 p-4 shadow-sm">
             <div class="mb-3 flex gap-1.5">
@@ -380,15 +434,25 @@ const whyChoose = [
   <!-- Why Businesses Choose ChatCraft -->
   <section class="mx-auto max-w-[1440px] px-6 pb-20">
     <div class="rounded-3xl border border-slate-300 bg-white p-10 shadow-sm shadow-slate-200/60">
-      <h3 class="font-display text-center text-3xl font-bold text-slate-900">Why Businesses Choose ChatCraft</h3>
+      <h3 class="font-display text-center text-3xl font-bold text-slate-900" data-i18n="WHY_CHOOSE.HEADING">
+        {en.WHY_CHOOSE.HEADING}
+      </h3>
       <ul class="mx-auto mt-8 grid max-w-4xl grid-cols-2 gap-x-8 gap-y-3 text-lg text-slate-600 sm:grid-cols-4">
-        {whyChoose.map((item) => <li><span class="text-emerald-500">✓</span> {item}</li>)}
+        {
+          whyChoose.map((item, i) => (
+            <li>
+              <span class="text-emerald-500">✓</span> <span data-i18n={`WHY_CHOOSE.ITEMS.${i}`}>{item}</span>
+            </li>
+          ))
+        }
       </ul>
     </div>
   </section>
 
   <CTASection
-    heading="See it running on your own content"
-    subheading="Book a free demo and we'll set up your FAQs, documents, and catalog together."
+    heading={en.CTA.HEADING}
+    subheading={en.CTA.SUBHEADING}
+    headingKey="CTA.HEADING"
+    subheadingKey="CTA.SUBHEADING"
   />
 </Layout>

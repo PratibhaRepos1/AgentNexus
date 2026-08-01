@@ -2,63 +2,47 @@
 import Layout from "../layouts/Layout.astro";
 import BentoCard from "../components/BentoCard.astro";
 import CTASection from "../components/CTASection.astro";
+import Price from "../components/Price.astro";
 import dashboardVideo from "../assets/chatcraft dashbaord analysis.mp4";
+import en from "../assets/i18n/en/home.json";
+import enCommon from "../assets/i18n/en/common.json";
 
-const steps = [
-  {
-    step: "01",
-    title: "Add your knowledge",
-    description: "Upload documents, import a webpage, or write FAQs — takes minutes, not days.",
-  },
-  {
-    step: "02",
-    title: "Paste one script tag",
-    description: "Embed the widget on your site. It matches your brand automatically.",
-  },
-  {
-    step: "03",
-    title: "Let it work 24/7",
-    description: "Customers get instant answers. You get qualified leads in your inbox.",
-  },
-];
-
-const plans = [
-  { name: "Free", price: "$0", cta: "Start Free" },
-  { name: "Basic", price: "$24/mo", cta: "Choose Basic" },
-  { name: "Business", price: "$48/mo", cta: "Choose Business", featured: true },
-  { name: "Growth", price: "$96/mo", cta: "Choose Growth" },
-];
+const steps = en.HOW_IT_WORKS.STEPS;
+const plans = en.PRICING_TEASER.PLANS;
 ---
 
 <Layout
-  title="AI Chat Widget for Small Businesses"
-  description="ChatCraft gives your business a branded AI chat widget that answers customer questions from your own FAQs, documents, and catalog — day or night. Free plan available."
+  title={en.SEO.TITLE}
+  description={en.SEO.DESCRIPTION}
   path="/"
+  page="home"
+  titleKey="SEO.TITLE"
+  descriptionKey="SEO.DESCRIPTION"
 >
   <!-- Hero -->
   <section class="overflow-hidden bg-white">
     <div class="mx-auto grid max-w-[1440px] items-center gap-12 px-6 pt-16 pb-20 lg:grid-cols-2 lg:pt-24 lg:pb-28">
       <!-- Left: copy -->
       <div>
-        <p class="font-display brand-gradient-text text-3xl font-extrabold leading-tight sm:text-4xl">
-          Never Miss a Customer
+        <p class="font-display brand-gradient-text text-3xl font-extrabold leading-tight sm:text-4xl" data-i18n="HERO.EYEBROW">
+          {en.HERO.EYEBROW}
         </p>
-        <h1 class="font-display mt-1 text-4xl font-extrabold leading-tight text-slate-900 sm:text-5xl">
-          AI chat widget for your business website
+        <h1 class="font-display mt-1 text-4xl font-extrabold leading-tight text-slate-900 sm:text-5xl" data-i18n="HERO.TITLE">
+          {en.HERO.TITLE}
         </h1>
-        <p class="mt-6 max-w-lg text-lg text-slate-500">
-          Create an AI chatbot trained on your own FAQs, documents, and catalog — add it to your
-          site in one line, and let it answer customers, capture leads, and drive sales, 24/7.
+        <p class="mt-6 max-w-lg text-lg text-slate-500" data-i18n="HERO.SUBTITLE">
+          {en.HERO.SUBTITLE}
         </p>
 
         <div class="mt-8">
           <a
             href="/demo"
+            data-i18n="BUTTONS.BOOK_DEMO"
             class="brand-gradient inline-block rounded-full px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-violet-200 transition-transform hover:scale-105"
           >
-            Book a Free Demo
+            {enCommon.BUTTONS.BOOK_DEMO}
           </a>
-          <p class="mt-3 text-sm text-slate-400">No credit card needed</p>
+          <p class="mt-3 text-sm text-slate-400" data-i18n="MESSAGES.NO_CREDIT_CARD">{enCommon.MESSAGES.NO_CREDIT_CARD}</p>
         </div>
       </div>
 
@@ -69,7 +53,8 @@ const plans = [
 
         <img
           src="/images/hero-widget-screenshot.png"
-          alt="ChatCraft AI chat widget answering a customer's question about opening hours and pricing"
+          alt={en.HERO.IMAGE_ALT}
+          data-i18n-attr="alt:HERO.IMAGE_ALT"
           class="relative w-full rounded-3xl border border-slate-100 shadow-xl shadow-indigo-100"
         />
 
@@ -83,8 +68,8 @@ const plans = [
 
   <!-- Social proof strip -->
   <section class="border-b border-slate-100 bg-white py-6">
-    <p class="text-center text-sm font-medium text-slate-400">
-      Built for retail shops, clinics, restaurants, real estate agents &amp; service businesses
+    <p class="text-center text-sm font-medium text-slate-400" data-i18n="SOCIAL_PROOF.TEXT">
+      {en.SOCIAL_PROOF.TEXT}
     </p>
   </section>
 
@@ -92,10 +77,11 @@ const plans = [
   <section class="mx-auto max-w-[1440px] px-6 py-20">
     <div class="mx-auto max-w-2xl text-center">
       <h2 class="font-display text-3xl font-bold text-slate-900 sm:text-4xl">
-        Everything you need, <span class="brand-gradient-text">nothing you don't</span>
+        <span data-i18n="FEATURES_SECTION.HEADING_PLAIN">{en.FEATURES_SECTION.HEADING_PLAIN}</span>{" "}
+        <span class="brand-gradient-text" data-i18n="FEATURES_SECTION.HEADING_ACCENT">{en.FEATURES_SECTION.HEADING_ACCENT}</span>
       </h2>
-      <p class="mt-4 text-slate-500">
-        A chat widget that's actually grounded in your business — plus the dashboard to run it.
+      <p class="mt-4 text-slate-500" data-i18n="FEATURES_SECTION.SUBHEADING">
+        {en.FEATURES_SECTION.SUBHEADING}
       </p>
     </div>
 
@@ -109,7 +95,8 @@ const plans = [
         muted
         playsinline
         controls
-        aria-label="Walkthrough of the ChatCraft dashboard — conversations, leads, and analytics"
+        aria-label={en.FEATURES_SECTION.VIDEO_ALT}
+        data-i18n-attr="aria-label:FEATURES_SECTION.VIDEO_ALT"
       />
     </div>
     <script>
@@ -123,7 +110,12 @@ const plans = [
 
     <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <!-- One-line embed -->
-      <BentoCard title="One-line embed" description="Drop a single script tag on your site. No app to install, no iframe headaches.">
+      <BentoCard
+        title={en.BENTO.ONE_LINE_EMBED.TITLE}
+        description={en.BENTO.ONE_LINE_EMBED.DESCRIPTION}
+        titleKey="BENTO.ONE_LINE_EMBED.TITLE"
+        descriptionKey="BENTO.ONE_LINE_EMBED.DESCRIPTION"
+      >
         <div class="w-full">
           <div class="rounded-xl border border-slate-100 bg-white p-3">
             <div class="mb-2 flex gap-1.5">
@@ -142,22 +134,38 @@ const plans = [
       </BentoCard>
 
       <!-- Actually knows your business -->
-      <BentoCard title="Actually knows your business" description="Answers from your real FAQs, documents, and product catalog — not generic web knowledge.">
+      <BentoCard
+        title={en.BENTO.KNOWS_YOUR_BUSINESS.TITLE}
+        description={en.BENTO.KNOWS_YOUR_BUSINESS.DESCRIPTION}
+        titleKey="BENTO.KNOWS_YOUR_BUSINESS.TITLE"
+        descriptionKey="BENTO.KNOWS_YOUR_BUSINESS.DESCRIPTION"
+      >
         <div class="w-full">
           <div class="flex flex-wrap justify-center gap-1.5">
-            <span class="rounded-full bg-violet-50 px-2.5 py-1 text-[11px] font-medium text-violet-600">FAQs</span>
-            <span class="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-medium text-blue-600">Documents</span>
-            <span class="rounded-full bg-indigo-50 px-2.5 py-1 text-[11px] font-medium text-indigo-600">Catalog</span>
+            <span class="rounded-full bg-violet-50 px-2.5 py-1 text-[11px] font-medium text-violet-600" data-i18n="BENTO.KNOWS_YOUR_BUSINESS.TAG_FAQS">
+              {en.BENTO.KNOWS_YOUR_BUSINESS.TAG_FAQS}
+            </span>
+            <span class="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-medium text-blue-600" data-i18n="BENTO.KNOWS_YOUR_BUSINESS.TAG_DOCUMENTS">
+              {en.BENTO.KNOWS_YOUR_BUSINESS.TAG_DOCUMENTS}
+            </span>
+            <span class="rounded-full bg-indigo-50 px-2.5 py-1 text-[11px] font-medium text-indigo-600" data-i18n="BENTO.KNOWS_YOUR_BUSINESS.TAG_CATALOG">
+              {en.BENTO.KNOWS_YOUR_BUSINESS.TAG_CATALOG}
+            </span>
           </div>
           <div class="mx-auto mt-2 h-5 w-px bg-slate-200"></div>
           <div class="mx-auto mt-1 max-w-[85%] rounded-xl rounded-tl-sm bg-slate-100 px-3 py-2 text-[11px] text-slate-600">
-            Grounded answer <span class="text-emerald-500">✓</span>
+            <span data-i18n="BENTO.KNOWS_YOUR_BUSINESS.GROUNDED_ANSWER">{en.BENTO.KNOWS_YOUR_BUSINESS.GROUNDED_ANSWER}</span> <span class="text-emerald-500">✓</span>
           </div>
         </div>
       </BentoCard>
 
       <!-- Upload almost anything -->
-      <BentoCard title="Upload almost anything" description="PDF, Word, Excel, CSV, or just paste a URL from your existing website.">
+      <BentoCard
+        title={en.BENTO.UPLOAD_ANYTHING.TITLE}
+        description={en.BENTO.UPLOAD_ANYTHING.DESCRIPTION}
+        titleKey="BENTO.UPLOAD_ANYTHING.TITLE"
+        descriptionKey="BENTO.UPLOAD_ANYTHING.DESCRIPTION"
+      >
         <div class="grid grid-cols-3 gap-2.5">
           <div class="grid h-12 w-12 place-items-center rounded-xl bg-red-50 text-[11px] font-bold text-red-500">PDF</div>
           <div class="grid h-12 w-12 place-items-center rounded-xl bg-blue-50 text-[11px] font-bold text-blue-500">DOC</div>
@@ -169,20 +177,36 @@ const plans = [
       </BentoCard>
 
       <!-- Never misses a lead -->
-      <BentoCard title="Never misses a lead" description="A contact form appears automatically the moment the bot senses buying intent.">
+      <BentoCard
+        title={en.BENTO.NEVER_MISSES_LEAD.TITLE}
+        description={en.BENTO.NEVER_MISSES_LEAD.DESCRIPTION}
+        titleKey="BENTO.NEVER_MISSES_LEAD.TITLE"
+        descriptionKey="BENTO.NEVER_MISSES_LEAD.DESCRIPTION"
+      >
         <div class="w-full rounded-xl border border-slate-100 bg-white p-3">
           <div class="mb-2 flex items-center justify-between">
-            <span class="text-[11px] font-semibold text-slate-500">Contact details</span>
-            <span class="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-600">New lead</span>
+            <span class="text-[11px] font-semibold text-slate-500" data-i18n="BENTO.NEVER_MISSES_LEAD.CONTACT_DETAILS">
+              {en.BENTO.NEVER_MISSES_LEAD.CONTACT_DETAILS}
+            </span>
+            <span class="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-600" data-i18n="BENTO.NEVER_MISSES_LEAD.NEW_LEAD">
+              {en.BENTO.NEVER_MISSES_LEAD.NEW_LEAD}
+            </span>
           </div>
           <div class="mb-1.5 h-2.5 w-full rounded-full bg-slate-200"></div>
           <div class="mb-2.5 h-2.5 w-3/4 rounded-full bg-slate-200"></div>
-          <div class="brand-gradient rounded-full py-1.5 text-center text-[11px] font-semibold text-white">Contact Me</div>
+          <div class="brand-gradient rounded-full py-1.5 text-center text-[11px] font-semibold text-white" data-i18n="BENTO.NEVER_MISSES_LEAD.CONTACT_ME">
+            {en.BENTO.NEVER_MISSES_LEAD.CONTACT_ME}
+          </div>
         </div>
       </BentoCard>
 
       <!-- On brand, every time -->
-      <BentoCard title="On brand, every time" description="Your colors, your bot name, your tone of voice — friendly, formal, or playful.">
+      <BentoCard
+        title={en.BENTO.ON_BRAND.TITLE}
+        description={en.BENTO.ON_BRAND.DESCRIPTION}
+        titleKey="BENTO.ON_BRAND.TITLE"
+        descriptionKey="BENTO.ON_BRAND.DESCRIPTION"
+      >
         <div class="w-full text-center">
           <div class="flex justify-center gap-2">
             <span class="h-6 w-6 rounded-full bg-violet-500 ring-2 ring-violet-200 ring-offset-2"></span>
@@ -191,26 +215,36 @@ const plans = [
             <span class="h-6 w-6 rounded-full bg-amber-500"></span>
           </div>
           <div class="mx-auto mt-3 w-32 rounded-lg border border-slate-300 px-3 py-1.5 text-left text-[11px] text-slate-500">
-            Bot name: <span class="font-semibold text-slate-700">Aria</span>
+            <span data-i18n="BENTO.ON_BRAND.BOT_NAME_LABEL">{en.BENTO.ON_BRAND.BOT_NAME_LABEL}</span>{" "}
+            <span class="font-semibold text-slate-700" data-i18n="BENTO.ON_BRAND.BOT_NAME_VALUE">{en.BENTO.ON_BRAND.BOT_NAME_VALUE}</span>
           </div>
         </div>
       </BentoCard>
 
       <!-- Multi-tenant safety -->
-      <BentoCard title="Built for multi-tenant safety" description="Every business's data is fully isolated — no cross-tenant leaks, ever.">
+      <BentoCard
+        title={en.BENTO.MULTI_TENANT.TITLE}
+        description={en.BENTO.MULTI_TENANT.DESCRIPTION}
+        titleKey="BENTO.MULTI_TENANT.TITLE"
+        descriptionKey="BENTO.MULTI_TENANT.DESCRIPTION"
+      >
         <div class="text-center">
           <div class="brand-gradient mx-auto grid h-14 w-14 place-items-center rounded-2xl text-2xl text-white">🔒</div>
           <div class="mt-3 flex items-center justify-center gap-2 text-[11px] font-medium">
-            <span class="rounded-lg bg-slate-100 px-2 py-1 text-slate-500">Business A</span>
+            <span class="rounded-lg bg-slate-100 px-2 py-1 text-slate-500" data-i18n="BENTO.MULTI_TENANT.BUSINESS_A">
+              {en.BENTO.MULTI_TENANT.BUSINESS_A}
+            </span>
             <span class="text-slate-300">✕</span>
-            <span class="rounded-lg bg-slate-100 px-2 py-1 text-slate-500">Business B</span>
+            <span class="rounded-lg bg-slate-100 px-2 py-1 text-slate-500" data-i18n="BENTO.MULTI_TENANT.BUSINESS_B">
+              {en.BENTO.MULTI_TENANT.BUSINESS_B}
+            </span>
           </div>
         </div>
       </BentoCard>
     </div>
     <div class="mt-10 text-center">
-      <a href="/features" class="text-sm font-semibold text-violet-600 hover:text-violet-700">
-        See all features &rarr;
+      <a href="/features" class="text-sm font-semibold text-violet-600 hover:text-violet-700" data-i18n="FEATURES_SECTION.SEE_ALL_LINK">
+        {en.FEATURES_SECTION.SEE_ALL_LINK}
       </a>
     </div>
   </section>
@@ -218,16 +252,22 @@ const plans = [
   <!-- How it works -->
   <section class="bg-slate-50 py-20">
     <div class="mx-auto max-w-[1440px] px-6">
-      <h2 class="font-display text-center text-3xl font-bold text-slate-900 sm:text-4xl">
-        Live in three steps
+      <h2 class="font-display text-center text-3xl font-bold text-slate-900 sm:text-4xl" data-i18n="HOW_IT_WORKS.HEADING">
+        {en.HOW_IT_WORKS.HEADING}
       </h2>
       <div class="mt-12 grid gap-8 md:grid-cols-3">
         {
-          steps.map((s) => (
+          steps.map((s, i) => (
             <div class="relative rounded-2xl bg-white p-8 shadow-sm shadow-slate-100">
-              <span class="font-display brand-gradient-text text-4xl font-extrabold">{s.step}</span>
-              <h3 class="font-display mt-4 text-lg font-semibold text-slate-900">{s.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-slate-500">{s.description}</p>
+              <span class="font-display brand-gradient-text text-4xl font-extrabold" data-i18n={`HOW_IT_WORKS.STEPS.${i}.STEP`}>
+                {s.STEP}
+              </span>
+              <h3 class="font-display mt-4 text-lg font-semibold text-slate-900" data-i18n={`HOW_IT_WORKS.STEPS.${i}.TITLE`}>
+                {s.TITLE}
+              </h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-500" data-i18n={`HOW_IT_WORKS.STEPS.${i}.DESCRIPTION`}>
+                {s.DESCRIPTION}
+              </p>
             </div>
           ))
         }
@@ -238,51 +278,72 @@ const plans = [
   <!-- Pricing teaser -->
   <section class="mx-auto max-w-[1440px] px-6 py-20">
     <div class="mx-auto max-w-2xl text-center">
-      <h2 class="font-display text-3xl font-bold text-slate-900 sm:text-4xl">Simple, honest pricing</h2>
-      <p class="mt-4 text-slate-500">Start free. Upgrade only when you're getting real value.</p>
+      <h2 class="font-display text-3xl font-bold text-slate-900 sm:text-4xl" data-i18n="PRICING_TEASER.HEADING">
+        {en.PRICING_TEASER.HEADING}
+      </h2>
+      <p class="mt-4 text-slate-500" data-i18n="PRICING_TEASER.SUBHEADING">{en.PRICING_TEASER.SUBHEADING}</p>
     </div>
     <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {
-        plans.map((plan) => (
+        plans.map((plan, i) => (
           <div
             class:list={[
               "rounded-2xl border p-6 text-center",
-              plan.featured
+              plan.FEATURED
                 ? "brand-gradient border-transparent text-white shadow-xl shadow-violet-200"
                 : "border-slate-300 bg-white",
             ]}
           >
-            {plan.featured && (
-              <span class="inline-block rounded-full bg-white/20 px-3 py-1 text-xs font-semibold">
-                Most Popular
+            {plan.FEATURED && (
+              <span class="inline-block rounded-full bg-white/20 px-3 py-1 text-xs font-semibold" data-i18n="MESSAGES.MOST_POPULAR">
+                {enCommon.MESSAGES.MOST_POPULAR}
               </span>
             )}
-            <h3 class:list={["font-display mt-3 text-lg font-semibold", plan.featured ? "text-white" : "text-slate-900"]}>
-              {plan.name}
+            <h3
+              class:list={["font-display mt-3 text-lg font-semibold", plan.FEATURED ? "text-white" : "text-slate-900"]}
+              data-i18n={`PRICING_TEASER.PLANS.${i}.NAME`}
+            >
+              {plan.NAME}
             </h3>
-            <p class:list={["font-display mt-2 text-2xl font-bold", plan.featured ? "text-white" : "text-slate-900"]}>
-              {plan.price}
+            <p
+              class:list={["font-display mt-2 text-2xl font-bold", plan.FEATURED ? "text-white" : "text-slate-900"]}
+            >
+              <Price amount={plan.PRICE_USD} />
+              {plan.PERIOD && (
+                <span
+                  class:list={["ml-0.5 text-sm font-normal", plan.FEATURED ? "text-indigo-100" : "text-slate-400"]}
+                  data-i18n={`PRICING_TEASER.PLANS.${i}.PERIOD`}
+                >
+                  {plan.PERIOD}
+                </span>
+              )}
             </p>
             <a
               href="/pricing"
+              data-i18n={`PRICING_TEASER.PLANS.${i}.CTA`}
               class:list={[
                 "mt-6 inline-block w-full rounded-full px-4 py-2.5 text-sm font-semibold transition-transform hover:scale-105",
-                plan.featured ? "bg-white text-violet-700" : "bg-indigo-50 text-violet-700",
+                plan.FEATURED ? "bg-white text-violet-700" : "bg-indigo-50 text-violet-700",
               ]}
             >
-              {plan.cta}
+              {plan.CTA}
             </a>
           </div>
         ))
       }
     </div>
     <p class="mt-8 text-center text-sm text-slate-500">
-      Full plan comparison and billing details on the <a href="/pricing" class="font-semibold text-violet-600 hover:text-violet-700">pricing page</a>.
+      <span data-i18n="PRICING_TEASER.FOOTER_TEXT_BEFORE_LINK">{en.PRICING_TEASER.FOOTER_TEXT_BEFORE_LINK}</span>{" "}
+      <a href="/pricing" class="font-semibold text-violet-600 hover:text-violet-700" data-i18n="PRICING_TEASER.FOOTER_TEXT_LINK">
+        {en.PRICING_TEASER.FOOTER_TEXT_LINK}
+      </a><span data-i18n="PRICING_TEASER.FOOTER_TEXT_AFTER_LINK">{en.PRICING_TEASER.FOOTER_TEXT_AFTER_LINK}</span>
     </p>
   </section>
 
   <CTASection
-    heading="Ready to stop losing customers to slow replies?"
-    subheading="Set up your AI chat widget in minutes — free plan, no credit card needed."
+    heading={en.CTA.HEADING}
+    subheading={en.CTA.SUBHEADING}
+    headingKey="CTA.HEADING"
+    subheadingKey="CTA.SUBHEADING"
   />
 </Layout>

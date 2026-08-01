@@ -2,171 +2,80 @@
 import Layout from "../layouts/Layout.astro";
 import CTASection from "../components/CTASection.astro";
 import PageHero from "../components/PageHero.astro";
+import Price from "../components/Price.astro";
+import en from "../assets/i18n/en/pricing.json";
 
-const plans = [
-  {
-    name: "Free",
-    price: "$0",
-    period: "forever",
-    tagline: "Try it for real, no card required.",
-    cta: "Start Free",
-    features: [
-      "1 website",
-      "50 AI conversations/mo",
-      "Knowledge base",
-      "2 document uploads",
-      "Lead capture",
-      "Basic analytics",
-      "10 products in catalog",
-      "7-day conversation history",
-      "Email notifications",
-    ],
-  },
-  {
-    name: "Basic",
-    price: "$24",
-    period: "/mo",
-    tagline: "For a single business finding its footing.",
-    cta: "Choose Basic",
-    features: [
-      "1 website",
-      "1,000 AI conversations/mo",
-      "Knowledge base",
-      "20 document uploads",
-      "Lead capture",
-      "Standard analytics",
-      "100 products in catalog",
-      "90-day conversation history",
-      "Email notifications",
-      "2 languages",
-      "Multi-currency",
-      "Custom branding",
-    ],
-  },
-  {
-    name: "Business",
-    price: "$48",
-    period: "/mo",
-    tagline: "Most businesses land here.",
-    cta: "Choose Business",
-    featured: true,
-    features: [
-      "3 websites",
-      "5,000 AI conversations/mo",
-      "Knowledge base",
-      "Unlimited document uploads",
-      "Lead capture",
-      "Advanced analytics",
-      "Unlimited products",
-      "Unlimited conversation history",
-      "Email + WhatsApp notifications",
-      "Instagram integration",
-      "Unlimited languages",
-      "Multi-currency",
-      "Custom branding",
-      "API access (+$12/mo add-on)",
-      "Priority support",
-    ],
-  },
-  {
-    name: "Growth",
-    price: "$96",
-    period: "/mo",
-    tagline: "For multi-location or high-traffic businesses.",
-    cta: "Choose Growth",
-    features: [
-      "10 websites",
-      "20,000 AI conversations/mo",
-      "Knowledge base",
-      "Unlimited document uploads",
-      "Lead capture",
-      "Advanced analytics",
-      "Unlimited products",
-      "Unlimited conversation history",
-      "Email + WhatsApp notifications",
-      "Instagram integration",
-      "Unlimited languages",
-      "Multi-currency",
-      "Custom branding",
-      "API access included",
-      "Priority support",
-    ],
-  },
-];
-
-const faqs = [
-  {
-    q: "What happens if I go over my monthly conversation limit?",
-    a: "Your widget keeps working — nothing shuts off mid-month. Extra conversations on paid plans bill at $1.20 per additional 100 conversations. The Free plan is the only one that pauses at its cap, since it's meant as a taste of the product.",
-  },
-  {
-    q: "Can I pay yearly?",
-    a: "Yes — every paid plan is available on an annual billing cycle at roughly 2 months free (pay for 10, get 12).",
-  },
-  {
-    q: "Can I change plans later?",
-    a: "Upgrades apply immediately and are prorated. Downgrades take effect at your next billing cycle, so you keep what you already paid for.",
-  },
-  {
-    q: "Is the Free plan really free forever?",
-    a: "Yes. It's intentionally limited (1 website, 50 conversations/mo) so you can fully try the product, not a time-boxed trial.",
-  },
-];
+const plans = en.PLANS;
+const faqs = en.FAQ.ITEMS;
 ---
 
 <Layout
-  title="Pricing"
-  description="Simple, honest ChatCraft pricing — a genuinely usable free plan, plus Basic, Business, and Growth tiers for growing businesses."
+  title={en.SEO.TITLE}
+  description={en.SEO.DESCRIPTION}
   path="/pricing"
+  page="pricing"
+  titleKey="SEO.TITLE"
+  descriptionKey="SEO.DESCRIPTION"
 >
   <PageHero
-    line1="Simple,"
-    line2="honest pricing"
-    subheading="Start free. Pay only once ChatCraft is genuinely earning its keep."
+    line1={en.PAGE_HERO.LINE1}
+    line2={en.PAGE_HERO.LINE2}
+    subheading={en.PAGE_HERO.SUBHEADING}
+    line1Key="PAGE_HERO.LINE1"
+    line2Key="PAGE_HERO.LINE2"
+    subheadingKey="PAGE_HERO.SUBHEADING"
   />
 
   <section class="mx-auto max-w-[1440px] px-6 py-16">
     <div class="grid gap-6 lg:grid-cols-4">
       {
-        plans.map((plan) => (
+        plans.map((plan, i) => (
           <div
             class:list={[
               "flex flex-col rounded-3xl border p-7",
-              plan.featured
+              plan.FEATURED
                 ? "brand-gradient border-transparent text-white shadow-2xl shadow-violet-200 lg:-translate-y-3"
                 : "border-slate-300 bg-white",
             ]}
           >
-            {plan.featured && (
-              <span class="mb-3 inline-block w-fit rounded-full bg-white/20 px-3 py-1 text-xs font-semibold">
-                ⭐ Most Popular
+            {plan.FEATURED && (
+              <span class="mb-3 inline-block w-fit rounded-full bg-white/20 px-3 py-1 text-xs font-semibold" data-i18n="MOST_POPULAR_BADGE">
+                {en.MOST_POPULAR_BADGE}
               </span>
             )}
-            <h2 class:list={["font-display text-xl font-bold", plan.featured ? "text-white" : "text-slate-900"]}>
-              {plan.name}
+            <h2
+              class:list={["font-display text-xl font-bold", plan.FEATURED ? "text-white" : "text-slate-900"]}
+              data-i18n={`PLANS.${i}.NAME`}
+            >
+              {plan.NAME}
             </h2>
-            <p class:list={["mt-1 text-sm", plan.featured ? "text-indigo-50" : "text-slate-500"]}>{plan.tagline}</p>
+            <p class:list={["mt-1 text-sm", plan.FEATURED ? "text-indigo-50" : "text-slate-500"]} data-i18n={`PLANS.${i}.TAGLINE`}>
+              {plan.TAGLINE}
+            </p>
             <p class="mt-5">
-              <span class:list={["font-display text-3xl font-extrabold", plan.featured ? "text-white" : "text-slate-900"]}>
-                {plan.price}
+              <span class:list={["font-display text-3xl font-extrabold", plan.FEATURED ? "text-white" : "text-slate-900"]}>
+                <Price amount={plan.PRICE_USD} />
               </span>
-              <span class:list={["text-sm", plan.featured ? "text-indigo-100" : "text-slate-400"]}> {plan.period}</span>
+              <span class:list={["ml-1 text-sm", plan.FEATURED ? "text-indigo-100" : "text-slate-400"]} data-i18n={`PLANS.${i}.PERIOD`}>
+                {plan.PERIOD}
+              </span>
             </p>
             <a
               href="/demo"
+              data-i18n={`PLANS.${i}.CTA`}
               class:list={[
                 "mt-6 rounded-full px-4 py-2.5 text-center text-sm font-semibold transition-transform hover:scale-105",
-                plan.featured ? "bg-white text-violet-700" : "bg-indigo-50 text-violet-700",
+                plan.FEATURED ? "bg-white text-violet-700" : "bg-indigo-50 text-violet-700",
               ]}
             >
-              {plan.cta}
+              {plan.CTA}
             </a>
             <ul class="mt-7 space-y-3 text-sm">
               {
-                plan.features.map((f) => (
-                  <li class:list={["flex gap-2", plan.featured ? "text-indigo-50" : "text-slate-600"]}>
-                    <span class:list={plan.featured ? "text-blue-200" : "text-violet-500"}>✓</span>
-                    <span>{f}</span>
+                plan.FEATURES.map((feature, j) => (
+                  <li class:list={["flex gap-2", plan.FEATURED ? "text-indigo-50" : "text-slate-600"]}>
+                    <span class:list={plan.FEATURED ? "text-blue-200" : "text-violet-500"}>✓</span>
+                    <span data-i18n={`PLANS.${i}.FEATURES.${j}`}>{feature}</span>
                   </li>
                 ))
               }
@@ -180,16 +89,20 @@ const faqs = [
   <!-- FAQ -->
   <section class="border-t border-slate-100 bg-slate-50 py-16">
     <div class="mx-auto max-w-3xl px-6">
-      <h2 class="font-display text-center text-3xl font-bold text-slate-900">Billing FAQ</h2>
+      <h2 class="font-display text-center text-3xl font-bold text-slate-900" data-i18n="FAQ.HEADING">
+        {en.FAQ.HEADING}
+      </h2>
       <div class="mt-10 space-y-4">
         {
-          faqs.map((item) => (
+          faqs.map((item, i) => (
             <details class="group rounded-2xl border border-slate-300 bg-white p-5 open:shadow-sm">
               <summary class="flex cursor-pointer list-none items-center justify-between font-display font-semibold text-slate-900">
-                {item.q}
+                <span data-i18n={`FAQ.ITEMS.${i}.Q`}>{item.Q}</span>
                 <span class="ml-4 text-violet-500 transition-transform group-open:rotate-45">+</span>
               </summary>
-              <p class="mt-3 text-sm leading-relaxed text-slate-500">{item.a}</p>
+              <p class="mt-3 text-sm leading-relaxed text-slate-500" data-i18n={`FAQ.ITEMS.${i}.A`}>
+                {item.A}
+              </p>
             </details>
           ))
         }
@@ -197,5 +110,10 @@ const faqs = [
     </div>
   </section>
 
-  <CTASection heading="Still deciding?" subheading="Book a free demo and we'll help you pick the right plan." />
+  <CTASection
+    heading={en.CTA.HEADING}
+    subheading={en.CTA.SUBHEADING}
+    headingKey="CTA.HEADING"
+    subheadingKey="CTA.SUBHEADING"
+  />
 </Layout>

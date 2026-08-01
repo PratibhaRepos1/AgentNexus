@@ -1,0 +1,96 @@
+{
+  "SEO": {
+    "TITLE": "AI Chat Widget for Small Businesses",
+    "DESCRIPTION": "ChatCraft gives your business a branded AI chat widget that answers customer questions from your own FAQs, documents, and catalog — day or night. Free plan available."
+  },
+  "HERO": {
+    "EYEBROW": "Never Miss a Customer",
+    "TITLE": "AI chat widget for your business website",
+    "SUBTITLE": "Create an AI chatbot trained on your own FAQs, documents, and catalog — add it to your site in one line, and let it answer customers, capture leads, and drive sales, 24/7.",
+    "IMAGE_ALT": "ChatCraft AI chat widget answering a customer's question about opening hours and pricing"
+  },
+  "SOCIAL_PROOF": {
+    "TEXT": "Built for retail shops, clinics, restaurants, real estate agents & service businesses"
+  },
+  "FEATURES_SECTION": {
+    "HEADING_PLAIN": "Everything you need,",
+    "HEADING_ACCENT": "nothing you don't",
+    "SUBHEADING": "A chat widget that's actually grounded in your business — plus the dashboard to run it.",
+    "VIDEO_ALT": "Walkthrough of the ChatCraft dashboard — conversations, leads, and analytics",
+    "SEE_ALL_LINK": "See all features →"
+  },
+  "BENTO": {
+    "ONE_LINE_EMBED": {
+      "TITLE": "One-line embed",
+      "DESCRIPTION": "Drop a single script tag on your site. No app to install, no iframe headaches."
+    },
+    "KNOWS_YOUR_BUSINESS": {
+      "TITLE": "Actually knows your business",
+      "DESCRIPTION": "Answers from your real FAQs, documents, and product catalog — not generic web knowledge.",
+      "TAG_FAQS": "FAQs",
+      "TAG_DOCUMENTS": "Documents",
+      "TAG_CATALOG": "Catalog",
+      "GROUNDED_ANSWER": "Grounded answer"
+    },
+    "UPLOAD_ANYTHING": {
+      "TITLE": "Upload almost anything",
+      "DESCRIPTION": "PDF, Word, Excel, CSV, or just paste a URL from your existing website."
+    },
+    "NEVER_MISSES_LEAD": {
+      "TITLE": "Never misses a lead",
+      "DESCRIPTION": "A contact form appears automatically the moment the bot senses buying intent.",
+      "CONTACT_DETAILS": "Contact details",
+      "NEW_LEAD": "New lead",
+      "CONTACT_ME": "Contact Me"
+    },
+    "ON_BRAND": {
+      "TITLE": "On brand, every time",
+      "DESCRIPTION": "Your colors, your bot name, your tone of voice — friendly, formal, or playful.",
+      "BOT_NAME_LABEL": "Bot name:",
+      "BOT_NAME_VALUE": "Aria"
+    },
+    "MULTI_TENANT": {
+      "TITLE": "Built for multi-tenant safety",
+      "DESCRIPTION": "Every business's data is fully isolated — no cross-tenant leaks, ever.",
+      "BUSINESS_A": "Business A",
+      "BUSINESS_B": "Business B"
+    }
+  },
+  "HOW_IT_WORKS": {
+    "HEADING": "Live in three steps",
+    "STEPS": [
+      {
+        "STEP": "01",
+        "TITLE": "Add your knowledge",
+        "DESCRIPTION": "Upload documents, import a webpage, or write FAQs — takes minutes, not days."
+      },
+      {
+        "STEP": "02",
+        "TITLE": "Paste one script tag",
+        "DESCRIPTION": "Embed the widget on your site. It matches your brand automatically."
+      },
+      {
+        "STEP": "03",
+        "TITLE": "Let it work 24/7",
+        "DESCRIPTION": "Customers get instant answers. You get qualified leads in your inbox."
+      }
+    ]
+  },
+  "PRICING_TEASER": {
+    "HEADING": "Simple, honest pricing",
+    "SUBHEADING": "Start free. Upgrade only when you're getting real value.",
+    "PLANS": [
+      { "NAME": "Free", "PRICE_USD": 0, "PERIOD": "", "CTA": "Start Free", "FEATURED": false },
+      { "NAME": "Basic", "PRICE_USD": 24, "PERIOD": "/mo", "CTA": "Choose Basic", "FEATURED": false },
+      { "NAME": "Business", "PRICE_USD": 48, "PERIOD": "/mo", "CTA": "Choose Business", "FEATURED": true },
+      { "NAME": "Growth", "PRICE_USD": 96, "PERIOD": "/mo", "CTA": "Choose Growth", "FEATURED": false }
+    ],
+    "FOOTER_TEXT_BEFORE_LINK": "Full plan comparison and billing details on the",
+    "FOOTER_TEXT_LINK": "pricing page",
+    "FOOTER_TEXT_AFTER_LINK": "."
+  },
+  "CTA": {
+    "HEADING": "Ready to stop losing customers to slow replies?",
+    "SUBHEADING": "Set up your AI chat widget in minutes — free plan, no credit card needed."
+  }
+}

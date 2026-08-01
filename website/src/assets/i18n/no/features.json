@@ -1,0 +1,159 @@
+{
+  "SEO": {
+    "TITLE": "Funksjoner",
+    "DESCRIPTION": "Alt du trenger for å automatisere kundeservice, fange opp leads og vokse bedriften din — samlet på én plattform."
+  },
+  "PAGE_HERO": {
+    "LINE1": "Kraftige AI-funksjoner for",
+    "LINE2": "moderne bedrifter",
+    "SUBHEADING": "Alt du trenger for å automatisere kundeservice, fange opp leads og vokse bedriften din — samlet på én plattform.",
+    "EXTRA_INTRO": "Enten du driver en butikk, klinikk, restaurant, kurssenter, eiendomsmegling eller servicebedrift, hjelper ChatCraft deg med å engasjere besøkende døgnet rundt og gjøre dem til kunder."
+  },
+  "VALUE_PROPS": [
+    "2-minutters oppsett",
+    "Trent på din bedrift",
+    "Konverterer besøkende til leads",
+    "Handlingsrettet forretningsinnsikt",
+    "Klar for globale bedrifter"
+  ],
+  "FEATURES": {
+    "AI_CHAT_ASSISTANT": {
+      "TITLE": "AI-chatassistent",
+      "DESCRIPTION": "Intelligente samtaler som forstår bedriften din, drevet av ditt eget innhold.",
+      "BULLETS": [
+        "AI-drevet chatbot",
+        "Installasjon på nettsiden med én linje",
+        "Trening på nettside-URL",
+        "Opplasting av flere dokumentformater",
+        "FAQ-administrasjon",
+        "Produkt- og tjenestekunnskap",
+        "Samtaleminne",
+        "Smart intensjonsgjenkjenning",
+        "Valg av AI-personlighet",
+        "Tilpasset velkomstmelding",
+        "Foreslåtte spørsmål",
+        "Tilpassede reservesvar"
+      ],
+      "STATS": [
+        { "VALUE": "<2s", "LABEL": "Gj.snittlig responstid" },
+        { "VALUE": "24/7", "LABEL": "Alltid tilgjengelig" },
+        { "VALUE": "0", "LABEL": "Uteblitte henvendelser" }
+      ],
+      "CALLOUT": "Svaret til høyre genereres i sanntid av ChatCrafts AI, basert på denne bedriftens reelle FAQ-er og katalog — ikke en scriptet demo.",
+      "VIDEO_ALT": "Live demo av ChatCraft AI-chattevindu som svarer på et kundespørsmål"
+    },
+    "KNOWLEDGE_BASE": {
+      "TITLE": "AI-kunnskapsbase",
+      "DESCRIPTION": "Ingen koding nødvendig — last opp dokumenter eller importer nettsiden din, så bygger ChatCraft kunnskapsbasen automatisk.",
+      "BULLETS": ["Nettside-URL-er", "PDF-dokumenter", "Microsoft Word", "Excel-filer", "CSV-filer", "Tekstfiler", "FAQ-database", "Produktkatalog"],
+      "TAG_FAQS": "FAQ-er",
+      "TAG_DOCUMENTS": "Dokumenter",
+      "TAG_CATALOG": "Katalog",
+      "GROUNDED_ANSWER": "Forankret svar"
+    },
+    "LEAD_GENERATION": {
+      "TITLE": "Leadgenerering",
+      "DESCRIPTION": "Mist aldri en potensiell kunde — samle automatisk inn kontaktinfo idet AI-en fornemmer kjøpsinteresse.",
+      "BULLETS": ["Navn", "E-post", "Telefonnummer", "Kundemelding", "Leadstatus", "Leadhistorikk", "E-postvarsler"],
+      "CONTACT_DETAILS": "Kontaktopplysninger",
+      "NEW_LEAD": "Nytt lead",
+      "CONTACT_ME": "Kontakt meg"
+    },
+    "BUSINESS_ANALYTICS": {
+      "TITLE": "Forretningsanalyse",
+      "DESCRIPTION": "Forstå hva kundene dine spør om, og ta smartere beslutninger med innebygd analyse.",
+      "BULLETS": ["Besøkstall", "AI-samtaler", "Totalt antall meldinger", "Genererte leads", "Mest stilte spørsmål", "Populære produkter", "Samtalehistorikk", "Kundeinnsikt"],
+      "STATS": [
+        { "VALUE": "42", "LABEL": "Leads" },
+        { "VALUE": "128", "LABEL": "Samtaler" },
+        { "VALUE": "76%", "LABEL": "Besvart" }
+      ]
+    },
+    "NOTIFICATIONS": {
+      "TITLE": "Umiddelbare varsler",
+      "DESCRIPTION": "Gå aldri glipp av en kundehenvendelse — bli varslet idet det skjer.",
+      "ITEMS": [
+        { "TEXT": "E-post", "AVAILABLE": true },
+        { "TEXT": "WhatsApp — kommer snart", "AVAILABLE": false },
+        { "TEXT": "Instagram — kommer snart", "AVAILABLE": false },
+        { "TEXT": "Gmail", "AVAILABLE": true },
+        { "TEXT": "Slack og Microsoft Teams — planlagt", "AVAILABLE": false }
+      ],
+      "MOCK_NEW_BADGE": "Ny",
+      "MOCK_TITLE": "Nytt lead fanget opp",
+      "MOCK_SUBTEXT": "Sendt til eiers innboks"
+    },
+    "MULTI_LANGUAGE": {
+      "TITLE": "Flerspråklig støtte",
+      "DESCRIPTION": "Snakk kundens språk og lever lokaltilpassede opplevelser med AI.",
+      "ITEMS": [
+        { "TEXT": "Engelsk", "AVAILABLE": true },
+        { "TEXT": "Nederlandsk", "AVAILABLE": true },
+        { "TEXT": "Norsk", "AVAILABLE": true },
+        { "TEXT": "Hindi — kommer snart", "AVAILABLE": false }
+      ]
+    },
+    "MULTI_CURRENCY": {
+      "TITLE": "Klar for flere valutaer",
+      "DESCRIPTION": "Perfekt for bedrifter som betjener kunder over hele verden.",
+      "ITEMS": ["Indiske rupi", "Amerikanske dollar", "Euro", "Norske kroner"]
+    },
+    "WIDGET_CUSTOMIZATION": {
+      "TITLE": "Tilpasning av widget",
+      "DESCRIPTION": "Tilpass chatboten til merkevaren din, ned til minste detalj.",
+      "ITEMS": [
+        { "TEXT": "Merkevarefarge", "AVAILABLE": true },
+        { "TEXT": "Chatbotnavn", "AVAILABLE": true },
+        { "TEXT": "Velkomstmelding", "AVAILABLE": true },
+        { "TEXT": "Widgetplassering", "AVAILABLE": true },
+        { "TEXT": "Tema", "AVAILABLE": true },
+        { "TEXT": "Botavatar — kommer snart", "AVAILABLE": false }
+      ],
+      "BOT_NAME_LABEL": "Botnavn:",
+      "BOT_NAME_VALUE": "Aria"
+    },
+    "CUSTOMER_TRUST": {
+      "TITLE": "Bygg kundetillit",
+      "DESCRIPTION": "Vis besøkende at du er en pålitelig, etablert bedrift.",
+      "ITEMS": [
+        { "TEXT": "Google-anmeldelser", "AVAILABLE": true },
+        { "TEXT": "Kontaktskjema", "AVAILABLE": true },
+        { "TEXT": "Bedriftsinformasjon", "AVAILABLE": true },
+        { "TEXT": "Åpningstider — kommer snart", "AVAILABLE": false },
+        { "TEXT": "Beliggenhet og kart — kommer snart", "AVAILABLE": false }
+      ],
+      "RATING_VALUE": "4.9",
+      "RATING_MAX": "/5",
+      "REVIEWS_LABEL": "120+ Google-anmeldelser"
+    },
+    "SECURITY": {
+      "TITLE": "Sikkerhet i toppklasse",
+      "DESCRIPTION": "Bygget med sikkerhet fra dag én, ikke lagt til i etterkant.",
+      "BULLETS": ["Flerleiearkitektur", "Sikker dataisolasjon", "Shadow DOM-widget", "Rate limiting", "Sikker URL-import", "SSL-kryptering"],
+      "BUSINESS_A": "Bedrift A",
+      "BUSINESS_B": "Bedrift B"
+    },
+    "EASY_INSTALLATION": {
+      "TITLE": "Enkel installasjon",
+      "DESCRIPTION": "Lanser AI-assistenten din på under 2 minutter. Bare kopier og lim inn én linje på nettsiden din. Ingen plugins, ingen koding, ingen komplisert oppsett.",
+      "BULLETS": ["Ingen plugins", "Ingen koding", "Ingen komplisert oppsett"]
+    }
+  },
+  "WHY_CHOOSE": {
+    "HEADING": "Derfor velger bedrifter ChatCraft",
+    "ITEMS": [
+      "2-minutters oppsett",
+      "AI trent på din bedrift",
+      "Fang opp flere leads automatisk",
+      "Øk kundeengasjementet",
+      "Reduser arbeidsmengden i support",
+      "Tilgjengelig døgnet rundt",
+      "Fungerer på alle nettsider",
+      "Vokser med bedriften din"
+    ]
+  },
+  "CTA": {
+    "HEADING": "Se det fungere med ditt eget innhold",
+    "SUBHEADING": "Book en gratis demo, så setter vi opp FAQ-er, dokumenter og katalog sammen."
+  }
+}

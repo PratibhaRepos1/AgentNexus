@@ -1,0 +1,130 @@
+{
+  "SEO": {
+    "TITLE": "Priser",
+    "DESCRIPTION": "Enkel, ærlig prising fra ChatCraft — en reelt brukbar gratis plan, pluss Basic-, Business- og Vekst-nivåer for voksende bedrifter."
+  },
+  "PAGE_HERO": {
+    "LINE1": "Enkel,",
+    "LINE2": "ærlig prising",
+    "SUBHEADING": "Start gratis. Betal først når ChatCraft faktisk gjør nytte for seg."
+  },
+  "MOST_POPULAR_BADGE": "⭐ Mest populær",
+  "PLANS": [
+    {
+      "NAME": "Gratis",
+      "PRICE_USD": 0,
+      "PERIOD": "for alltid",
+      "TAGLINE": "Prøv den for ordentlig, ingen kortdetaljer nødvendig.",
+      "CTA": "Start gratis",
+      "FEATURED": false,
+      "FEATURES": [
+        "1 nettside",
+        "50 AI-samtaler/mnd",
+        "Kunnskapsbase",
+        "2 dokumentopplastinger",
+        "Leadfangst",
+        "Grunnleggende analyse",
+        "10 produkter i katalogen",
+        "7 dagers samtalehistorikk",
+        "E-postvarsler"
+      ]
+    },
+    {
+      "NAME": "Basic",
+      "PRICE_USD": 24,
+      "PERIOD": "/mnd",
+      "TAGLINE": "For én bedrift som finner sin form.",
+      "CTA": "Velg Basic",
+      "FEATURED": false,
+      "FEATURES": [
+        "1 nettside",
+        "1 000 AI-samtaler/mnd",
+        "Kunnskapsbase",
+        "20 dokumentopplastinger",
+        "Leadfangst",
+        "Standard analyse",
+        "100 produkter i katalogen",
+        "90 dagers samtalehistorikk",
+        "E-postvarsler",
+        "2 språk",
+        "Flervaluta",
+        "Tilpasset merkevare"
+      ]
+    },
+    {
+      "NAME": "Business",
+      "PRICE_USD": 48,
+      "PERIOD": "/mnd",
+      "TAGLINE": "De fleste bedrifter lander her.",
+      "CTA": "Velg Business",
+      "FEATURED": true,
+      "FEATURES": [
+        "3 nettsider",
+        "5 000 AI-samtaler/mnd",
+        "Kunnskapsbase",
+        "Ubegrensede dokumentopplastinger",
+        "Leadfangst",
+        "Avansert analyse",
+        "Ubegrenset antall produkter",
+        "Ubegrenset samtalehistorikk",
+        "E-post- og WhatsApp-varsler",
+        "Instagram-integrasjon",
+        "Ubegrenset antall språk",
+        "Flervaluta",
+        "Tilpasset merkevare",
+        "API-tilgang (+$12/mnd tillegg)",
+        "Prioritert support"
+      ]
+    },
+    {
+      "NAME": "Vekst",
+      "PRICE_USD": 96,
+      "PERIOD": "/mnd",
+      "TAGLINE": "For bedrifter med flere lokasjoner eller høy trafikk.",
+      "CTA": "Velg Vekst",
+      "FEATURED": false,
+      "FEATURES": [
+        "10 nettsider",
+        "20 000 AI-samtaler/mnd",
+        "Kunnskapsbase",
+        "Ubegrensede dokumentopplastinger",
+        "Leadfangst",
+        "Avansert analyse",
+        "Ubegrenset antall produkter",
+        "Ubegrenset samtalehistorikk",
+        "E-post- og WhatsApp-varsler",
+        "Instagram-integrasjon",
+        "Ubegrenset antall språk",
+        "Flervaluta",
+        "Tilpasset merkevare",
+        "API-tilgang inkludert",
+        "Prioritert support"
+      ]
+    }
+  ],
+  "FAQ": {
+    "HEADING": "Vanlige spørsmål om fakturering",
+    "ITEMS": [
+      {
+        "Q": "Hva skjer hvis jeg overskrider den månedlige samtalegrensen?",
+        "A": "Widgeten din fortsetter å fungere — ingenting stenges midt i måneden. Ekstra samtaler på betalte planer faktureres med $1,20 per ekstra 100 samtaler. Gratisplanen er den eneste som settes på pause ved grensen, siden den er ment som en smakebit på produktet."
+      },
+      {
+        "Q": "Kan jeg betale årlig?",
+        "A": "Ja — alle betalte planer er tilgjengelige med årlig fakturering, til omtrent 2 måneder gratis (betal for 10, få 12)."
+      },
+      {
+        "Q": "Kan jeg bytte plan senere?",
+        "A": "Oppgraderinger trer i kraft umiddelbart og avregnes forholdsmessig. Nedgraderinger trer i kraft ved neste faktureringsperiode, slik at du beholder det du allerede har betalt for."
+      },
+      {
+        "Q": "Er gratisplanen virkelig gratis for alltid?",
+        "A": "Ja. Den er bevisst begrenset (1 nettside, 50 samtaler/mnd) slik at du kan prøve produktet fullt ut — ikke en tidsbegrenset prøveperiode."
+      }
+    ]
+  },
+  "CTA": {
+    "HEADING": "Fortsatt usikker?",
+    "SUBHEADING": "Book en gratis demo, så hjelper vi deg å velge riktig plan."
+  }
+}

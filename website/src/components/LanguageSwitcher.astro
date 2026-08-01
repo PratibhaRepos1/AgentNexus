@@ -1,0 +1,70 @@
+---
+// Renders one button per entry in SUPPORTED_LANGUAGES, so adding a language to the
+// registry in translationService.ts is enough to add it here too — no markup changes.
+import { SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE } from "../lib/i18n/translationService";
+
+const BASE_CLASSES = "lang-switch-btn rounded-full px-2.5 py-1 text-xs font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500";
+const ACTIVE_CLASSES = "bg-slate-900 text-white shadow-sm";
+const INACTIVE_CLASSES = "text-slate-500 hover:text-slate-900";
+---
+
+<div
+  class="inline-flex items-center gap-0.5 rounded-full border border-slate-200 bg-white/70 p-0.5"
+  role="group"
+  aria-label="Language"
+  data-i18n-attr="aria-label:LANGUAGE.SWITCH_LABEL"
+>
+  {
+    SUPPORTED_LANGUAGES.map((lang) => (
+      <button
+        type="button"
+        class:list={[BASE_CLASSES, lang.code === DEFAULT_LANGUAGE ? ACTIVE_CLASSES : INACTIVE_CLASSES]}
+        data-lang={lang.code}
+        aria-pressed={lang.code === DEFAULT_LANGUAGE ? "true" : "false"}
+        aria-label={lang.name}
+      >
+        {lang.label}
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  import { switchLanguage, getStoredLanguage, SUPPORTED_LANGUAGES, LANG_CHANGE_EVENT, type LanguageCode } from "../lib/i18n/translationService";
+  import { setCurrency } from "../stores/currencyStore";
+
+  const BASE = "lang-switch-btn rounded-full px-2.5 py-1 text-xs font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500";
+  const ACTIVE = "bg-slate-900 text-white shadow-sm";
+  const INACTIVE = "text-slate-500 hover:text-slate-900";
+
+  function currentPage(): string | undefined {
+    return (window as { __CHATCRAFT_PAGE__?: string }).__CHATCRAFT_PAGE__;
+  }
+
+  function setActiveButtons(lang: string): void {
+    document.querySelectorAll<HTMLButtonElement>(".lang-switch-btn").forEach((btn) => {
+      const isActive = btn.dataset.lang === lang;
+      btn.className = `${BASE} ${isActive ? ACTIVE : INACTIVE}`;
+      btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+  }
+
+  document.querySelectorAll<HTMLButtonElement>(".lang-switch-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const lang = btn.dataset.lang as LanguageCode | undefined;
+      if (!lang) return;
+      setActiveButtons(lang);
+      void switchLanguage(lang, currentPage());
+      // Currency follows language as one combined switch — see SUPPORTED_LANGUAGES.
+      const currency = SUPPORTED_LANGUAGES.find((l) => l.code === lang)?.currency;
+      if (currency) setCurrency(currency);
+    });
+  });
+
+  document.addEventListener(LANG_CHANGE_EVENT, (event) => {
+    const lang = (event as CustomEvent<{ lang: LanguageCode }>).detail?.lang;
+    if (lang) setActiveButtons(lang);
+  });
+
+  setActiveButtons(getStoredLanguage());
+</script>

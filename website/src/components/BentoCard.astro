@@ -2,8 +2,10 @@
 interface Props {
   title: string;
   description: string;
+  titleKey?: string;
+  descriptionKey?: string;
 }
-const { title, description } = Astro.props;
+const { title, description, titleKey, descriptionKey } = Astro.props;
 const hasDetails = Astro.slots.has("details");
 ---
 
@@ -11,8 +13,8 @@ const hasDetails = Astro.slots.has("details");
   <div class="brand-gradient flex h-44 items-center justify-center rounded-2xl p-5 shadow-sm shadow-violet-200">
     <slot />
   </div>
-  <h3 class="font-display mt-5 text-lg font-semibold text-slate-900">{title}</h3>
-  <p class="mt-2 text-sm leading-relaxed text-slate-500">{description}</p>
+  <h3 class="font-display mt-5 text-lg font-semibold text-slate-900" data-i18n={titleKey}>{title}</h3>
+  <p class="mt-2 text-sm leading-relaxed text-slate-500" data-i18n={descriptionKey}>{description}</p>
   {
     hasDetails && (
       <div class="mt-4 rounded-2xl bg-blue-50 p-4">

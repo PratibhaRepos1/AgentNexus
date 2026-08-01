@@ -3,17 +3,21 @@ interface Props {
   line1: string;
   line2: string;
   subheading: string;
+  /** Dot-path translation keys (within the page's JSON) for each string above. */
+  line1Key?: string;
+  line2Key?: string;
+  subheadingKey?: string;
 }
-const { line1, line2, subheading } = Astro.props;
+const { line1, line2, subheading, line1Key, line2Key, subheadingKey } = Astro.props;
 ---
 
 <section class="mx-auto max-w-[1440px] px-6 pt-12">
   <div class="brand-gradient relative overflow-hidden rounded-3xl px-8 py-16 text-center shadow-xl shadow-violet-200">
     <h1 class="font-display text-4xl font-extrabold leading-tight text-white sm:text-5xl">
-      {line1} <br class="hidden sm:block" />
-      {line2}
+      <span data-i18n={line1Key}>{line1}</span> <br class="hidden sm:block" />
+      <span data-i18n={line2Key}>{line2}</span>
     </h1>
-    <p class="mx-auto mt-4 max-w-xl text-lg text-indigo-50">{subheading}</p>
+    <p class="mx-auto mt-4 max-w-xl text-lg text-indigo-50" data-i18n={subheadingKey}>{subheading}</p>
     <slot name="extra" />
   </div>
 </section>
