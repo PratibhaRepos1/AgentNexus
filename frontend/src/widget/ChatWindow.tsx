@@ -33,6 +33,7 @@ export function ChatWindow({
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [showLeadForm, setShowLeadForm] = useState(false)
+  const [inputFocused, setInputFocused] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
@@ -98,6 +99,7 @@ export function ChatWindow({
             <LeadForm
               businessId={businessId}
               sessionId={sessionId.current}
+              primaryColor={primaryColor}
               apiBaseUrl={apiBaseUrl}
               onSubmitted={() => {
                 setShowLeadForm(false)
@@ -111,11 +113,14 @@ export function ChatWindow({
 
       <div className="border-t border-gray-100 px-3 py-3 flex gap-2">
         <input
-          className="flex-1 rounded-full border border-gray-300 px-4 py-2 text-sm outline-none focus:border-brand-400"
+          className="flex-1 rounded-full border px-4 py-2 text-sm outline-none"
+          style={{ borderColor: inputFocused ? primaryColor : '#d1d5db' }}
           placeholder="Type a message…"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && send()}
+          onFocus={() => setInputFocused(true)}
+          onBlur={() => setInputFocused(false)}
         />
         <button
           onClick={send}

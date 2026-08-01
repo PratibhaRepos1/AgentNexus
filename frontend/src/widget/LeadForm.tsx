@@ -3,13 +3,15 @@ import { useState } from 'react'
 interface Props {
   businessId: string
   sessionId: string
+  primaryColor?: string
   apiBaseUrl?: string
   onSubmitted: () => void
 }
 
 const DEFAULT_API_BASE_URL = 'http://localhost:8000'
+const DEFAULT_PRIMARY_COLOR = '#ff6b00'
 
-export function LeadForm({ businessId, sessionId, apiBaseUrl = DEFAULT_API_BASE_URL, onSubmitted }: Props) {
+export function LeadForm({ businessId, sessionId, primaryColor = DEFAULT_PRIMARY_COLOR, apiBaseUrl = DEFAULT_API_BASE_URL, onSubmitted }: Props) {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
   const [loading, setLoading] = useState(false)
 
@@ -43,7 +45,8 @@ export function LeadForm({ businessId, sessionId, apiBaseUrl = DEFAULT_API_BASE_
       <input className="w-full rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm" placeholder="Message (optional)"
         value={form.message} onChange={set('message')} />
       <button type="submit" disabled={loading}
-        className="w-full bg-brand-500 text-white text-sm py-1.5 rounded-lg hover:bg-brand-600 disabled:opacity-50">
+        className="w-full text-white text-sm py-1.5 rounded-lg transition-[filter] hover:brightness-90 disabled:opacity-50"
+        style={{ backgroundColor: primaryColor }}>
         {loading ? 'Sending…' : 'Send'}
       </button>
     </form>

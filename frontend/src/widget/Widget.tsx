@@ -22,17 +22,20 @@ export function Widget({
 }: Props) {
   const [open, setOpen] = useState(false)
   const [fetchedWelcomeMessage, setFetchedWelcomeMessage] = useState<string | null>(null)
+  const [fetchedPrimaryColor, setFetchedPrimaryColor] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
     fetch(`${apiBaseUrl}/api/businesses/${businessId}/public-settings`)
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        if (!cancelled && data?.welcome_message) setFetchedWelcomeMessage(data.welcome_message)
+        if (cancelled) return
+        if (data?.welcome_message) setFetchedWelcomeMessage(data.welcome_message)
+        if (data?.primary_color) setFetchedPrimaryColor(data.primary_color)
       })
       .catch(() => {
-        // Silently keep the default/prop welcome message if this fails —
-        // never block the widget from opening over a settings fetch error.
+        // Silently keep the default/prop values if this fails — never block
+        // the widget from opening over a settings fetch error.
       })
     return () => {
       cancelled = true
@@ -40,12 +43,16 @@ export function Widget({
   }, [apiBaseUrl, businessId])
 
   const resolvedWelcomeMessage = fetchedWelcomeMessage ?? welcomeMessage ?? DEFAULT_WELCOME_MESSAGE
+  // The dashboard-saved color (fetched above) wins over the script tag's data-color, so
+  // picking a color in Settings applies to the live widget with no embed-code edits. The
+  // data-color attribute still works as a manual override if the fetch fails or is skipped.
+  const resolvedPrimaryColor = fetchedPrimaryColor ?? primaryColor
 
   return (
     <div className="fixed bottom-5 right-5 z-[9999] flex flex-col items-end gap-3">
       {open && (
         <div className="w-[360px] h-[520px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200 animate-in slide-in-from-bottom-4">
-          <div className="px-4 py-3 flex items-center justify-between flex-shrink-0" style={{ backgroundColor: primaryColor }}>
+          <div className="px-4 py-3 flex items-center justify-between flex-shrink-0" style={{ backgroundColor: resolvedPrimaryColor }}>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-400 rounded-full" />
               <span className="text-white text-sm font-medium">{botName}</span>
@@ -54,14 +61,14 @@ export function Widget({
               <X size={18} />
             </button>
           </div>
-          <ChatWindow businessId={businessId} primaryColor={primaryColor} welcomeMessage={resolvedWelcomeMessage} apiBaseUrl={apiBaseUrl} />
+          <ChatWindow businessId={businessId} primaryColor={resolvedPrimaryColor} welcomeMessage={resolvedWelcomeMessage} apiBaseUrl={apiBaseUrl} />
         </div>
       )}
 
       <button
         onClick={() => setOpen((o) => !o)}
         className="w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-white hover:scale-105 transition-transform"
-        style={{ backgroundColor: primaryColor }}
+        style={{ backgroundColor: resolvedPrimaryColor }}
         aria-label={open ? 'Close chat' : 'Open chat'}
       >
         {open ? <X size={22} /> : <MessageCircle size={22} />}

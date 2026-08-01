@@ -34,6 +34,7 @@ class BusinessSettingsOut(BaseModel):
 
 class PublicBusinessSettingsOut(BaseModel):
     welcome_message: str
+    primary_color: str
 
     class Config:
         from_attributes = True
