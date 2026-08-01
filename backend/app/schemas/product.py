@@ -18,6 +18,7 @@ class ProductUpdate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
     price: Optional[Decimal] = None
+    currency: Optional[str] = None
     image_url: Optional[str] = None
     category: Optional[str] = None
     is_active: Optional[bool] = None

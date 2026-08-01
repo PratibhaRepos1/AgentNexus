@@ -3,6 +3,7 @@ from ..models.conversation import Conversation, Message
 from ..models.business import Business, BusinessSettings
 from ..schemas.chat import ChatMessageRequest, ChatMessageResponse
 from ..rag.pipeline import run_rag
+from ..services import plan_service
 from fastapi import HTTPException
 
 HISTORY_LIMIT = 6
@@ -26,6 +27,9 @@ async def handle_message(db: Session, req: ChatMessageRequest) -> ChatMessageRes
     ).first()
 
     if not conversation:
+        # Only a brand-new conversation counts against the monthly cap --
+        # a session that's already underway is never cut off mid-thread.
+        plan_service.check_conversation_limit(db, business)
         conversation = Conversation(
             business_id=req.business_id,
             session_id=req.session_id,

@@ -17,6 +17,11 @@ class Business(Base):
     primary_color = Column(Text, default="#ff6b00")
     plan = Column(Text, default="free")
     status = Column(Text, default="trial")
+    # Business-tier customers can unlock API access as a paid add-on
+    # (Growth includes it for free -- see app/core/plans.py). Both default
+    # False/None since no plan grants them by default.
+    api_access_addon = Column(Boolean, default=False)
+    api_key = Column(Text, nullable=True)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     updated_at = Column(
         DateTime(timezone=True),
@@ -31,6 +36,7 @@ class Business(Base):
     conversations = relationship("Conversation", back_populates="business")
     leads = relationship("Lead", back_populates="business")
     settings = relationship("BusinessSettings", back_populates="business", uselist=False)
+    websites = relationship("BusinessWebsite", back_populates="business", cascade="all, delete-orphan")
 
 
 class BusinessSettings(Base):

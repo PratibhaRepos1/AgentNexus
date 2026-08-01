@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, MessageSquare, BookOpen, FileText, ShoppingBag, Users, Settings, LogOut } from 'lucide-react'
+import { LayoutDashboard, MessageSquare, BookOpen, FileText, ShoppingBag, Users, Settings, CreditCard, LogOut } from 'lucide-react'
 import { useAuthStore } from '../../shared/store/authStore'
 import { clsx } from 'clsx'
 
@@ -10,6 +10,7 @@ const nav = [
   { to: '/dashboard/documents', icon: FileText, label: 'Documents', color: 'text-amber-500' },
   { to: '/dashboard/products', icon: ShoppingBag, label: 'Products', color: 'text-indigo-500' },
   { to: '/dashboard/leads', icon: Users, label: 'Leads', color: 'text-pink-500' },
+  { to: '/dashboard/plan', icon: CreditCard, label: 'Plan & Billing', color: 'text-orange-500' },
   { to: '/dashboard/settings', icon: Settings, label: 'Settings', color: 'text-slate-500' },
 ]
 
@@ -20,7 +21,7 @@ export function Sidebar() {
     <aside className="w-60 flex-shrink-0 bg-white border-r border-slate-200 flex flex-col">
       <div className="px-6 py-5 border-b border-slate-100">
         <span className="text-2xl font-bold tracking-tight">
-          Chat<span className="brand-gradient-text">Biz</span>
+          Agent<span className="brand-gradient-text">Nexus</span>
         </span>
       </div>
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">

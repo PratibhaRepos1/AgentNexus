@@ -1,13 +1,16 @@
 import { useQuery } from '@tanstack/react-query'
+import { Link } from 'react-router-dom'
 import { api } from '../../shared/api/client'
 import { Card } from '../../shared/components/Card'
-import { MessageSquare, Users, TrendingUp, Code } from 'lucide-react'
+import { MessageSquare, Users, TrendingUp, Code, Lock } from 'lucide-react'
 
 interface Summary {
   conversation_count: number
   lead_count: number
   message_count: number
+  analytics_tier: 'basic' | 'standard' | 'advanced'
   top_questions: { question: string; count: number }[]
+  intent_breakdown: Record<string, number>
 }
 
 interface Business {
@@ -61,6 +64,16 @@ export function DashboardPage() {
         ))}
       </div>
 
+      {summary?.analytics_tier === 'basic' && (
+        <Card title="Top visitor questions">
+          <div className="flex items-center gap-3 text-base text-slate-500">
+            <Lock size={16} className="flex-shrink-0" />
+            <span className="flex-1">Question breakdowns are available on the Basic plan and up.</span>
+            <Link to="/dashboard/plan" className="font-semibold text-brand-600 underline">Upgrade</Link>
+          </div>
+        </Card>
+      )}
+
       {summary && summary.top_questions.length > 0 && (
         <Card title="Top visitor questions">
           <ul className="space-y-2">
@@ -79,6 +92,19 @@ export function DashboardPage() {
               </li>
             ))}
           </ul>
+        </Card>
+      )}
+
+      {summary?.analytics_tier === 'advanced' && Object.keys(summary.intent_breakdown).length > 0 && (
+        <Card title="Conversation intent breakdown">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {Object.entries(summary.intent_breakdown).map(([intent, count]) => (
+              <div key={intent} className="rounded-xl bg-slate-50 p-3 text-center">
+                <p className="text-2xl font-bold text-slate-900">{count}</p>
+                <p className="text-sm capitalize text-slate-500">{intent.replace('_', ' ')}</p>
+              </div>
+            ))}
+          </div>
         </Card>
       )}
 

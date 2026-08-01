@@ -4,6 +4,8 @@ import { api } from '../../shared/api/client'
 import { Card } from '../../shared/components/Card'
 import { Button } from '../../shared/components/Button'
 import { Input } from '../../shared/components/Input'
+import { UsageMeter } from '../../shared/components/UsageMeter'
+import { usePlan } from '../../shared/hooks/usePlan'
 import { Upload, Trash2, FileText, Link2, Loader2, CheckCircle, AlertCircle } from 'lucide-react'
 
 interface Doc {
@@ -30,6 +32,9 @@ export function DocumentsPage() {
     queryKey: ['documents'],
     queryFn: () => api.get('/documents').then((r) => r.data),
   })
+  const { data: plan } = usePlan()
+  const docLimit = plan?.limits.max_document_uploads ?? null
+  const atDocLimit = docLimit !== null && docs.length >= docLimit
 
   const uploadMut = useMutation({
     mutationFn: (file: File) => {
@@ -77,11 +82,18 @@ export function DocumentsPage() {
           <h1 className="text-4xl font-bold text-slate-900">Documents</h1>
           <p className="text-base text-slate-500 mt-1">Upload PDF, Word, Excel, CSV, or TXT files to train your chatbot.</p>
         </div>
-        <Button size="sm" loading={uploadMut.isPending} onClick={() => fileRef.current?.click()}>
+        <Button size="sm" loading={uploadMut.isPending} disabled={atDocLimit} onClick={() => fileRef.current?.click()}>
           <Upload size={16} className="mr-1" /> Upload
         </Button>
         <input ref={fileRef} type="file" accept=".pdf,.docx,.txt,.csv,.xlsx" className="hidden" onChange={handleFile} />
       </div>
+
+      <UsageMeter label="Document uploads" used={docs.length} limit={docLimit} />
+      {uploadMut.isError && (
+        <p className="text-sm text-red-600">
+          {(uploadMut.error as any)?.response?.data?.detail ?? 'Could not upload that file.'}
+        </p>
+      )}
 
       <Card title="Fetch from a web page">
         <p className="text-base text-slate-500 mb-3">

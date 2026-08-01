@@ -1,4 +1,5 @@
 from .business import Business, BusinessSettings
+from .website import BusinessWebsite
 from .user import User
 from .faq import FAQ
 from .document import Document, DocumentChunk
@@ -8,7 +9,7 @@ from .lead import Lead
 from .password_reset_token import PasswordResetToken
 
 __all__ = [
-    "Business", "BusinessSettings", "User", "FAQ",
+    "Business", "BusinessSettings", "BusinessWebsite", "User", "FAQ",
     "Document", "DocumentChunk", "Product",
     "Conversation", "Message", "Lead",
     "PasswordResetToken",

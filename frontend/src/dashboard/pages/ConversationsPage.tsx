@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { Link } from 'react-router-dom'
+import { Clock } from 'lucide-react'
 import { api } from '../../shared/api/client'
 import { Card } from '../../shared/components/Card'
+import { usePlan } from '../../shared/hooks/usePlan'
 import { MessageSquare, ChevronDown, ChevronUp, Trash2 } from 'lucide-react'
 import { clsx } from 'clsx'
 
@@ -27,6 +30,8 @@ export function ConversationsPage() {
     queryFn: () => api.get('/chat/conversations').then((r) => r.data),
   })
   const [open, setOpen] = useState<string | null>(null)
+  const { data: plan } = usePlan()
+  const historyDays = plan?.limits.conversation_history_days ?? null
 
   const deleteMut = useMutation({
     mutationFn: (id: string) => api.delete(`/chat/conversations/${id}`),
@@ -45,6 +50,19 @@ export function ConversationsPage() {
         <h1 className="text-4xl font-bold text-slate-900">Conversations</h1>
         <p className="text-base text-slate-500 mt-1">All chat sessions with your website visitors.</p>
       </div>
+
+      {historyDays !== null && (
+        <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-500">
+          <Clock size={16} className="flex-shrink-0" />
+          <span className="flex-1">
+            Showing conversations from the last {historyDays} days — that's your plan's history limit. Older
+            conversations aren't deleted, just hidden until you upgrade.
+          </span>
+          <Link to="/dashboard/plan" className="font-semibold text-brand-600 underline flex-shrink-0">
+            Upgrade
+          </Link>
+        </div>
+      )}
 
       <div className="space-y-3">
         {conversations.map((conv) => (

@@ -1,4 +1,4 @@
-from typing import Optional, Any
+from typing import Optional, Any, List
 from uuid import UUID
 from pydantic import BaseModel
 
@@ -24,7 +24,7 @@ class BusinessSettingsOut(BaseModel):
     business_hours: Any
     contact_email: Optional[str]
     contact_phone: Optional[str]
-    languages: Any
+    languages: List[str]
     llm_provider: str
     llm_model: Optional[str]
 
@@ -47,6 +47,7 @@ class BusinessSettingsUpdate(BaseModel):
     business_hours: Optional[Any] = None
     contact_email: Optional[str] = None
     contact_phone: Optional[str] = None
+    languages: Optional[List[str]] = None
     llm_provider: Optional[str] = None
     llm_model: Optional[str] = None
 

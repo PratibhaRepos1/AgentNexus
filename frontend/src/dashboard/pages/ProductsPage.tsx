@@ -4,6 +4,8 @@ import { api } from '../../shared/api/client'
 import { Card } from '../../shared/components/Card'
 import { Button } from '../../shared/components/Button'
 import { Input } from '../../shared/components/Input'
+import { UsageMeter } from '../../shared/components/UsageMeter'
+import { usePlan } from '../../shared/hooks/usePlan'
 import { Plus, Pencil, Trash2 } from 'lucide-react'
 
 interface Product {
@@ -24,6 +26,10 @@ export function ProductsPage() {
     queryKey: ['products'],
     queryFn: () => api.get('/products').then((r) => r.data),
   })
+  const { data: plan } = usePlan()
+  const productLimit = plan?.limits.max_products ?? null
+  const atProductLimit = productLimit !== null && products.length >= productLimit
+  const multiCurrencyAllowed = !!plan?.features.multi_currency
 
   const [adding, setAdding] = useState(false)
   const [editId, setEditId] = useState<string | null>(null)
@@ -58,7 +64,13 @@ export function ProductsPage() {
       <Input label="Name" value={form.name} onChange={set('name')} className="col-span-2" />
       <Input label="Description" value={form.description} onChange={set('description')} className="col-span-2" />
       <Input label="Price" type="number" value={form.price} onChange={set('price')} />
-      <Input label="Currency" value={form.currency} onChange={set('currency')} />
+      <Input
+        label="Currency"
+        value={form.currency}
+        onChange={set('currency')}
+        disabled={!multiCurrencyAllowed}
+        title={!multiCurrencyAllowed ? 'Upgrade your plan to price products in other currencies.' : undefined}
+      />
       <Input label="Category" value={form.category} onChange={set('category')} className="col-span-2" />
     </div>
   )
@@ -70,8 +82,10 @@ export function ProductsPage() {
           <h1 className="text-4xl font-bold text-slate-900">Products & Services</h1>
           <p className="text-base text-slate-500 mt-1">Help your chatbot answer product questions.</p>
         </div>
-        <Button size="sm" onClick={() => setAdding(true)}><Plus size={16} className="mr-1" />Add</Button>
+        <Button size="sm" disabled={atProductLimit} onClick={() => setAdding(true)}><Plus size={16} className="mr-1" />Add</Button>
       </div>
+
+      <UsageMeter label="Products in catalog" used={products.length} limit={productLimit} />
 
       {adding && (
         <Card title="New product / service">
@@ -81,6 +95,11 @@ export function ProductsPage() {
               <Button size="sm" loading={createMut.isPending} onClick={() => createMut.mutate(form)}>Save</Button>
               <Button size="sm" variant="secondary" onClick={() => { setAdding(false); setForm(emptyForm) }}>Cancel</Button>
             </div>
+            {createMut.isError && (
+              <p className="text-sm text-red-600">
+                {(createMut.error as any)?.response?.data?.detail ?? 'Could not save that product.'}
+              </p>
+            )}
           </div>
         </Card>
       )}

@@ -11,7 +11,7 @@ from .core.config import settings
 from .core.cors import PublicRouteCORSMiddleware
 from .core.database import Base, engine
 from .core.limiter import limiter
-from .api import auth, businesses, faqs, documents, products, chat, leads, analytics
+from .api import auth, businesses, faqs, documents, products, chat, leads, analytics, websites
 
 Base.metadata.create_all(bind=engine)
 
@@ -56,6 +56,7 @@ app.include_router(products.router)
 app.include_router(chat.router)
 app.include_router(leads.router)
 app.include_router(analytics.router)
+app.include_router(websites.router)
 
 os.makedirs(settings.upload_dir, exist_ok=True)
 

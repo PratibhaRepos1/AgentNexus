@@ -6,6 +6,8 @@ import { api } from '../../shared/api/client'
 import { Card } from '../../shared/components/Card'
 import { Button } from '../../shared/components/Button'
 import { Input } from '../../shared/components/Input'
+import { PlanGate } from '../../shared/components/PlanGate'
+import { usePlan } from '../../shared/hooks/usePlan'
 
 interface Settings {
   tone: string
@@ -13,9 +15,23 @@ interface Settings {
   fallback_message: string
   contact_email: string | null
   contact_phone: string | null
+  languages: string[]
   llm_provider: string
   llm_model: string | null
 }
+
+// Small curated list rather than every ISO code -- keeps the picker usable;
+// extend as real demand shows up.
+const AVAILABLE_LANGUAGES = [
+  { code: 'en', label: 'English' },
+  { code: 'es', label: 'Spanish' },
+  { code: 'fr', label: 'French' },
+  { code: 'de', label: 'German' },
+  { code: 'no', label: 'Norwegian' },
+  { code: 'pt', label: 'Portuguese' },
+  { code: 'hi', label: 'Hindi' },
+  { code: 'zh', label: 'Chinese' },
+]
 
 interface Business {
   primary_color: string
@@ -70,6 +86,25 @@ export function SettingsPage() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ['business'] }),
   })
 
+  const { data: plan } = usePlan()
+  const customBrandingAllowed = !!plan?.features.custom_branding
+  const maxLanguages = plan?.limits.max_languages ?? 1
+
+  const languages = form.languages ?? ['en']
+  const toggleLanguage = (code: string) => {
+    const has = languages.includes(code)
+    if (has) {
+      setForm((f) => ({ ...f, languages: languages.filter((l) => l !== code) }))
+    } else if (languages.length < maxLanguages) {
+      setForm((f) => ({ ...f, languages: [...languages, code] }))
+    }
+  }
+
+  const languagesMut = useMutation({
+    mutationFn: (langs: string[]) => api.patch('/businesses/me/settings', { languages: langs }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['settings'] }),
+  })
+
   return (
     <div className="space-y-6 max-w-2xl">
       <div>
@@ -100,68 +135,116 @@ export function SettingsPage() {
 
       <Card title="Widget Appearance">
         <div className="space-y-4">
-          <div>
-            <label className="block text-base font-medium text-slate-700 mb-2">Widget color</label>
-            <div className="flex flex-wrap gap-2" role="group" aria-label="Preset widget colors">
-              {PRESET_COLORS.map((swatch) => {
-                const active = color.toLowerCase() === swatch.toLowerCase()
-                return (
-                  <button
-                    key={swatch}
-                    type="button"
-                    onClick={() => setColor(swatch)}
-                    aria-label={`Use ${swatch}`}
-                    aria-pressed={active}
-                    className={clsx(
-                      'h-8 w-8 rounded-full border-2 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500',
-                      active ? 'border-slate-900 scale-110' : 'border-transparent hover:scale-105'
-                    )}
-                    style={{ backgroundColor: swatch }}
-                  />
-                )
-              })}
-            </div>
-          </div>
-
-          <div className="flex items-end gap-4">
+          {!customBrandingAllowed && <PlanGate feature="custom_branding"><span /></PlanGate>}
+          <div className={clsx(!customBrandingAllowed && 'pointer-events-none opacity-40')}>
             <div>
-              <label htmlFor="custom-widget-color" className="block text-base font-medium text-slate-700 mb-1">
-                Custom color
-              </label>
-              <input
-                id="custom-widget-color"
-                type="color"
-                value={isValidColor ? color : '#ff6b00'}
-                onChange={(e) => setColor(e.target.value)}
-                aria-label="Pick a custom widget color"
-                className="h-10 w-14 cursor-pointer rounded-lg border border-slate-300"
-              />
-            </div>
-
-            <Input
-              label="Hex value"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-              placeholder="#ff6b00"
-              error={!isValidColor ? 'Enter a valid hex color, e.g. #ff6b00' : undefined}
-              className="w-32"
-            />
-
-            <div className="flex flex-col items-center gap-1 pb-1">
-              <span className="text-sm text-slate-500">Preview</span>
-              <div
-                className="flex h-10 w-10 items-center justify-center rounded-full text-white shadow-sm"
-                style={{ backgroundColor: isValidColor ? color : '#e2e8f0' }}
-              >
-                <MessageCircle size={18} />
+              <label className="block text-base font-medium text-slate-700 mb-2">Widget color</label>
+              <div className="flex flex-wrap gap-2" role="group" aria-label="Preset widget colors">
+                {PRESET_COLORS.map((swatch) => {
+                  const active = color.toLowerCase() === swatch.toLowerCase()
+                  return (
+                    <button
+                      key={swatch}
+                      type="button"
+                      onClick={() => setColor(swatch)}
+                      aria-label={`Use ${swatch}`}
+                      aria-pressed={active}
+                      className={clsx(
+                        'h-8 w-8 rounded-full border-2 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500',
+                        active ? 'border-slate-900 scale-110' : 'border-transparent hover:scale-105'
+                      )}
+                      style={{ backgroundColor: swatch }}
+                    />
+                  )
+                })}
               </div>
             </div>
-          </div>
 
-          <Button loading={colorMut.isPending} disabled={!isValidColor} onClick={() => colorMut.mutate(color)}>
-            Save appearance
-          </Button>
+            <div className="flex items-end gap-4 mt-4">
+              <div>
+                <label htmlFor="custom-widget-color" className="block text-base font-medium text-slate-700 mb-1">
+                  Custom color
+                </label>
+                <input
+                  id="custom-widget-color"
+                  type="color"
+                  value={isValidColor ? color : '#ff6b00'}
+                  onChange={(e) => setColor(e.target.value)}
+                  aria-label="Pick a custom widget color"
+                  className="h-10 w-14 cursor-pointer rounded-lg border border-slate-300"
+                />
+              </div>
+
+              <Input
+                label="Hex value"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+                placeholder="#ff6b00"
+                error={!isValidColor ? 'Enter a valid hex color, e.g. #ff6b00' : undefined}
+                className="w-32"
+              />
+
+              <div className="flex flex-col items-center gap-1 pb-1">
+                <span className="text-sm text-slate-500">Preview</span>
+                <div
+                  className="flex h-10 w-10 items-center justify-center rounded-full text-white shadow-sm"
+                  style={{ backgroundColor: isValidColor ? color : '#e2e8f0' }}
+                >
+                  <MessageCircle size={18} />
+                </div>
+              </div>
+            </div>
+
+            <Button className="mt-4" loading={colorMut.isPending} disabled={!isValidColor} onClick={() => colorMut.mutate(color)}>
+              Save appearance
+            </Button>
+          </div>
           {colorMut.isSuccess && <p className="text-base text-green-600">Widget color saved!</p>}
+          {colorMut.isError && (
+            <p className="text-base text-red-600">
+              {(colorMut.error as any)?.response?.data?.detail ?? 'Could not save widget color.'}
+            </p>
+          )}
+        </div>
+      </Card>
+
+      <Card title="Languages">
+        <div className="space-y-3">
+          <p className="text-sm text-slate-500">
+            {languages.length} / {plan?.limits.max_languages ?? '—'} language{maxLanguages === 1 ? '' : 's'} selected
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {AVAILABLE_LANGUAGES.map(({ code, label }) => {
+              const active = languages.includes(code)
+              const disabled = !active && languages.length >= maxLanguages
+              return (
+                <button
+                  key={code}
+                  type="button"
+                  disabled={disabled}
+                  onClick={() => toggleLanguage(code)}
+                  className={clsx(
+                    'rounded-full border px-3 py-1.5 text-sm font-medium transition',
+                    active
+                      ? 'brand-gradient border-transparent text-white'
+                      : disabled
+                        ? 'border-slate-200 text-slate-300 cursor-not-allowed'
+                        : 'border-slate-300 text-slate-600 hover:bg-slate-50'
+                  )}
+                >
+                  {label}
+                </button>
+              )
+            })}
+          </div>
+          <Button
+            size="sm"
+            loading={languagesMut.isPending}
+            onClick={() => languagesMut.mutate(languages)}
+          >
+            Save languages
+          </Button>
+          {languagesMut.isSuccess && <p className="text-base text-green-600">Languages saved!</p>}
         </div>
       </Card>
 

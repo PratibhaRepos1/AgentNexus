@@ -1,29 +1,4 @@
-import pytest
-from fastapi.testclient import TestClient
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from app.main import app
-from app.core.database import Base, get_db
-
-TEST_DB_URL = "sqlite:///./test.db"
-engine = create_engine(TEST_DB_URL, connect_args={"check_same_thread": False})
-TestingSession = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base.metadata.create_all(bind=engine)
-
-
-def override_db():
-    db = TestingSession()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-app.dependency_overrides[get_db] = override_db
-client = TestClient(app)
-
-
-def test_register_and_login():
+def test_register_and_login(client):
     resp = client.post("/api/auth/register", json={
         "business_name": "Test Shop",
         "business_slug": "test-shop",
@@ -41,9 +16,10 @@ def test_register_and_login():
         "password": "secret123",
     })
     assert resp2.status_code == 200
+    assert resp2.json()["access_token"]
 
 
-def test_duplicate_email():
+def test_duplicate_email(client):
     client.post("/api/auth/register", json={
         "business_name": "Shop B",
         "business_slug": "shop-b",
@@ -59,3 +35,43 @@ def test_duplicate_email():
         "password": "pass",
     })
     assert resp.status_code == 400
+
+
+def test_duplicate_slug(client):
+    client.post("/api/auth/register", json={
+        "business_name": "Shop D",
+        "business_slug": "shop-d",
+        "full_name": "Owner D",
+        "email": "d1@test.com",
+        "password": "pass",
+    })
+    resp = client.post("/api/auth/register", json={
+        "business_name": "Shop D Copycat",
+        "business_slug": "shop-d",
+        "full_name": "Owner D2",
+        "email": "d2@test.com",
+        "password": "pass",
+    })
+    assert resp.status_code == 400
+
+
+def test_login_wrong_password(client, business):
+    resp = client.post("/api/auth/login", json={
+        "email": business["email"],
+        "password": "not-the-right-password",
+    })
+    assert resp.status_code == 401
+
+
+def test_login_unknown_email(client):
+    resp = client.post("/api/auth/login", json={
+        "email": "nobody@nowhere.com",
+        "password": "whatever",
+    })
+    assert resp.status_code == 401
+
+
+def test_new_business_defaults_to_free_plan(client, business):
+    resp = client.get("/api/businesses/me", headers=business["headers"])
+    assert resp.status_code == 200
+    assert resp.json()["plan"] == "free"

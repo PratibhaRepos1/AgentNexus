@@ -1,10 +1,13 @@
+from datetime import datetime, timedelta, timezone
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session, joinedload
 from ..core.database import get_db
-from ..core.dependencies import get_current_user
+from ..core.dependencies import get_current_user, get_current_business
 from ..core.limiter import limiter
+from ..core.plans import get_plan
 from ..models.user import User
+from ..models.business import Business
 from ..schemas.chat import ChatMessageRequest, ChatMessageResponse, ConversationOut
 from ..services.chat_service import handle_message
 from ..models.conversation import Conversation
@@ -22,16 +25,22 @@ async def chat_message(request: Request, req: ChatMessageRequest, db: Session = 
 @router.get("/conversations", response_model=List[ConversationOut])
 def list_conversations(
     current_user: User = Depends(get_current_user),
+    business: Business = Depends(get_current_business),
     db: Session = Depends(get_db),
 ):
-    return (
+    # Conversation history retention is plan-gated (e.g. Free = last 7 days).
+    # This only limits what's *shown* here -- nothing is deleted, so
+    # upgrading a plan immediately surfaces older history again.
+    query = (
         db.query(Conversation)
         .options(joinedload(Conversation.messages))
         .filter(Conversation.business_id == current_user.business_id)
-        .order_by(Conversation.started_at.desc())
-        .limit(50)
-        .all()
     )
+    history_days = get_plan(business.plan).limits.conversation_history_days
+    if history_days is not None:
+        cutoff = datetime.now(timezone.utc) - timedelta(days=history_days)
+        query = query.filter(Conversation.started_at >= cutoff)
+    return query.order_by(Conversation.started_at.desc()).limit(50).all()
 
 
 @router.delete("/conversations/{conversation_id}")

@@ -2,10 +2,12 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from ..core.database import get_db
-from ..core.dependencies import get_current_user
+from ..core.dependencies import get_current_user, get_current_business
 from ..models.user import User
+from ..models.business import Business
 from ..models.product import Product
 from ..schemas.product import ProductCreate, ProductUpdate, ProductOut
+from ..services import plan_service
 
 router = APIRouter(prefix="/api/products", tags=["products"])
 
@@ -19,8 +21,15 @@ def list_products(current_user: User = Depends(get_current_user), db: Session = 
 def create_product(
     body: ProductCreate,
     current_user: User = Depends(get_current_user),
+    business: Business = Depends(get_current_business),
     db: Session = Depends(get_db),
 ):
+    plan_service.check_product_limit(db, business)
+    if body.currency != "USD" and not plan_service.resolve_features(business)["multi_currency"]:
+        raise HTTPException(
+            status_code=403,
+            detail="Your plan only supports USD pricing. Upgrade your plan to use other currencies.",
+        )
     product = Product(business_id=current_user.business_id, **body.model_dump())
     db.add(product)
     db.commit()
@@ -33,6 +42,7 @@ def update_product(
     product_id: str,
     body: ProductUpdate,
     current_user: User = Depends(get_current_user),
+    business: Business = Depends(get_current_business),
     db: Session = Depends(get_db),
 ):
     product = db.query(Product).filter(
@@ -40,7 +50,13 @@ def update_product(
     ).first()
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-    for field, val in body.model_dump(exclude_none=True).items():
+    updates = body.model_dump(exclude_none=True)
+    if "currency" in updates and updates["currency"] != "USD" and not plan_service.resolve_features(business)["multi_currency"]:
+        raise HTTPException(
+            status_code=403,
+            detail="Your plan only supports USD pricing. Upgrade your plan to use other currencies.",
+        )
+    for field, val in updates.items():
         setattr(product, field, val)
     db.commit()
     db.refresh(product)

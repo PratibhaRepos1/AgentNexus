@@ -10,6 +10,7 @@ import { ProductsPage } from './dashboard/pages/ProductsPage'
 import { LeadsPage } from './dashboard/pages/LeadsPage'
 import { ConversationsPage } from './dashboard/pages/ConversationsPage'
 import { SettingsPage } from './dashboard/pages/SettingsPage'
+import { PlanPage } from './dashboard/pages/PlanPage'
 import { Sidebar } from './dashboard/components/Sidebar'
 import { useAuthStore } from './shared/store/authStore'
 
@@ -87,6 +88,14 @@ export function App() {
         element={
           <RequireAuth>
             <DashboardLayout><SettingsPage /></DashboardLayout>
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/dashboard/plan"
+        element={
+          <RequireAuth>
+            <DashboardLayout><PlanPage /></DashboardLayout>
           </RequireAuth>
         }
       />
