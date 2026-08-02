@@ -64,8 +64,10 @@ const faqs = en.FAQ.ITEMS;
               href="/demo"
               data-i18n={`PLANS.${i}.CTA`}
               class:list={[
-                "mt-6 rounded-full px-4 py-2.5 text-center text-sm font-semibold transition-transform hover:scale-105",
-                plan.FEATURED ? "bg-white text-violet-700" : "bg-indigo-50 text-violet-700",
+                "mt-6 rounded-full px-4 py-2.5 text-center text-sm font-semibold shadow-sm transition-transform hover:scale-105",
+                plan.FEATURED
+                  ? "bg-white text-violet-700 shadow-violet-900/10"
+                  : "brand-gradient text-white shadow-violet-200",
               ]}
             >
               {plan.CTA}
