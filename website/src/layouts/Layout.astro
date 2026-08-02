@@ -16,7 +16,7 @@ interface Props {
 }
 
 const { title, description, path = "/", page, titleKey, descriptionKey } = Astro.props;
-const siteUrl = Astro.site ?? new URL("https://agentnexus.app");
+const siteUrl = Astro.site ?? new URL("https://www.agentnexus.tech");
 const canonicalUrl = new URL(path, siteUrl).toString();
 const ogImage = new URL("/og-image.png", siteUrl).toString();
 ---

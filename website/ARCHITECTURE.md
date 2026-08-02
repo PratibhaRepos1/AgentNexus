@@ -65,10 +65,9 @@ let the two drift.
 
 ## Known gaps / before going live
 
-- **`site` domain is still a placeholder** (`https://agentnexus.app` in `astro.config.mjs` and
-  `public/robots.txt`) — the real registered domain is **`https://www.agentnexus.tech`**
-  (Hostinger). Update both files to that before deploying, otherwise the sitemap and canonical
-  URLs point to the wrong host. (Not yet done as of this writing.)
+- ~~`site` domain is a placeholder~~ — fixed: `astro.config.mjs`, `public/robots.txt`, and the
+  dashboard's `AuthLayout.tsx` (`MARKETING_URL`) all now point at the real registered domain,
+  `https://www.agentnexus.tech`.
 - **No `og-image.png`** yet — `Layout.astro` references `/og-image.png` for social share previews;
   add a real 1200×630 image to `public/` before launch or social shares will show a broken image.
 - **Demo form has no backend.** `src/pages/demo.astro` currently just shows a client-side "thanks"

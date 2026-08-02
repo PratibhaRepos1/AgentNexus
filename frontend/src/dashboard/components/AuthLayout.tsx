@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 
 // The marketing site (website/) is a separate Astro app/deployment; astro.config.mjs
 // there defines the same production domain. Update both together if it changes.
-const MARKETING_URL = 'https://agentnexus.app'
+const MARKETING_URL = 'https://www.agentnexus.tech'
 
 const navLinks = [
   { href: `${MARKETING_URL}/features`, label: 'Features' },
