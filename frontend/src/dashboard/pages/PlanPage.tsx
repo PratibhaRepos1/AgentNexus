@@ -9,7 +9,13 @@ import { Input } from '../../shared/components/Input'
 import { UsageMeter } from '../../shared/components/UsageMeter'
 import { PlanGate } from '../../shared/components/PlanGate'
 import { CheckoutModal } from '../components/CheckoutModal'
+import { CurrencySwitcher } from '../components/CurrencySwitcher'
 import { usePlan, usePlanCatalog, PlanCatalogEntry } from '../../shared/hooks/usePlan'
+import { useCurrency } from '../../shared/hooks/useCurrency'
+
+// The API access add-on price isn't part of the plan catalog response (it's a flat backend
+// constant, see app/api/businesses.py's set_api_access_addon docstring) -- kept in sync here.
+const API_ADDON_USD = 12
 
 // WhatsApp/Instagram are real plan features but have no backend integration
 // built yet (see NOT_YET_IMPLEMENTED_FEATURES server-side) -- marked here so
@@ -26,9 +32,13 @@ const FEATURE_LABELS: Record<string, (f: PlanCatalogEntry['features']) => string
   instagram_integration: (f) => (f.instagram_integration ? `Instagram integration${COMING_SOON_SUFFIX}` : null),
   multi_currency: (f) => (f.multi_currency ? 'Multi-currency' : null),
   custom_branding: (f) => (f.custom_branding ? 'Custom branding' : null),
-  api_access: (f) =>
-    f.api_access ? 'API access included' : f.api_access_addon_available ? 'API access (+$12/mo add-on)' : null,
   priority_support: (f) => (f.priority_support ? 'Priority support' : null),
+}
+
+function apiAccessLabel(features: PlanCatalogEntry['features'], format: (usd: number) => string): string | null {
+  if (features.api_access) return 'API access included'
+  if (features.api_access_addon_available) return `API access (+${format(API_ADDON_USD)}/mo add-on)`
+  return null
 }
 
 interface Website {
@@ -117,7 +127,7 @@ function WebsitesCard() {
   )
 }
 
-function ApiAccessCard() {
+function ApiAccessCard({ format }: { format: (usd: number) => string }) {
   const qc = useQueryClient()
   const { data: plan } = usePlan()
   const { data: keyInfo } = useQuery<{ api_key: string | null }>({
@@ -149,7 +159,7 @@ function ApiAccessCard() {
 
       {isBusinessPlan && !plan.api_access_addon && (
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-base text-slate-600">Add API access to your Business plan for +$12/mo.</p>
+          <p className="text-base text-slate-600">Add API access to your Business plan for +{format(API_ADDON_USD)}/mo.</p>
           <Button size="sm" loading={addonMut.isPending} onClick={() => addonMut.mutate(true)}>
             Enable add-on
           </Button>
@@ -160,7 +170,7 @@ function ApiAccessCard() {
         <div className="space-y-3">
           {isBusinessPlan && plan.api_access_addon && (
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="text-sm font-medium text-emerald-600">API access add-on active (+$12/mo)</p>
+              <p className="text-sm font-medium text-emerald-600">API access add-on active (+{format(API_ADDON_USD)}/mo)</p>
               <Button size="sm" variant="secondary" loading={addonMut.isPending} onClick={() => addonMut.mutate(false)}>
                 Cancel add-on
               </Button>
@@ -187,7 +197,7 @@ function ApiAccessCard() {
   )
 }
 
-function planFeatureLines(entry: PlanCatalogEntry): string[] {
+function planFeatureLines(entry: PlanCatalogEntry, format: (usd: number) => string): string[] {
   const { limits, features } = entry
   const lines: string[] = [
     `${limits.max_websites ?? 'Unlimited'} website${limits.max_websites === 1 ? '' : 's'}`,
@@ -207,7 +217,7 @@ function planFeatureLines(entry: PlanCatalogEntry): string[] {
   else if (limits.max_languages > 1) lines.push(`${limits.max_languages} languages`)
   if (features.multi_currency) lines.push('Multi-currency')
   if (features.custom_branding) lines.push('Custom branding')
-  const apiLine = FEATURE_LABELS.api_access(features)
+  const apiLine = apiAccessLabel(features, format)
   if (apiLine) lines.push(apiLine)
   if (features.priority_support) lines.push('Priority support')
   return lines
@@ -218,6 +228,7 @@ export function PlanPage() {
   const { data: status } = usePlan()
   const { data: catalog } = usePlanCatalog()
   const [checkoutPlan, setCheckoutPlan] = useState<PlanCatalogEntry | null>(null)
+  const { currency, setCurrency, format } = useCurrency()
 
   // Free needs no payment step; paid plans go through checkout first.
   const chooseMutation = useMutation({
@@ -235,11 +246,14 @@ export function PlanPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-4xl font-bold text-slate-900">Plan &amp; Billing</h1>
-        <p className="text-base text-slate-500 mt-1">
-          You're currently on the <span className="font-semibold text-slate-700">{status?.plan_name ?? '—'}</span> plan.
-        </p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="text-4xl font-bold text-slate-900">Plan &amp; Billing</h1>
+          <p className="text-base text-slate-500 mt-1">
+            You're currently on the <span className="font-semibold text-slate-700">{status?.plan_name ?? '—'}</span> plan.
+          </p>
+        </div>
+        <CurrencySwitcher currency={currency} onChange={setCurrency} />
       </div>
 
       {status && (
@@ -258,7 +272,7 @@ export function PlanPage() {
       )}
 
       <WebsitesCard />
-      <ApiAccessCard />
+      <ApiAccessCard format={format} />
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
         {catalog?.map((entry) => {
@@ -281,7 +295,7 @@ export function PlanPage() {
               <p className={clsx('text-sm mt-1', isPopular ? 'text-brand-50' : 'text-slate-500')}>{entry.tagline}</p>
               <p className="mt-4">
                 <span className={clsx('text-3xl font-bold', isPopular ? 'text-white' : 'text-slate-900')}>
-                  ${entry.price_usd}
+                  {format(entry.price_usd)}
                 </span>
                 <span className={clsx('text-sm', isPopular ? 'text-brand-50' : 'text-slate-500')}>
                   {entry.price_usd === 0 ? ' forever' : '/mo'}
@@ -299,7 +313,7 @@ export function PlanPage() {
               </Button>
 
               <ul className="mt-5 space-y-2 flex-1">
-                {planFeatureLines(entry).map((line) => (
+                {planFeatureLines(entry, format).map((line) => (
                   <li
                     key={line}
                     className={clsx('flex items-start gap-2 text-sm', isPopular ? 'text-white' : 'text-slate-600')}
@@ -318,7 +332,7 @@ export function PlanPage() {
         <p className="text-base text-red-600">Couldn't switch plans. Please try again.</p>
       )}
 
-      {checkoutPlan && <CheckoutModal plan={checkoutPlan} onClose={() => setCheckoutPlan(null)} />}
+      {checkoutPlan && <CheckoutModal plan={checkoutPlan} format={format} onClose={() => setCheckoutPlan(null)} />}
     </div>
   )
 }

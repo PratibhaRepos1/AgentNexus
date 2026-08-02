@@ -72,7 +72,7 @@
         "Ubegrenset antall språk",
         "Flervaluta",
         "Tilpasset merkevare",
-        "API-tilgang (+$12/mnd tillegg)",
+        "API-tilgang (+€12/mnd tillegg)",
         "Prioritert support"
       ]
     },
@@ -107,7 +107,7 @@
     "ITEMS": [
       {
         "Q": "Hva skjer hvis jeg overskrider den månedlige samtalegrensen?",
-        "A": "Widgeten din fortsetter å fungere — ingenting stenges midt i måneden. Ekstra samtaler på betalte planer faktureres med $1,20 per ekstra 100 samtaler. Gratisplanen er den eneste som settes på pause ved grensen, siden den er ment som en smakebit på produktet."
+        "A": "Widgeten din fortsetter å fungere — ingenting stenges midt i måneden. Ekstra samtaler på betalte planer faktureres med €1,20 per ekstra 100 samtaler. Gratisplanen er den eneste som settes på pause ved grensen, siden den er ment som en smakebit på produktet."
       },
       {
         "Q": "Kan jeg betale årlig?",

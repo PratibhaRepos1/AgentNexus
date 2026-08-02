@@ -8,6 +8,7 @@ import { PlanCatalogEntry } from '../../shared/hooks/usePlan'
 
 interface Props {
   plan: PlanCatalogEntry
+  format: (usd: number) => string
   onClose: () => void
 }
 
@@ -62,7 +63,7 @@ function validateExpiry(mmYY: string): string | null {
  * Swap the fake delay below for a real Stripe Elements/Checkout
  * integration when a payment processor is actually connected.
  */
-export function CheckoutModal({ plan, onClose }: Props) {
+export function CheckoutModal({ plan, format, onClose }: Props) {
   const qc = useQueryClient()
   const [cardName, setCardName] = useState('')
   const [cardNumber, setCardNumber] = useState('')
@@ -116,7 +117,7 @@ export function CheckoutModal({ plan, onClose }: Props) {
         <div className="space-y-4 px-6 py-5">
           <div className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
             <span className="text-base text-slate-600">{plan.name} plan</span>
-            <span className="text-lg font-bold text-slate-900">${plan.price_usd}/mo</span>
+            <span className="text-lg font-bold text-slate-900">{format(plan.price_usd)}/mo</span>
           </div>
 
           <Input
@@ -171,7 +172,7 @@ export function CheckoutModal({ plan, onClose }: Props) {
 
           <Button className="w-full justify-center" loading={payMutation.isPending} onClick={handleSubmit}>
             <CreditCard size={16} className="mr-2" />
-            Pay ${plan.price_usd}/mo and upgrade
+            Pay {format(plan.price_usd)}/mo and upgrade
           </Button>
         </div>
       </div>

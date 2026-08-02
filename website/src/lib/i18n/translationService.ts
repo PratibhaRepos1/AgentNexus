@@ -21,7 +21,7 @@ export interface LanguageDefinition {
 }
 
 export const SUPPORTED_LANGUAGES: LanguageDefinition[] = [
-  { code: "en", label: "EN", name: "English", currency: "USD" },
+  { code: "en", label: "EN", name: "English", currency: "EUR" },
   { code: "no", label: "NOR", name: "Norsk", currency: "NOK" },
 ];
 

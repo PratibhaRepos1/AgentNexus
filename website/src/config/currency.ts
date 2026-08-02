@@ -20,6 +20,7 @@ export interface CurrencyDefinition {
 export const CURRENCIES = currencies as Record<CurrencyCode, { symbol: string; locale: string; code: CurrencyCode }>;
 
 export const SUPPORTED_CURRENCIES: CurrencyDefinition[] = [
+  { code: "EUR", symbol: CURRENCIES.EUR.symbol, locale: CURRENCIES.EUR.locale, flag: "🇪🇺", name: "Euro" },
   { code: "USD", symbol: CURRENCIES.USD.symbol, locale: CURRENCIES.USD.locale, flag: "🇺🇸", name: "US Dollar" },
   { code: "NOK", symbol: CURRENCIES.NOK.symbol, locale: CURRENCIES.NOK.locale, flag: "🇳🇴", name: "Norwegian Krone" },
 ];
@@ -27,7 +28,8 @@ export const SUPPORTED_CURRENCIES: CurrencyDefinition[] = [
 /** All conversions are always priced from this base — product prices are authored in USD. */
 export const BASE_CURRENCY: CurrencyCode = "USD";
 
-export const DEFAULT_CURRENCY: CurrencyCode = "USD";
+/** Site-wide default display currency — visitors can still switch to USD/NOK via CurrencySwitcher. */
+export const DEFAULT_CURRENCY: CurrencyCode = "EUR";
 
 /** Exchange rates are refreshed at most this often — keeps API calls to ~1/day site-wide. */
 export const RATE_CACHE_TTL_MS = 24 * 60 * 60 * 1000;

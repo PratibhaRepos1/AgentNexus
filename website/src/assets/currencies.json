@@ -1,4 +1,9 @@
 {
+  "EUR": {
+    "symbol": "€",
+    "locale": "en-IE",
+    "code": "EUR"
+  },
   "USD": {
     "symbol": "$",
     "locale": "en-US",
