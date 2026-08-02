@@ -16,13 +16,15 @@ export interface LanguageDefinition {
   label: string;
   /** Full name, used for aria attributes */
   name: string;
+  /** Flag emoji shown in the dropdown. */
+  flag: string;
   /** Currency shown when this language is active — language and currency switch together as one control. */
   currency: CurrencyCode;
 }
 
 export const SUPPORTED_LANGUAGES: LanguageDefinition[] = [
-  { code: "en", label: "EN", name: "English", currency: "EUR" },
-  { code: "no", label: "NOR", name: "Norsk", currency: "NOK" },
+  { code: "en", label: "EN", name: "English", flag: "🇬🇧", currency: "EUR" },
+  { code: "no", label: "NOR", name: "Norsk", flag: "🇳🇴", currency: "NOK" },
 ];
 
 export const DEFAULT_LANGUAGE: LanguageCode = "en";

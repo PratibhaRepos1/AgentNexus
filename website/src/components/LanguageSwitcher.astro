@@ -1,59 +1,80 @@
 ---
-// Renders one button per entry in SUPPORTED_LANGUAGES, so adding a language to the
-// registry in translationService.ts is enough to add it here too — no markup changes.
+// Dropdown (native <details>/<summary>, no framework/JS needed for the open/close mechanic
+// itself): the summary shows only the active language, click it to reveal the others. Adding a
+// language to the registry in translationService.ts is enough to add it here too — no markup
+// changes.
 import { SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE } from "../lib/i18n/translationService";
 
-const BASE_CLASSES = "lang-switch-btn rounded-full px-2.5 py-1 text-xs font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500";
-const ACTIVE_CLASSES = "bg-slate-900 text-white shadow-sm";
-const INACTIVE_CLASSES = "text-slate-500 hover:text-slate-900";
+const initial = SUPPORTED_LANGUAGES.find((l) => l.code === DEFAULT_LANGUAGE) ?? SUPPORTED_LANGUAGES[0];
 ---
 
-<div
-  class="inline-flex items-center gap-0.5 rounded-full border border-slate-200 bg-white/70 p-0.5"
-  role="group"
-  aria-label="Language"
-  data-i18n-attr="aria-label:LANGUAGE.SWITCH_LABEL"
->
-  {
-    SUPPORTED_LANGUAGES.map((lang) => (
-      <button
-        type="button"
-        class:list={[BASE_CLASSES, lang.code === DEFAULT_LANGUAGE ? ACTIVE_CLASSES : INACTIVE_CLASSES]}
-        data-lang={lang.code}
-        aria-pressed={lang.code === DEFAULT_LANGUAGE ? "true" : "false"}
-        aria-label={lang.name}
-      >
-        {lang.label}
-      </button>
-    ))
-  }
-</div>
+<details class="lang-dropdown group relative inline-block">
+  <summary
+    class="flex cursor-pointer list-none items-center gap-1.5 rounded-full border border-slate-200 bg-white/70 px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:border-slate-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500 [&::-webkit-details-marker]:hidden"
+    role="button"
+    aria-label="Language"
+    data-i18n-attr="aria-label:LANGUAGE.SWITCH_LABEL"
+  >
+    <span class="lang-active-flag" aria-hidden="true">{initial.flag}</span>
+    <span class="lang-active-label">{initial.label}</span>
+    <svg class="h-3 w-3 text-slate-400 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+      <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.19l3.71-3.96a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+    </svg>
+  </summary>
+
+  <ul class="absolute right-0 z-50 mt-2 w-40 overflow-hidden rounded-xl border border-slate-200 bg-white py-1 shadow-lg">
+    {
+      SUPPORTED_LANGUAGES.map((lang) => (
+        <li>
+          <button
+            type="button"
+            class="lang-option flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
+            data-lang={lang.code}
+            aria-label={lang.name}
+          >
+            <span aria-hidden="true">{lang.flag}</span>
+            <span class="flex-1">{lang.name}</span>
+            <span class:list={["lang-option-check text-violet-600", lang.code !== DEFAULT_LANGUAGE && "invisible"]}>✓</span>
+          </button>
+        </li>
+      ))
+    }
+  </ul>
+</details>
 
 <script>
   import { switchLanguage, getStoredLanguage, SUPPORTED_LANGUAGES, LANG_CHANGE_EVENT, type LanguageCode } from "../lib/i18n/translationService";
   import { setCurrency } from "../stores/currencyStore";
 
-  const BASE = "lang-switch-btn rounded-full px-2.5 py-1 text-xs font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500";
-  const ACTIVE = "bg-slate-900 text-white shadow-sm";
-  const INACTIVE = "text-slate-500 hover:text-slate-900";
-
   function currentPage(): string | undefined {
     return (window as { __AGENTNEXUS_PAGE__?: string }).__AGENTNEXUS_PAGE__;
   }
 
-  function setActiveButtons(lang: string): void {
-    document.querySelectorAll<HTMLButtonElement>(".lang-switch-btn").forEach((btn) => {
-      const isActive = btn.dataset.lang === lang;
-      btn.className = `${BASE} ${isActive ? ACTIVE : INACTIVE}`;
-      btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+  function closeAllDropdowns(): void {
+    document.querySelectorAll<HTMLDetailsElement>(".lang-dropdown").forEach((d) => d.removeAttribute("open"));
+  }
+
+  function applyActiveState(lang: string): void {
+    const def = SUPPORTED_LANGUAGES.find((l) => l.code === lang);
+    if (!def) return;
+    document.querySelectorAll<HTMLDetailsElement>(".lang-dropdown").forEach((dropdown) => {
+      const flagEl = dropdown.querySelector(".lang-active-flag");
+      const labelEl = dropdown.querySelector(".lang-active-label");
+      if (flagEl) flagEl.textContent = def.flag;
+      if (labelEl) labelEl.textContent = def.label;
+      dropdown.querySelectorAll<HTMLButtonElement>(".lang-option").forEach((btn) => {
+        const check = btn.querySelector(".lang-option-check");
+        check?.classList.toggle("invisible", btn.dataset.lang !== lang);
+      });
     });
   }
 
-  document.querySelectorAll<HTMLButtonElement>(".lang-switch-btn").forEach((btn) => {
+  document.querySelectorAll<HTMLButtonElement>(".lang-option").forEach((btn) => {
     btn.addEventListener("click", () => {
       const lang = btn.dataset.lang as LanguageCode | undefined;
       if (!lang) return;
-      setActiveButtons(lang);
+      applyActiveState(lang);
+      closeAllDropdowns();
       void switchLanguage(lang, currentPage());
       // Currency follows language as one combined switch — see SUPPORTED_LANGUAGES.
       const currency = SUPPORTED_LANGUAGES.find((l) => l.code === lang)?.currency;
@@ -61,10 +82,15 @@ const INACTIVE_CLASSES = "text-slate-500 hover:text-slate-900";
     });
   });
 
-  document.addEventListener(LANG_CHANGE_EVENT, (event) => {
-    const lang = (event as CustomEvent<{ lang: LanguageCode }>).detail?.lang;
-    if (lang) setActiveButtons(lang);
+  document.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    if (!target.closest(".lang-dropdown")) closeAllDropdowns();
   });
 
-  setActiveButtons(getStoredLanguage());
+  document.addEventListener(LANG_CHANGE_EVENT, (event) => {
+    const lang = (event as CustomEvent<{ lang: LanguageCode }>).detail?.lang;
+    if (lang) applyActiveState(lang);
+  });
+
+  applyActiveState(getStoredLanguage());
 </script>
