@@ -20,13 +20,16 @@ public routes to the dashboard app.
 | Styling | Tailwind CSS v4 (via `@tailwindcss/vite`) | Same utility approach as `frontend/`, so styling knowledge transfers. Tailwind v4 needs no `tailwind.config.js` — theme tokens (colors, etc.) come from Tailwind's default palette plus a couple of custom CSS variables in `src/styles/global.css`. |
 | Fonts | Google Fonts (Sora for headings, Inter for body), loaded via `@import` in `global.css` | Free, fast, no build step needed. |
 | SEO | `@astrojs/sitemap` + per-page meta/OG/Twitter tags in `Layout.astro` + `public/robots.txt` | Sitemap and robots.txt are the baseline for organic discovery; per-page `<title>`/`<meta description>` drive click-through from search results. |
-| Hosting (recommended) | Vercel, Netlify, or Cloudflare Pages (static) | Astro's static output is plain files — deploys to any static host with zero server cost. Unlike the FastAPI backend, this project has **no** Docker/runtime requirement, so Vercel is actually a great fit here (see note below). |
+| Hosting (actual) | Hostinger shared hosting | The domain `agentnexus.tech` is registered and hosted on Hostinger; since this site builds to plain static files with no server process, the shared hosting plan already in place for the domain is sufficient — deploy by uploading `dist/` to `public_html` (no VPS needed for this piece). Vercel/Netlify/Cloudflare Pages would also work (see note below) but aren't the current plan. |
 
-### Note on Vercel vs. the backend
+### Note on Vercel/Netlify vs. the backend
 
 Earlier we ruled out Vercel for the FastAPI backend (heavy ML deps, stateful startup, no
 persistent filesystem — see project discussion). None of that applies here: this site builds to
-static files with no server process, so Vercel/Netlify/Cloudflare Pages all work with no changes.
+static files with no server process, so Vercel/Netlify/Cloudflare Pages would all work with no
+changes if hosting ever moves off Hostinger. The dashboard (`frontend/` + `backend/`) is the piece
+that needs a real VPS — see `files/ARCHITECTURE.md` §5 for that split (`app.agentnexus.tech` on a
+Hostinger VPS via `docker-compose.yml`, this site on shared hosting at the root domain).
 
 ## Folder structure
 
@@ -62,9 +65,10 @@ let the two drift.
 
 ## Known gaps / before going live
 
-- **`site` domain is a placeholder** (`https://agentnexus.app` in `astro.config.mjs` and
-  `public/robots.txt`) — replace with the real registered domain before deploying, otherwise the
-  sitemap and canonical URLs will point to the wrong host.
+- **`site` domain is still a placeholder** (`https://agentnexus.app` in `astro.config.mjs` and
+  `public/robots.txt`) — the real registered domain is **`https://www.agentnexus.tech`**
+  (Hostinger). Update both files to that before deploying, otherwise the sitemap and canonical
+  URLs point to the wrong host. (Not yet done as of this writing.)
 - **No `og-image.png`** yet — `Layout.astro` references `/og-image.png` for social share previews;
   add a real 1200×630 image to `public/` before launch or social shares will show a broken image.
 - **Demo form has no backend.** `src/pages/demo.astro` currently just shows a client-side "thanks"

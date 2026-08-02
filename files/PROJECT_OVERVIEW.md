@@ -80,12 +80,20 @@ Out of scope for MVP: multi-language beyond English, human-agent live handoff (e
 | Phase 5 — Polish & deploy | Weeks 6–7 | Analytics, branding, deploy to free-tier host, embed script |
 | Phase 6 — Pilot | Week 8 | Onboard 3 pilot businesses, gather feedback |
 
-## 9. Pricing Strategy (draft)
+**Actual progress vs. this roadmap**: backend, RAG chat, widget, and dashboard (Phases 0–4) are
+built. Scope has grown past the original Phase 5 polish step — plan-based feature gating, a
+(simulated) checkout flow, multi-website management, and self-serve password reset all now exist,
+none of which were in the original MVP scope below. See `files/FEATURES.md` for what's actually
+built and working, and its "not yet built" footer for real remaining gaps (payment processing,
+human handoff, multi-language, etc.) — treat that file as more current than this roadmap table.
 
-- **Starter** (free trial, 14 days): 1 chatbot, 100 conversations/mo, 1 document
-- **Basic** — ~$29–39/mo: 1 chatbot, 1,000 conversations/mo, 10 documents, lead capture
-- **Growth** — ~$79–99/mo: multiple staff seats, more documents, analytics, priority support
-- **Custom/Freelance** — one-time setup fee ($200–500) + monthly hosting/maintenance ($30–60/mo) for businesses wanting a fully custom-branded deployment
+## 9. Pricing Strategy
+
+Superseded by the actual implemented plans — `files/FEATURES.md`'s pricing table (sourced from
+`backend/app/core/plans.py`) is the current source of truth: **Free / Basic ($24/mo) / Business
+($48/mo) / Growth ($96/mo)**, no free trial period (Free is a permanent tier, not a 14-day trial),
+and no separate "Custom/Freelance" tier has been built. Checkout exists in the dashboard but is a
+simulated flow — no real payment processor is connected yet (see `files/FEATURES.md`).
 
 ## 10. Freelance Service Angle
 

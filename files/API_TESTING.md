@@ -4,22 +4,24 @@ A walkthrough for manually testing every backend endpoint via the interactive Sw
 **http://127.0.0.1:8000/docs**. Follow it top to bottom the first time — later sections depend on
 data created in earlier ones (a business, a JWT, an FAQ, etc.).
 
-Backend must be running first:
+Backend must be running first (Postgres via `docker compose up -d db` from the repo root, then):
 ```powershell
-cd "C:\Pratibha2026\ProjectsIn2026\AI Projects\AgentNexus\backend"
-uv run uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+cd C:\Pratibha2026\AgentNexus\backend
+.\.venv\Scripts\uvicorn.exe app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
 ## Two kinds of endpoints
 
-- **Authenticated (dashboard) endpoints** — everything under `/api/businesses`, `/api/faqs`,
-  `/api/products`, `/api/documents`, `/api/analytics`, plus `GET /api/leads` and
-  `GET /api/chat/conversations`. These require a JWT (see step 1) and always scope data to
-  *your* business via the token — never via a body/query param.
-- **Public (widget-facing) endpoints** — `POST /api/chat/message`, `GET /api/chat/history/{id}`,
-  `POST /api/leads`. No auth required, but you must pass a real `business_id` explicitly, since
-  there's no JWT to infer it from (this is what the embeddable widget calls from a stranger's
-  website).
+- **Authenticated (dashboard) endpoints** — everything under `/api/businesses` (except
+  `/plans` and `/{id}/public-settings`), `/api/websites`, `/api/faqs`, `/api/products`,
+  `/api/documents`, `/api/analytics`, plus `GET`/`DELETE /api/chat/conversations` and
+  `GET`/`PATCH /api/leads`. These require a JWT (see step 1) and always scope data to *your*
+  business via the token — never via a body/query param.
+- **Public (widget-facing / pre-auth) endpoints** — `POST /api/chat/message`,
+  `GET /api/chat/history/{id}`, `POST /api/leads`, `GET /api/businesses/plans`,
+  `GET /api/businesses/{id}/public-settings`, `POST /api/auth/forgot-password`,
+  `POST /api/auth/reset-password`. No auth required; the widget-facing ones need a real
+  `business_id` passed explicitly since there's no JWT to infer it from.
 
 ---
 
@@ -55,24 +57,68 @@ auth will now use it automatically.
 > Tip: the JWT payload also contains your `business_id` (decode it at jwt.io if you ever need to
 > copy that UUID for testing a public endpoint below).
 
+### Password reset — `POST /api/auth/forgot-password`, `POST /api/auth/reset-password`
+```json
+{ "email": "priya@greenleafcafe.com" }
+```
+Always returns the same **200** message regardless of whether the email exists (prevents account
+enumeration). If it does exist, a reset email fires as a background task (`NotificationProvider` —
+logs to console with the default provider, or sends via Resend if `RESEND_API_KEY` is set) with a
+raw token good for **1 hour**. Grab that raw token from the console log or email, then:
+```json
+{ "token": "PASTE-RAW-TOKEN-HERE", "new_password": "NewPass456!" }
+```
+Expect **200**. Reusing the same token again should fail — it's marked `used_at` on first use.
+Both endpoints are rate-limited (5/hour and 10/hour respectively) — expect **429** if you hammer them in a test loop.
+
 ---
 
 ## 2. Business profile — `/api/businesses`
 
-- **`GET /me`** → your business record (`name`, `slug`, `industry`, `plan`, `status`, ...).
+- **`GET /me`** → your business record (`name`, `slug`, `industry`, `plan`, `status`, `api_access_addon`, `api_key`, ...).
 - **`PATCH /me`** → update branding:
   ```json
   { "primary_color": "#22c55e", "logo_url": "https://example.com/logo.png" }
   ```
+  On the Free/Basic plan (no `custom_branding`), setting a non-default `primary_color` correctly returns **403** — that's plan enforcement working, not a bug.
 - **`GET /me/settings`** → tone, welcome/fallback messages, business hours, `llm_provider`.
 - **`PATCH /me/settings`** → e.g. change the widget's greeting:
   ```json
   { "welcome_message": "Hey there! How can Green Leaf Cafe help you today?", "tone": "friendly" }
   ```
+- **`GET /{business_id}/public-settings`** (public, no auth) → only `welcome_message` and
+  `primary_color`, the two fields the embeddable widget needs before a visitor logs in anywhere.
 
 ---
 
-## 3. FAQs — `/api/faqs`
+## 3. Plans & billing — `/api/businesses` + `/api/websites`
+
+- **`GET /api/businesses/plans`** (public) → the four-plan catalog (Free/Basic/Business/Growth)
+  with limits and feature flags — this is what powers the pricing/upgrade UI.
+- **`GET /api/businesses/me/plan`** → your current plan, live usage counts (websites,
+  conversations this month, documents, products), resolved feature flags, and
+  `not_yet_implemented` (currently `["instagram_integration", "whatsapp_notifications"]`).
+- **`PATCH /api/businesses/me/plan`** → `{ "plan": "business" }`. Takes effect immediately — no
+  real payment step behind this endpoint (the dashboard's checkout modal is a simulated UI in
+  front of this same call; see `files/FEATURES.md`).
+- **`PATCH /api/businesses/me/plan/api-access-addon`** → `{ "enabled": true }`. Only works on the
+  `business` plan — expect **403** on other plans.
+- **`GET`/`POST`/`DELETE /api/businesses/me/api-key`** → issue/revoke a bearer API key. `POST`
+  requires the `api_access` feature (Growth, or Business + the add-on above) — expect **403**
+  otherwise.
+- **`POST /api/businesses/me/notification-channels`** → `{ "channel": "whatsapp", "enabled": true }`.
+  Expect **501** even on a plan that includes it — WhatsApp/Instagram are gated but not actually
+  integrated yet; that 501 is correct behavior, not a bug.
+- **Websites** (`/api/websites`) — the domains this business runs its widget on, capped by plan:
+  - **`POST ""`** → `{ "domain": "greenleafcafe.com", "label": "Main site" }`
+  - **`GET ""`** → list them.
+  - **`DELETE /{id}`** → remove one.
+  - Adding past your plan's `max_websites` (1 on Free/Basic) correctly returns **402** — try it
+    twice on a Free-plan business to see the limit trip.
+
+---
+
+## 4. FAQs — `/api/faqs`
 
 - **`POST ""`** — create a couple, since the chat/RAG step below depends on these existing:
   ```json
@@ -87,7 +133,7 @@ auth will now use it automatically.
 
 ---
 
-## 4. Products/Services — `/api/products`
+## 5. Products/Services — `/api/products`
 
 ```json
 { "name": "Cappuccino", "description": "Espresso with steamed milk foam", "price": 3.50, "currency": "USD", "category": "drinks" }
@@ -96,22 +142,27 @@ Same CRUD shape as FAQs (`GET`, `POST`, `PATCH /{id}`, `DELETE /{id}`).
 
 ---
 
-## 5. Documents — `/api/documents`
+## 6. Documents — `/api/documents`
 
 This one's a file upload, not JSON — in Swagger, `POST ""` shows a file picker instead of a body
 box. Upload a small `.txt` or `.pdf` with some business info in it (e.g. a menu or policy doc).
 Expect a `DocumentOut` back with `status: "pending"` or `"embedded"`.
 
 - **`GET ""`** → confirm it's listed.
+- **`POST /from-url`** → `{ "url": "https://example.com/faq" }` — fetches and ingests a web page
+  directly instead of uploading a file. Try it with an internal address like
+  `http://localhost:8000` or `http://169.254.169.254` too — expect a rejection, not a fetch; that's
+  the SSRF guard working.
 - **`DELETE /{doc_id}`** → remove it.
 
-> Known gap: the current pipeline embeds chunks with a naive Python cosine-similarity scan
-> (`app/rag/pipeline.py`), not a real pgvector index query — fine for testing, worth revisiting
-> before this scales past toy data.
+> Known gap: the current pipeline embeds chunks into a plain `embedding_json` TEXT column and
+> scores them with a naive Python cosine-similarity scan (`app/rag/pipeline.py`), not a real
+> pgvector index query — fine for testing, worth revisiting before this scales past toy data. See
+> `files/DATABASE_SCHEMA.md`'s note on `document_chunks`.
 
 ---
 
-## 6. Chat / RAG — `POST /api/chat/message` (public, no auth)
+## 7. Chat / RAG — `POST /api/chat/message` (public, no auth)
 
 This is the one endpoint that needs your **business UUID** pasted manually (decode it from the
 JWT, or copy `id` from step 2's `GET /me` response) instead of relying on Authorize.
@@ -123,16 +174,19 @@ JWT, or copy `id` from step 2's `GET /me` response) instead of relying on Author
   "message": "What are your opening hours?"
 }
 ```
-Expect a reply that pulls from the FAQ you created in step 3, plus `intent` (`faq` / `product_inquiry`
+Expect a reply that pulls from the FAQ you created in step 4, plus `intent` (`faq` / `product_inquiry`
 / `lead` / `support`) and a `confidence` score. Requires `GROQ_API_KEY` set in `.env` — if you get a
-provider auth error, check that key.
+provider auth error, check that key. Sending enough messages to cross your plan's monthly
+conversation cap (50/mo on Free) correctly returns **402** on the next *new* session — an
+in-progress conversation already over the line still keeps working.
 
-Then (authenticated) **`GET /api/chat/conversations`** → your session should show up with its
-messages nested.
+Then (authenticated):
+- **`GET /api/chat/conversations`** → your session should show up with its messages nested.
+- **`DELETE /api/chat/conversations/{id}`** → remove one, then `GET` again to confirm it's gone.
 
 ---
 
-## 7. Leads — `/api/leads`
+## 8. Leads — `/api/leads`
 
 **`POST ""`** is also public (widget submits it directly), needs `business_id` again:
 ```json
@@ -150,10 +204,12 @@ Then authenticated:
 
 ---
 
-## 8. Analytics — `GET /api/analytics/summary`
+## 9. Analytics — `GET /api/analytics/summary`
 
 Run this last, after you've generated a bit of chat/lead activity above. Expect counts for
 conversations, leads, messages, and a `top_questions` list built from repeated visitor messages.
+The exact field set returned depends on your plan's `analytics_tier` (basic/standard/advanced) —
+compare the response on a Free-plan business vs. one you've switched to Growth in step 3.
 
 ---
 

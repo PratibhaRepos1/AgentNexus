@@ -24,7 +24,7 @@ Guidance for Claude (and any AI coding assistant) working in this repository.
 | File storage | Local disk (MVP) → Supabase Storage free tier or Cloudflare R2 free tier | Free at low volume |
 | Background jobs | FastAPI `BackgroundTasks` (MVP) → Celery + Redis (free, self-hosted) later | Keep MVP simple |
 | Containerization | Docker + Docker Compose | Free |
-| Hosting | Render.com free web service tier, Railway free trial, or Fly.io free allowance | $0 to start |
+| Hosting | Dashboard+API (`frontend`+`backend`+`db`) on a Hostinger VPS via `docker-compose.yml`; marketing site (`website/`) on Hostinger shared hosting, static build | Domain `agentnexus.tech` is already registered/hosted on Hostinger — one vendor for domain, marketing site, and VPS. See `files/ARCHITECTURE.md` §5. |
 | CI/CD | GitHub Actions (free for public/small private repos) | Free |
 | Monitoring/errors | Sentry free tier | Free |
 
@@ -33,30 +33,33 @@ No paid SaaS is required to build and demo the MVP.
 ## Repository Structure
 
 ```
-agentnexus/
-├── frontend/                  # React + TypeScript
+AgentNexus/
+├── frontend/                  # React + TypeScript — dashboard app + embeddable widget
 │   ├── src/
-│   │   ├── widget/             # Embeddable chat widget (built separately, exposed as <script>)
-│   │   ├── dashboard/          # Admin dashboard app
-│   │   ├── shared/             # Shared components, hooks, api client
+│   │   ├── widget/              # Embeddable chat widget (Widget.tsx, ChatWindow, LeadForm; built separately as widget-main.tsx)
+│   │   ├── dashboard/            # Admin dashboard app (pages/, components/)
+│   │   ├── shared/               # Shared components, hooks, api client
 │   │   └── main.tsx
+│   ├── nginx.conf                # prod: serves the build, proxies /api/* to backend
 │   ├── vite.config.ts
 │   └── package.json
 ├── backend/                   # FastAPI
 │   ├── app/
-│   │   ├── api/                # Routers: chat, leads, auth, admin, documents
-│   │   ├── core/                # Config, security, dependencies
-│   │   ├── models/              # SQLAlchemy models
-│   │   ├── schemas/             # Pydantic schemas
-│   │   ├── services/            # Business logic (RAG, intent detection, lead capture)
-│   │   ├── rag/                  # LangChain pipeline, embeddings, retrievers
+│   │   ├── api/                 # Routers: auth, businesses, faqs, documents, products, chat, leads, analytics, websites
+│   │   ├── core/                 # Config, security, dependencies, plans.py (plan catalog), cors.py, limiter.py
+│   │   ├── models/                # SQLAlchemy models
+│   │   ├── schemas/               # Pydantic schemas
+│   │   ├── services/              # Business logic (auth, chat, document ingestion, plan enforcement)
+│   │   ├── rag/                    # Embeddings + retrieval pipeline (see files/ARCHITECTURE.md §2.4 for pgvector caveat)
+│   │   ├── notifications/          # Pluggable notification providers (console / Resend)
 │   │   └── main.py
 │   ├── alembic/                 # DB migrations
 │   ├── tests/
 │   └── requirements.txt
+├── website/                   # Astro — separate static marketing site (its own stack, own README/ARCHITECTURE.md)
 ├── docker-compose.yml
-├── docs/                       # This doc set
-└── .env.example
+├── files/                      # This doc set
+└── .env                        # repo-root .env, read by backend/app/core/config.py regardless of cwd
 ```
 
 ## Commands
@@ -94,8 +97,9 @@ cd frontend && npm test
 ## What Claude Should Do
 
 - Prefer the free/open-source option already in the stack table unless the user asks for a paid upgrade.
-- When adding a new table, update `docs/DATABASE_SCHEMA.md` in the same change.
-- When adding a new API route, keep `docs/ARCHITECTURE.md`'s endpoint list in sync.
+- When adding a new table, update `files/DATABASE_SCHEMA.md` in the same change.
+- When adding a new API route, keep `files/ARCHITECTURE.md`'s endpoint list in sync.
+- When a feature actually ships and is verified working, add it to `files/FEATURES.md` — that file's own rule is "real and tested, not aspirational," so don't add something there until it's true.
 - Ask before introducing a new paid dependency or service.
 
 ## What Claude Should Avoid
