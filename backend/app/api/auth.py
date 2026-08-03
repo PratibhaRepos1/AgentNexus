@@ -1,7 +1,10 @@
-from fastapi import APIRouter, BackgroundTasks, Depends, Request
+from fastapi import APIRouter, BackgroundTasks, Depends, Request, Response
 from sqlalchemy.orm import Session
+from ..core.config import settings
 from ..core.database import get_db
+from ..core.dependencies import AUTH_COOKIE_NAME, get_current_user
 from ..core.limiter import limiter
+from ..models.user import User
 from ..notifications import notify_password_reset
 from ..schemas.auth import (
     RegisterRequest,
@@ -9,21 +12,54 @@ from ..schemas.auth import (
     ForgotPasswordRequest,
     ResetPasswordRequest,
     MessageResponse,
-    TokenResponse,
+    UserOut,
 )
 from ..services import auth_service
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
 
-@router.post("/register", response_model=TokenResponse)
-def register(req: RegisterRequest, db: Session = Depends(get_db)):
-    return auth_service.register(db, req)
+def _set_auth_cookie(response: Response, token: str) -> None:
+    # httpOnly so an XSS on the dashboard can't read the token out of
+    # localStorage/JS; SameSite=Lax means the browser withholds it on
+    # cross-site POST/PUT/DELETE requests, which is the main CSRF vector
+    # for a cookie-based session.
+    response.set_cookie(
+        key=AUTH_COOKIE_NAME,
+        value=token,
+        httponly=True,
+        secure=not settings.debug,
+        samesite="lax",
+        max_age=settings.access_token_expire_minutes * 60,
+        path="/",
+    )
 
 
-@router.post("/login", response_model=TokenResponse)
-def login(req: LoginRequest, db: Session = Depends(get_db)):
-    return auth_service.login(db, req)
+@router.post("/register", response_model=UserOut)
+@limiter.limit("10/hour")
+def register(request: Request, req: RegisterRequest, response: Response, db: Session = Depends(get_db)):
+    user, token = auth_service.register(db, req)
+    _set_auth_cookie(response, token)
+    return user
+
+
+@router.post("/login", response_model=UserOut)
+@limiter.limit("10/minute")
+def login(request: Request, req: LoginRequest, response: Response, db: Session = Depends(get_db)):
+    user, token = auth_service.login(db, req)
+    _set_auth_cookie(response, token)
+    return user
+
+
+@router.get("/me", response_model=UserOut)
+def me(current_user: User = Depends(get_current_user)):
+    return current_user
+
+
+@router.post("/logout", response_model=MessageResponse)
+def logout(response: Response):
+    response.delete_cookie(AUTH_COOKIE_NAME, path="/")
+    return MessageResponse(message="Logged out.")
 
 
 @router.post("/forgot-password", response_model=MessageResponse)

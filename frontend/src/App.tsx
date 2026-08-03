@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { LoginPage } from './dashboard/pages/LoginPage'
 import { RegisterPage } from './dashboard/pages/RegisterPage'
@@ -24,11 +25,19 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
 }
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
-  const token = useAuthStore((s) => s.token)
-  return token ? <>{children}</> : <Navigate to="/login" replace />
+  const user = useAuthStore((s) => s.user)
+  const initialized = useAuthStore((s) => s.initialized)
+  if (!initialized) return null
+  return user ? <>{children}</> : <Navigate to="/login" replace />
 }
 
 export function App() {
+  const checkAuth = useAuthStore((s) => s.checkAuth)
+
+  useEffect(() => {
+    checkAuth()
+  }, [checkAuth])
+
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />

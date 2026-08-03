@@ -86,7 +86,7 @@ def signup(client):
         payload.update(overrides)
         resp = client.post("/api/auth/register", json=payload)
         assert resp.status_code == 200, resp.text
-        token = resp.json()["access_token"]
+        token = resp.cookies.get("access_token")
         headers = {"Authorization": f"Bearer {token}"}
 
         me = client.get("/api/businesses/me", headers=headers)

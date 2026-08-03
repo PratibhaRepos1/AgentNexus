@@ -1,6 +1,5 @@
 import uuid
-from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi import Depends, HTTPException, Request, status
 from sqlalchemy.orm import Session
 from jose import JWTError
 from .database import get_db
@@ -8,14 +7,23 @@ from .security import decode_token
 from ..models.user import User
 from ..models.business import Business
 
-bearer_scheme = HTTPBearer()
+AUTH_COOKIE_NAME = "access_token"
 
 
 def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
+    request: Request,
     db: Session = Depends(get_db),
 ) -> User:
-    token = credentials.credentials
+    token = request.cookies.get(AUTH_COOKIE_NAME)
+    if not token:
+        # Fallback for direct/API-key-style access (see the plan's
+        # api-access-addon) — the dashboard itself only ever uses the
+        # httpOnly cookie set by /api/auth/login.
+        auth_header = request.headers.get("authorization", "")
+        if auth_header.lower().startswith("bearer "):
+            token = auth_header[7:]
+    if not token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
     try:
         payload = decode_token(token)
         raw_user_id = payload.get("sub")

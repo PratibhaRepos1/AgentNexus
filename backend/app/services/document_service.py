@@ -101,12 +101,29 @@ def _assert_public_url(url: str) -> None:
 async def _fetch_url_text(url: str) -> str:
     from bs4 import BeautifulSoup
 
-    _assert_public_url(url)
-    async with httpx.AsyncClient(timeout=15, follow_redirects=True) as client:
-        try:
-            resp = await client.get(url, headers={"User-Agent": "AgentNexusBot/1.0"})
-        except httpx.HTTPError:
-            raise HTTPException(status_code=400, detail="Could not fetch that URL")
+    # Redirects are followed manually (never via httpx's follow_redirects)
+    # and each hop is re-validated with _assert_public_url. Otherwise a
+    # business-controlled public URL could 302 to a private/internal
+    # address or cloud metadata endpoint and have that response ingested —
+    # the one-time check on the original URL wouldn't catch that.
+    max_redirects = 5
+    current_url = url
+    async with httpx.AsyncClient(timeout=15, follow_redirects=False) as client:
+        for _ in range(max_redirects + 1):
+            _assert_public_url(current_url)
+            try:
+                resp = await client.get(current_url, headers={"User-Agent": "AgentNexusBot/1.0"})
+            except httpx.HTTPError:
+                raise HTTPException(status_code=400, detail="Could not fetch that URL")
+            if resp.is_redirect:
+                location = resp.headers.get("location")
+                if not location:
+                    raise HTTPException(status_code=400, detail="Invalid redirect response")
+                current_url = str(httpx.URL(current_url).join(location))
+                continue
+            break
+        else:
+            raise HTTPException(status_code=400, detail="Too many redirects")
     if resp.status_code >= 400:
         raise HTTPException(status_code=400, detail=f"URL returned status {resp.status_code}")
     if len(resp.content) > MAX_URL_FETCH_BYTES:

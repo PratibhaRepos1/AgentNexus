@@ -8,7 +8,7 @@ from fastapi import HTTPException, status
 from ..models.business import Business, BusinessSettings
 from ..models.password_reset_token import PasswordResetToken
 from ..models.user import User
-from ..schemas.auth import RegisterRequest, LoginRequest, TokenResponse
+from ..schemas.auth import RegisterRequest, LoginRequest
 from ..core.security import hash_password, verify_password, create_access_token
 
 RESET_TOKEN_TTL = timedelta(hours=1)
@@ -18,7 +18,7 @@ def _hash_token(token: str) -> str:
     return hashlib.sha256(token.encode()).hexdigest()
 
 
-def register(db: Session, req: RegisterRequest) -> TokenResponse:
+def register(db: Session, req: RegisterRequest) -> tuple[User, str]:
     if db.query(User).filter(User.email == req.email).first():
         raise HTTPException(status_code=400, detail="Email already registered")
 
@@ -45,16 +45,16 @@ def register(db: Session, req: RegisterRequest) -> TokenResponse:
     db.refresh(user)
 
     token = create_access_token({"sub": str(user.id), "business_id": str(business.id)})
-    return TokenResponse(access_token=token)
+    return user, token
 
 
-def login(db: Session, req: LoginRequest) -> TokenResponse:
+def login(db: Session, req: LoginRequest) -> tuple[User, str]:
     user = db.query(User).filter(User.email == req.email, User.is_active == True).first()
     if not user or not verify_password(req.password, user.hashed_password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
 
     token = create_access_token({"sub": str(user.id), "business_id": str(user.business_id)})
-    return TokenResponse(access_token=token)
+    return user, token
 
 
 def request_password_reset(db: Session, email: str) -> Optional[tuple[User, str]]:

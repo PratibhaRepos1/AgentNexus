@@ -5,18 +5,18 @@ def test_register_and_login(client):
         "industry": "retail",
         "full_name": "Owner One",
         "email": "owner@testshop.com",
-        "password": "secret123",
+        "password": "secret12345",
     })
     assert resp.status_code == 200
-    token = resp.json()["access_token"]
-    assert token
+    assert resp.json()["email"] == "owner@testshop.com"
+    assert resp.cookies.get("access_token")
 
     resp2 = client.post("/api/auth/login", json={
         "email": "owner@testshop.com",
-        "password": "secret123",
+        "password": "secret12345",
     })
     assert resp2.status_code == 200
-    assert resp2.json()["access_token"]
+    assert resp2.cookies.get("access_token")
 
 
 def test_duplicate_email(client):
@@ -25,14 +25,14 @@ def test_duplicate_email(client):
         "business_slug": "shop-b",
         "full_name": "Owner B",
         "email": "dup@test.com",
-        "password": "pass",
+        "password": "password123",
     })
     resp = client.post("/api/auth/register", json={
         "business_name": "Shop C",
         "business_slug": "shop-c",
         "full_name": "Owner C",
         "email": "dup@test.com",
-        "password": "pass",
+        "password": "password123",
     })
     assert resp.status_code == 400
 
@@ -43,14 +43,14 @@ def test_duplicate_slug(client):
         "business_slug": "shop-d",
         "full_name": "Owner D",
         "email": "d1@test.com",
-        "password": "pass",
+        "password": "password123",
     })
     resp = client.post("/api/auth/register", json={
         "business_name": "Shop D Copycat",
         "business_slug": "shop-d",
         "full_name": "Owner D2",
         "email": "d2@test.com",
-        "password": "pass",
+        "password": "password123",
     })
     assert resp.status_code == 400
 

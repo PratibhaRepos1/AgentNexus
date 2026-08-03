@@ -1,6 +1,17 @@
 from pathlib import Path
 from pydantic_settings import BaseSettings
+from pydantic import field_validator
 from functools import lru_cache
+
+# Known placeholder values from .env.example / older defaults. If the running
+# config still has one of these, SECRET_KEY was never actually set — signing
+# tokens with a value visible in this repo would let anyone forge a valid
+# JWT for any user, so we fail fast at startup instead of running insecurely.
+_INSECURE_SECRET_KEYS = {
+    "change-me-in-production",
+    "change-me-to-a-random-64-char-string",
+    "",
+}
 
 # Anchored absolutely (not relative to cwd) so settings load correctly
 # whether the app is started from the repo root, from backend/, or via
@@ -19,6 +30,17 @@ class Settings(BaseSettings):
     secret_key: str = "change-me-in-production"
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 60 * 24
+
+    @field_validator("secret_key")
+    @classmethod
+    def _reject_insecure_secret_key(cls, v: str) -> str:
+        if v in _INSECURE_SECRET_KEYS or len(v) < 32:
+            raise ValueError(
+                "SECRET_KEY is missing, a known placeholder, or too short. "
+                "Set a real random value (32+ chars, e.g. `python -c "
+                "\"import secrets; print(secrets.token_urlsafe(48))\"`) in your .env."
+            )
+        return v
 
     upload_dir: str = "./uploads"
     max_upload_size_mb: int = 10

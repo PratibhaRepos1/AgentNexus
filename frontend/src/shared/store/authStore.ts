@@ -2,11 +2,21 @@ import { create } from 'zustand'
 import { api } from '../api/client'
 import { queryClient } from '../queryClient'
 
+interface User {
+  id: string
+  email: string
+  full_name: string
+  role: string
+  business_id: string
+}
+
 interface AuthState {
-  token: string | null
+  user: User | null
+  initialized: boolean
+  checkAuth: () => Promise<void>
   login: (email: string, password: string) => Promise<void>
   register: (data: RegisterData) => Promise<void>
-  logout: () => void
+  logout: () => Promise<void>
 }
 
 interface RegisterData {
@@ -18,26 +28,40 @@ interface RegisterData {
   password: string
 }
 
+// The session lives in an httpOnly cookie set by the backend (not
+// localStorage — a cookie that JS can't read can't be stolen by an XSS
+// bug), so on load/refresh we don't know if we're logged in until we ask.
 export const useAuthStore = create<AuthState>((set) => ({
-  token: localStorage.getItem('agentnexus_token'),
+  user: null,
+  initialized: false,
+
+  checkAuth: async () => {
+    try {
+      const { data } = await api.get('/auth/me')
+      set({ user: data, initialized: true })
+    } catch {
+      set({ user: null, initialized: true })
+    }
+  },
 
   login: async (email, password) => {
     const { data } = await api.post('/auth/login', { email, password })
     queryClient.clear()
-    localStorage.setItem('agentnexus_token', data.access_token)
-    set({ token: data.access_token })
+    set({ user: data, initialized: true })
   },
 
   register: async (data) => {
-    const res = await api.post('/auth/register', data)
+    const { data: user } = await api.post('/auth/register', data)
     queryClient.clear()
-    localStorage.setItem('agentnexus_token', res.data.access_token)
-    set({ token: res.data.access_token })
+    set({ user, initialized: true })
   },
 
-  logout: () => {
-    queryClient.clear()
-    localStorage.removeItem('agentnexus_token')
-    set({ token: null })
+  logout: async () => {
+    try {
+      await api.post('/auth/logout')
+    } finally {
+      queryClient.clear()
+      set({ user: null, initialized: true })
+    }
   },
 }))
