@@ -47,7 +47,7 @@ const initial = SUPPORTED_LANGUAGES.find((l) => l.code === DEFAULT_LANGUAGE) ?? 
   import { setCurrency } from "../stores/currencyStore";
 
   function currentPage(): string | undefined {
-    return (window as { __AGENTNEXUS_PAGE__?: string }).__AGENTNEXUS_PAGE__;
+    return document.body.dataset.page;
   }
 
   function closeAllDropdowns(): void {
