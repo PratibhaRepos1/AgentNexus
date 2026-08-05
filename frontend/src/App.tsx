@@ -1,5 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { Menu } from 'lucide-react'
 import { LoginPage } from './dashboard/pages/LoginPage'
 import { RegisterPage } from './dashboard/pages/RegisterPage'
 import { ForgotPasswordPage } from './dashboard/pages/ForgotPasswordPage'
@@ -16,10 +17,26 @@ import { Sidebar } from './dashboard/components/Sidebar'
 import { useAuthStore } from './shared/store/authStore'
 
 function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
-      <Sidebar />
-      <main className="flex-1 overflow-y-auto p-8">{children}</main>
+      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex items-center gap-3 border-b border-slate-200 bg-white px-4 py-3 md:hidden">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            aria-label="Open menu"
+            className="text-slate-500 hover:text-slate-700"
+          >
+            <Menu size={22} />
+          </button>
+          <span className="text-lg font-bold tracking-tight">
+            Agent<span className="brand-gradient-text">Nexus</span>
+          </span>
+        </div>
+        <main className="flex-1 overflow-y-auto p-4 md:p-8">{children}</main>
+      </div>
     </div>
   )
 }

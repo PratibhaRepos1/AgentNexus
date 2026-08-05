@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, MessageSquare, BookOpen, FileText, ShoppingBag, Users, Settings, CreditCard, LogOut } from 'lucide-react'
+import { LayoutDashboard, MessageSquare, BookOpen, FileText, ShoppingBag, Users, Settings, CreditCard, LogOut, X } from 'lucide-react'
 import { useAuthStore } from '../../shared/store/authStore'
 import { clsx } from 'clsx'
 
@@ -14,49 +14,78 @@ const nav = [
   { to: '/dashboard/settings', icon: Settings, label: 'Settings', color: 'text-slate-500' },
 ]
 
-export function Sidebar() {
+interface Props {
+  open: boolean
+  onClose: () => void
+}
+
+export function Sidebar({ open, onClose }: Props) {
   const logout = useAuthStore((s) => s.logout)
 
   return (
-    <aside className="w-60 flex-shrink-0 bg-white border-r border-slate-200 flex flex-col">
-      <div className="px-6 py-5 border-b border-slate-100">
-        <span className="text-2xl font-bold tracking-tight">
-          Agent<span className="brand-gradient-text">Nexus</span>
-        </span>
-      </div>
-      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-        {nav.map(({ to, icon: Icon, label, color }) => (
-          <NavLink
-            key={to}
-            to={to}
-            end={to === '/dashboard'}
-            className={({ isActive }) =>
-              clsx(
-                'flex items-center gap-3 px-3 py-2 rounded-xl text-base font-medium transition-colors',
-                isActive
-                  ? 'brand-gradient text-white shadow-sm shadow-brand-200'
-                  : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-              )
-            }
+    <>
+      {/* Backdrop: mobile-only, shown while the drawer is open */}
+      {open && (
+        <div
+          className="fixed inset-0 z-30 bg-slate-900/40 md:hidden"
+          onClick={onClose}
+          aria-hidden="true"
+        />
+      )}
+      <aside
+        className={clsx(
+          'fixed inset-y-0 left-0 z-40 w-60 flex-shrink-0 bg-white border-r border-slate-200 flex flex-col transition-transform duration-200 ease-out',
+          'md:static md:translate-x-0',
+          open ? 'translate-x-0' : '-translate-x-full'
+        )}
+      >
+        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
+          <span className="text-2xl font-bold tracking-tight">
+            Agent<span className="brand-gradient-text">Nexus</span>
+          </span>
+          <button
+            onClick={onClose}
+            aria-label="Close menu"
+            className="text-slate-400 hover:text-slate-600 md:hidden"
           >
-            {({ isActive }) => (
-              <>
-                <Icon size={18} className={isActive ? 'text-white' : color} />
-                {label}
-              </>
-            )}
-          </NavLink>
-        ))}
-      </nav>
-      <div className="p-3 border-t border-slate-100">
-        <button
-          onClick={logout}
-          className="flex w-full items-center gap-3 px-3 py-2 rounded-xl text-base font-medium text-slate-600 hover:bg-slate-50 hover:text-red-600 transition-colors"
-        >
-          <LogOut size={18} />
-          Log out
-        </button>
-      </div>
-    </aside>
+            <X size={22} />
+          </button>
+        </div>
+        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+          {nav.map(({ to, icon: Icon, label, color }) => (
+            <NavLink
+              key={to}
+              to={to}
+              end={to === '/dashboard'}
+              onClick={onClose}
+              className={({ isActive }) =>
+                clsx(
+                  'flex items-center gap-3 px-3 py-2 rounded-xl text-base font-medium transition-colors',
+                  isActive
+                    ? 'brand-gradient text-white shadow-sm shadow-brand-200'
+                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                )
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  <Icon size={18} className={isActive ? 'text-white' : color} />
+                  {label}
+                </>
+              )}
+            </NavLink>
+          ))}
+        </nav>
+        <div className="p-3 border-t border-slate-100">
+          <button
+            onClick={logout}
+            className="flex w-full items-center gap-3 px-3 py-2 rounded-xl text-base font-medium text-slate-600 hover:bg-slate-50 hover:text-red-600 transition-colors"
+          >
+            <LogOut size={18} />
+            Log out
+          </button>
+        </div>
+      </aside>
+    </>
   )
 }

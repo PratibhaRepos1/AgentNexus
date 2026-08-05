@@ -162,6 +162,17 @@ async def ingest_document(
     if ext not in ALLOWED_TYPES:
         raise HTTPException(status_code=400, detail=f"File type .{ext} not supported")
 
+    existing = (
+        db.query(Document)
+        .filter(Document.business_id == business_id, Document.filename == file.filename)
+        .first()
+    )
+    if existing:
+        raise HTTPException(
+            status_code=400,
+            detail=f"'{file.filename}' has already been uploaded. Delete the existing copy first if you want to replace it.",
+        )
+
     content = await file.read()
     if len(content) > settings.max_upload_size_mb * 1024 * 1024:
         raise HTTPException(status_code=400, detail="File too large")

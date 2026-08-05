@@ -14,6 +14,7 @@ const DEFAULT_PRIMARY_COLOR = '#ff6b00'
 export function LeadForm({ businessId, sessionId, primaryColor = DEFAULT_PRIMARY_COLOR, apiBaseUrl = DEFAULT_API_BASE_URL, onSubmitted }: Props) {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }))
@@ -22,13 +23,26 @@ export function LeadForm({ businessId, sessionId, primaryColor = DEFAULT_PRIMARY
     e.preventDefault()
     if (!form.name) return
     setLoading(true)
+    setError('')
     try {
-      await fetch(`${apiBaseUrl}/api/leads`, {
+      const res = await fetch(`${apiBaseUrl}/api/leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ business_id: businessId, session_id: sessionId, ...form }),
       })
+      if (!res.ok) {
+        const body = await res.json().catch(() => null)
+        const detail = body?.detail
+        setError(
+          Array.isArray(detail)
+            ? 'Please check your email and phone number are valid.'
+            : detail || 'Something went wrong. Please try again.'
+        )
+        return
+      }
       onSubmitted()
+    } catch {
+      setError('Something went wrong. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -44,6 +58,7 @@ export function LeadForm({ businessId, sessionId, primaryColor = DEFAULT_PRIMARY
         value={form.phone} onChange={set('phone')} />
       <input className="w-full rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm" placeholder="Message (optional)"
         value={form.message} onChange={set('message')} />
+      {error && <p className="text-xs text-red-500">{error}</p>}
       <button type="submit" disabled={loading}
         className="w-full text-white text-sm py-1.5 rounded-lg transition-[filter] hover:brightness-90 disabled:opacity-50"
         style={{ backgroundColor: primaryColor }}>
