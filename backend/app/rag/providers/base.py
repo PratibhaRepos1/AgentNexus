@@ -16,7 +16,7 @@ def tone_instruction(tone: str) -> str:
 
 # Mirrors AVAILABLE_LANGUAGES in frontend/src/dashboard/pages/SettingsPage.tsx --
 # the curated set of codes a business can actually enable for their widget.
-_LANGUAGE_NAMES = {
+LANGUAGE_NAMES = {
     "en": "English",
     "no": "Norwegian",
     "de": "German",
@@ -32,15 +32,30 @@ _LANGUAGE_NAMES = {
 
 def language_instruction(languages: Optional[List[str]]) -> str:
     codes = languages or ["en"]
-    names = [_LANGUAGE_NAMES.get(code, code) for code in codes]
+    names = [LANGUAGE_NAMES.get(code, code) for code in codes]
     if len(names) == 1:
         return f"Always respond in {names[0]}, regardless of what language the visitor writes in."
     language_list = ", ".join(names)
+    # `names[0]` is the language chat_service.handle_message detected from the visitor's
+    # own current/previous message (see rag/language_detect.py, which puts it first) --
+    # used only as the tie-breaker when THIS message doesn't clearly signal one of the
+    # supported languages, never as an override of what was actually typed.
     return (
-        f"This business supports {language_list}. Detect which of these languages the visitor "
-        f"is writing in and respond in that same language. If the visitor's language isn't one of "
-        f"these, respond in {names[0]}."
+        f"This business supports {language_list}. Look at the VISITOR'S CURRENT MESSAGE below "
+        f"(not the retrieved context, not the conversation history) and identify which language "
+        f"it is written in. Reply in that same language. Only if the current message isn't "
+        f"clearly in one of {language_list}, reply in {names[0]} instead."
     )
+
+
+def language_reminder(languages: Optional[List[str]]) -> str:
+    """A short reminder placed immediately next to the visitor's question --
+    LLMs follow instructions near the actual content more reliably than ones
+    stated only once, far away, in a long system prompt."""
+    codes = languages or ["en"]
+    if len(codes) == 1:
+        return f"(Reply in {LANGUAGE_NAMES.get(codes[0], codes[0])}.)"
+    return "(Reply in the same language as the question above.)"
 
 
 _BASE_SYSTEM_PROMPT = (
@@ -84,6 +99,14 @@ class LLMProvider(ABC):
         history: Optional[List[Dict[str, str]]] = None,
         languages: Optional[List[str]] = None,
     ) -> str:
+        pass
+
+    @abstractmethod
+    async def translate(self, text: str, target_language: str) -> str:
+        """Best-effort translation used to pre-fill a default fallback_messages
+        entry when a business enables a new language (see update_settings in
+        api/businesses.py) -- not part of the RAG reply path, so it skips
+        system_prompt() and the business-assistant framing entirely."""
         pass
 
 

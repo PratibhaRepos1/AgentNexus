@@ -9,12 +9,6 @@ class ChatMessageRequest(BaseModel):
     session_id: str
     message: str
     visitor_id: Optional[str] = None
-    # Widget's browser-locale-detected language (see Widget.tsx), used to pick
-    # the right fallback_messages entry and to tell the LLM definitively which
-    # language to reply in -- see chat_service.handle_message. Optional so
-    # older widget builds / direct API callers still work (falls back to the
-    # LLM detecting the language from the message itself).
-    lang: Optional[str] = None
 
 
 class ChatMessageResponse(BaseModel):
@@ -23,6 +17,11 @@ class ChatMessageResponse(BaseModel):
     confidence: Optional[float] = None
     session_id: str
     suggest_lead_capture: bool = False
+    # The language chat_service detected from the visitor's own message (see
+    # rag/language_detect.py) -- the widget uses this to keep its own UI
+    # (lead form, placeholders) in sync with the conversation's language,
+    # rather than a browser locale that has no relationship to what's typed.
+    lang: str = "en"
 
 
 class MessageOut(BaseModel):

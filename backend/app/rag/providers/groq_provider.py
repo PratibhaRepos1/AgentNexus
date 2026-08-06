@@ -1,5 +1,5 @@
 from typing import Dict, List, Optional
-from .base import LLMProvider, system_prompt
+from .base import LLMProvider, system_prompt, language_reminder
 from ...core.config import settings
 
 
@@ -24,7 +24,7 @@ class GroqProvider(LLMProvider):
     ) -> str:
         client = self._get_client()
         system = system_prompt(tone, languages)
-        user_message = f"Context:\n{context}\n\nQuestion: {prompt}"
+        user_message = f"Context:\n{context}\n\nQuestion: {prompt}\n{language_reminder(languages)}"
 
         messages = [{"role": "system", "content": system}]
         for turn in history or []:
@@ -38,3 +38,15 @@ class GroqProvider(LLMProvider):
             max_tokens=512,
         )
         return response.choices[0].message.content
+
+    async def translate(self, text: str, target_language: str) -> str:
+        client = self._get_client()
+        response = await client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": "You are a professional translator. Respond with ONLY the translated text -- no quotes, no explanation, no original text."},
+                {"role": "user", "content": f"Translate the following text to {target_language}:\n\n{text}"},
+            ],
+            max_tokens=512,
+        )
+        return response.choices[0].message.content.strip()

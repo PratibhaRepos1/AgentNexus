@@ -15,6 +15,10 @@ class FAQ(Base):
     answer = Column(Text, nullable=False)
     category = Column(Text, nullable=True)
     is_active = Column(Boolean, default=True)
+    # Embedding of `question` alone (not question+answer -- the answer's specific
+    # content dilutes the semantic "question-ness" that a visitor's message is
+    # actually compared against). Computed on create/update, see api/faqs.py.
+    embedding_json = Column(Text, nullable=True)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     updated_at = Column(
         DateTime(timezone=True),

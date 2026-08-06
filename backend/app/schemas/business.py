@@ -20,7 +20,6 @@ class BusinessOut(BaseModel):
 class BusinessSettingsOut(BaseModel):
     tone: str
     welcome_message: str
-    welcome_messages: Dict[str, str]
     fallback_message: str
     fallback_messages: Dict[str, str]
     business_hours: Any
@@ -36,7 +35,6 @@ class BusinessSettingsOut(BaseModel):
 
 class PublicBusinessSettingsOut(BaseModel):
     welcome_message: str
-    welcome_messages: Dict[str, str]
     languages: List[str]
     primary_color: str
 
@@ -47,7 +45,6 @@ class PublicBusinessSettingsOut(BaseModel):
 class BusinessSettingsUpdate(BaseModel):
     tone: Optional[str] = None
     welcome_message: Optional[str] = None
-    welcome_messages: Optional[Dict[str, str]] = None
     fallback_message: Optional[str] = None
     fallback_messages: Optional[Dict[str, str]] = None
     business_hours: Optional[Any] = None

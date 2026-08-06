@@ -21,12 +21,15 @@ from ..schemas.plan import (
 )
 from ..core.plans import PLANS
 from ..services import plan_service
+from ..rag.providers import get_llm_provider
+from ..rag.providers.base import LANGUAGE_NAMES
 import secrets
 from fastapi import HTTPException
 
 router = APIRouter(prefix="/api/businesses", tags=["businesses"])
 
 DEFAULT_WELCOME_MESSAGE = "Hi! How can I help you today?"
+DEFAULT_FALLBACK_MESSAGE = "I'm not sure about that. Would you like to speak with our team?"
 DEFAULT_PRIMARY_COLOR = "#ff6b00"
 
 
@@ -37,19 +40,41 @@ def get_public_settings(business_id: str, db: Session = Depends(get_db)):
     s = db.query(BusinessSettings).filter(BusinessSettings.business_id == business_id).first()
     welcome_message = s.welcome_message if s and s.welcome_message else DEFAULT_WELCOME_MESSAGE
     languages = (s.languages if s and s.languages else None) or ["en"]
-    overrides = (s.welcome_messages if s and s.welcome_messages else None) or {}
-    # Every enabled language gets an entry -- one with its own translation if the
-    # business wrote one, otherwise the base welcome_message as a safe fallback
-    # (still on-brand, just not translated) rather than omitting the language.
-    welcome_messages = {lang: overrides.get(lang, welcome_message) for lang in languages}
     business = db.query(Business).filter(Business.id == business_id).first()
     primary_color = business.primary_color if business and business.primary_color else DEFAULT_PRIMARY_COLOR
     return PublicBusinessSettingsOut(
         welcome_message=welcome_message,
-        welcome_messages=welcome_messages,
         languages=languages,
         primary_color=primary_color,
     )
+
+
+async def _fill_default_fallback_translations(s: BusinessSettings, new_languages: list) -> None:
+    """Best-effort: when a business enables a language it's never had before,
+    pre-fill fallback_messages for it via the configured LLM provider, so the
+    fallback reply isn't blank/English-only until the owner gets around to
+    writing their own -- see the "Fallback message (X)" field in Settings."""
+    existing_languages = set(s.languages or [])
+    added = [code for code in new_languages if code not in existing_languages]
+    if not added:
+        return
+    fallback_messages = dict(s.fallback_messages or {})
+    added = [code for code in added if code not in fallback_messages]
+    if not added:
+        return
+
+    provider = get_llm_provider(s.llm_provider, s.llm_model)
+    source_text = s.fallback_message or DEFAULT_FALLBACK_MESSAGE
+    for code in added:
+        target_language = LANGUAGE_NAMES.get(code, code)
+        try:
+            fallback_messages[code] = await provider.translate(source_text, target_language)
+        except Exception:
+            # No API key configured, provider unreachable, etc. -- leave it
+            # unset rather than fail the whole language-save; the owner can
+            # still write their own translation by hand.
+            pass
+    s.fallback_messages = fallback_messages
 
 
 @router.get("/me", response_model=BusinessOut)
@@ -93,7 +118,7 @@ def get_settings(current_user: User = Depends(get_current_user), db: Session = D
 
 
 @router.patch("/me/settings", response_model=BusinessSettingsOut)
-def update_settings(
+async def update_settings(
     update: BusinessSettingsUpdate,
     current_user: User = Depends(get_current_user),
     business: Business = Depends(get_current_business),
@@ -103,6 +128,7 @@ def update_settings(
     updates = update.model_dump(exclude_none=True)
     if "languages" in updates:
         plan_service.check_language_limit(business, updates["languages"])
+        await _fill_default_fallback_translations(s, updates["languages"])
     for field, val in updates.items():
         setattr(s, field, val)
     db.commit()

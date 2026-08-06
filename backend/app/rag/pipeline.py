@@ -35,44 +35,49 @@ def retrieve_chunks(
     return scored[:top_k]
 
 
-def retrieve_faqs(db: Session, business_id: str, query: str) -> List[str]:
+def retrieve_faqs(
+    db: Session, business_id: str, query_embedding: List[float], top_k: int = 3
+) -> List[Tuple[str, float]]:
     faqs = (
         db.query(FAQ)
-        .filter(FAQ.business_id == business_id, FAQ.is_active == True)
+        .filter(FAQ.business_id == business_id, FAQ.is_active == True, FAQ.embedding_json.isnot(None))
         .all()
     )
-    query_lower = query.lower()
-    matched = []
+    scored = []
     for faq in faqs:
-        if any(word in faq.question.lower() for word in query_lower.split() if len(word) > 3):
-            matched.append(f"Q: {faq.question}\nA: {faq.answer}")
-    return matched[:3]
+        emb = json.loads(faq.embedding_json)
+        score = _cosine_similarity(query_embedding, emb)
+        scored.append((f"Q: {faq.question}\nA: {faq.answer}", score))
+    scored.sort(key=lambda x: x[1], reverse=True)
+    return scored[:top_k]
 
 
-def retrieve_products(db: Session, business_id: str, query: str) -> List[str]:
+def retrieve_products(
+    db: Session, business_id: str, query_embedding: List[float], top_k: int = 5
+) -> List[Tuple[str, float]]:
     products = (
         db.query(Product)
-        .filter(Product.business_id == business_id, Product.is_active == True)
+        .filter(Product.business_id == business_id, Product.is_active == True, Product.embedding_json.isnot(None))
         .all()
     )
-    query_words = [w for w in query.lower().split() if len(w) > 3]
-    matched = []
+    scored = []
     for product in products:
-        haystack = f"{product.name} {product.category or ''} {product.description or ''}".lower()
-        if any(word in haystack for word in query_words):
-            price = f"{product.price} {product.currency}" if product.price is not None else "price not listed"
-            line = f"Product: {product.name} — {price}"
-            if product.description:
-                line += f"\n{product.description}"
-            matched.append(line)
-    return matched[:5]
+        emb = json.loads(product.embedding_json)
+        score = _cosine_similarity(query_embedding, emb)
+        price = f"{product.price} {product.currency}" if product.price is not None else "price not listed"
+        line = f"Product: {product.name} — {price}"
+        if product.description:
+            line += f"\n{product.description}"
+        scored.append((line, score))
+    scored.sort(key=lambda x: x[1], reverse=True)
+    return scored[:top_k]
 
 
 def _build_contextual_query(history: List[Dict[str, str]], message: str) -> str:
     # A bare follow-up like "and the cappuccino?" has no anchor to what was
     # actually being asked (price? ingredients?), so retrieval on it alone
     # tends to score too low to match anything. Prepending the prior visitor
-    # turn gives embedding/keyword matching that missing anchor back.
+    # turn gives the embedding search that missing anchor back.
     prior_visitor_messages = [h["content"] for h in history if h.get("sender") == "visitor"]
     if prior_visitor_messages:
         return f"{prior_visitor_messages[-1]} {message}"
@@ -97,19 +102,18 @@ async def run_rag(
 
     query_emb = embed_query(search_query)
     chunks = retrieve_chunks(db, business_id, query_emb, top_k)
-    # Keyword matching (unlike embeddings) has no similarity threshold to
-    # filter out noise, so it uses the raw current message only -- the
-    # history-augmented search_query caused it to match on a *prior* turn's
-    # keywords and pull in context irrelevant to the current question.
-    faq_matches = retrieve_faqs(db, business_id, message)
-    product_matches = retrieve_products(db, business_id, message)
+    faqs = retrieve_faqs(db, business_id, query_emb)
+    products = retrieve_products(db, business_id, query_emb)
+    all_matches = chunks + faqs + products
 
-    best_score = chunks[0][1] if chunks else 0.0
+    # Previously only ever looked at chunk scores, so a business with a perfect,
+    # exact FAQ match for the question but no matching document chunk still got
+    # scored as low-confidence (triggering lead-capture suggestion) even though
+    # the reply was fully grounded.
+    best_score = max((score for _, score in all_matches), default=0.0)
     intent = _detect_intent(message)
 
-    context_parts = [c for c, s in chunks if s >= confidence_threshold]
-    context_parts.extend(faq_matches)
-    context_parts.extend(product_matches)
+    context_parts = [c for c, s in all_matches if s >= confidence_threshold]
     context = "\n\n".join(context_parts)
 
     if not context.strip():

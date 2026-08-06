@@ -12,7 +12,6 @@ import { usePlan } from '../../shared/hooks/usePlan'
 interface Settings {
   tone: string
   welcome_message: string
-  welcome_messages: Record<string, string>
   fallback_message: string
   fallback_messages: Record<string, string>
   contact_email: string | null
@@ -95,9 +94,6 @@ export function SettingsPage() {
   const maxLanguages = plan?.limits.max_languages ?? 1
 
   const languages = form.languages ?? ['en']
-  const welcomeMessages = form.welcome_messages ?? {}
-  const setWelcomeMessageFor = (code: string) => (e: React.ChangeEvent<HTMLTextAreaElement>) =>
-    setForm((f) => ({ ...f, welcome_messages: { ...(f.welcome_messages ?? {}), [code]: e.target.value } }))
   const fallbackMessages = form.fallback_messages ?? {}
   const setFallbackMessageFor = (code: string) => (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, fallback_messages: { ...(f.fallback_messages ?? {}), [code]: e.target.value } }))
@@ -132,32 +128,13 @@ export function SettingsPage() {
             </select>
           </div>
           <div>
-            <label className="block text-base font-medium text-slate-700 mb-1">
-              Welcome message {languages.length > 1 && `(${languageLabel(languages[0])})`}
-            </label>
+            <label className="block text-base font-medium text-slate-700 mb-1">Welcome message</label>
             <textarea className="w-full rounded-xl border border-slate-300 px-3 py-2 text-base" rows={2}
               value={form.welcome_message || ''} onChange={set('welcome_message')} />
             <p className="text-sm text-slate-500 mt-1">
-              Shown to visitors whose browser language is {languages.length > 1 ? languageLabel(languages[0]) : 'not one of your other enabled languages'}, and as the fallback for any enabled language without its own translation below.
+              Shown to every visitor as the opening greeting, before they've typed anything for the bot to go on — so it's always in this one language, regardless of which languages you enable below.
             </p>
           </div>
-          {languages.slice(1).map((code) => (
-            <div key={code}>
-              <label className="block text-base font-medium text-slate-700 mb-1">
-                Welcome message ({languageLabel(code)})
-              </label>
-              <textarea
-                className="w-full rounded-xl border border-slate-300 px-3 py-2 text-base"
-                rows={2}
-                placeholder={form.welcome_message || ''}
-                value={welcomeMessages[code] || ''}
-                onChange={setWelcomeMessageFor(code)}
-              />
-              <p className="text-sm text-slate-500 mt-1">
-                Shown to visitors whose browser language is {languageLabel(code)}. Leave blank to use the {languageLabel(languages[0])} message above instead.
-              </p>
-            </div>
-          ))}
           <div>
             <label className="block text-base font-medium text-slate-700 mb-1">
               Fallback message {languages.length > 1 && `(${languageLabel(languages[0])})`}
@@ -165,7 +142,7 @@ export function SettingsPage() {
             <textarea className="w-full rounded-xl border border-slate-300 px-3 py-2 text-base" rows={2}
               value={form.fallback_message || ''} onChange={set('fallback_message')} />
             <p className="text-sm text-slate-500 mt-1">
-              Shown when the bot can't find an answer, to visitors whose browser language is {languages.length > 1 ? languageLabel(languages[0]) : 'not one of your other enabled languages'}, and as the fallback for any enabled language without its own translation below.
+              Shown when the bot can't find an answer, matched to the language {languages.length > 1 ? 'the visitor is writing in' : 'below'} — this is the {languages.length > 1 ? languageLabel(languages[0]) : 'default'} version, and also the fallback for any enabled language without its own translation below.
             </p>
           </div>
           {languages.slice(1).map((code) => (
@@ -181,7 +158,7 @@ export function SettingsPage() {
                 onChange={setFallbackMessageFor(code)}
               />
               <p className="text-sm text-slate-500 mt-1">
-                Shown to visitors whose browser language is {languageLabel(code)}. Leave blank to use the {languageLabel(languages[0])} message above instead.
+                Shown when a visitor writes in {languageLabel(code)}. Auto-filled with a translation when you enabled {languageLabel(code)} — edit it anytime, or leave blank to use the {languageLabel(languages[0])} message above instead.
               </p>
             </div>
           ))}

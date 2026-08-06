@@ -14,7 +14,11 @@ interface Props {
   welcomeMessage?: string
   primaryColor?: string
   apiBaseUrl?: string
-  lang?: string
+  // Starting point only (the business's primary language) -- once the visitor
+  // sends a message, `lang` below tracks whatever language the backend actually
+  // detected from that message, so the lead form and other chrome stay in sync
+  // with the conversation instead of a fixed guess made before anyone typed.
+  initialLang?: string
 }
 
 const genSession = () => `sess_${Math.random().toString(36).slice(2, 10)}`
@@ -26,8 +30,9 @@ export function ChatWindow({
   welcomeMessage = 'Hi! How can I help you today?',
   primaryColor = '#ff6b00',
   apiBaseUrl = DEFAULT_API_BASE_URL,
-  lang,
+  initialLang,
 }: Props) {
+  const [lang, setLang] = useState(initialLang ?? 'en')
   const strings = widgetStrings(lang)
   const sessionId = useRef(sessionStorage.getItem(SESSION_KEY) || (() => {
     const s = genSession(); sessionStorage.setItem(SESSION_KEY, s); return s
@@ -52,7 +57,7 @@ export function ChatWindow({
       const res = await fetch(`${apiBaseUrl}/api/chat/message`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ business_id: businessId, session_id: sessionId.current, message: msg, lang }),
+        body: JSON.stringify({ business_id: businessId, session_id: sessionId.current, message: msg }),
       })
       if (res.status === 429) {
         setMessages((m) => [...m, { sender: 'ai', content: strings.rateLimited }])
@@ -60,6 +65,7 @@ export function ChatWindow({
       }
       if (!res.ok) throw new Error('Request failed')
       const data = await res.json()
+      if (data.lang) setLang(data.lang)
       setMessages((m) => [...m, { sender: 'ai', content: data.reply }])
       if (data.suggest_lead_capture) setShowLeadForm(true)
     } catch {

@@ -45,17 +45,17 @@ class BusinessSettings(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     business_id = Column(UUID(as_uuid=True), ForeignKey("businesses.id"), nullable=False, unique=True)
     tone = Column(Text, default="friendly")
+    # Always shown as-is, in this one language, regardless of visitor -- shown before
+    # any message exists, so there's nothing to detect a visitor's language from yet.
     welcome_message = Column(Text, default="Hi! How can I help you today?")
-    # Per-language overrides, e.g. {"no": "Hei! Hvordan kan jeg hjelpe deg i dag?"}.
-    # A language enabled in `languages` with no entry here falls back to
-    # `welcome_message` above -- see get_public_settings in api/businesses.py.
-    welcome_messages = Column(JSON, default=dict)
     fallback_message = Column(
         Text, default="I'm not sure about that. Would you like to speak with our team?"
     )
-    # Per-language overrides, same fallback rule as welcome_messages above --
-    # this is the "no info found" reply, returned without ever reaching the
-    # LLM (see run_rag in rag/pipeline.py), so it needs its own translations.
+    # Per-language overrides for the reply above -- this is the "no info found"
+    # reply, returned without ever reaching the LLM (see run_rag in
+    # rag/pipeline.py), picked by the language chat_service detects from the
+    # visitor's own message. A language enabled in `languages` with no entry
+    # here falls back to `fallback_message` above.
     fallback_messages = Column(JSON, default=dict)
     business_hours = Column(JSON, default=dict)
     contact_email = Column(Text, nullable=True)

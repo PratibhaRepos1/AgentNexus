@@ -3,6 +3,7 @@ from ..models.conversation import Conversation, Message
 from ..models.business import Business, BusinessSettings
 from ..schemas.chat import ChatMessageRequest, ChatMessageResponse
 from ..rag.pipeline import run_rag
+from ..rag.language_detect import detect_message_language
 from ..services import plan_service
 from fastapi import HTTPException
 
@@ -64,18 +65,16 @@ async def handle_message(db: Session, req: ChatMessageRequest) -> ChatMessageRes
     tone = biz_settings.tone if biz_settings else "friendly"
     languages = (biz_settings.languages if biz_settings else None) or ["en"]
 
-    # When the widget tells us the visitor's language, that's more reliable than
-    # asking the LLM to detect it from the message -- pass it as the ONLY
-    # enabled language so language_instruction() gives a deterministic "always
-    # respond in X" instruction instead of a "detect and match" one. Also picks
-    # the right translation for the no-context-found fallback below, which
-    # never reaches the LLM at all.
-    if req.lang and req.lang in languages:
-        effective_languages = [req.lang]
-        resolved_fallback = fallback_messages.get(req.lang) or fallback_message
-    else:
-        effective_languages = languages
-        resolved_fallback = fallback_message
+    # The visitor's own message decides the reply language -- not their browser's
+    # locale, which has no relationship to what they're actually typing (a visitor
+    # can easily have Norwegian as a browser default and still type in English).
+    # detected_lang goes first in the list passed to the LLM as the tie-breaker
+    # for a message that isn't clearly in any supported language, and is used
+    # directly to pick the fallback_messages translation below, since that reply
+    # never reaches the LLM to detect anything from.
+    detected_lang = detect_message_language(req.message, languages, default=languages[0])
+    effective_languages = [detected_lang] + [lang for lang in languages if lang != detected_lang]
+    resolved_fallback = fallback_messages.get(detected_lang) or fallback_message
 
     reply, intent, confidence = await run_rag(
         db=db,
@@ -107,4 +106,5 @@ async def handle_message(db: Session, req: ChatMessageRequest) -> ChatMessageRes
         confidence=confidence,
         session_id=req.session_id,
         suggest_lead_capture=suggest_lead,
+        lang=detected_lang,
     )

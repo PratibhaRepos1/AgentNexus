@@ -18,6 +18,9 @@ class Product(Base):
     image_url = Column(Text, nullable=True)
     category = Column(Text, nullable=True)
     is_active = Column(Boolean, default=True)
+    # Embedding of name + category + description, computed on create/update --
+    # see api/products.py.
+    embedding_json = Column(Text, nullable=True)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     business = relationship("Business", back_populates="products")

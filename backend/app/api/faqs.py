@@ -1,3 +1,4 @@
+import json
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -6,6 +7,7 @@ from ..core.dependencies import get_current_user
 from ..models.user import User
 from ..models.faq import FAQ
 from ..schemas.faq import FAQCreate, FAQUpdate, FAQOut
+from ..rag.embeddings import embed_query
 
 router = APIRouter(prefix="/api/faqs", tags=["faqs"])
 
@@ -22,6 +24,7 @@ def create_faq(
     db: Session = Depends(get_db),
 ):
     faq = FAQ(business_id=current_user.business_id, **body.model_dump())
+    faq.embedding_json = json.dumps(embed_query(faq.question))
     db.add(faq)
     db.commit()
     db.refresh(faq)
@@ -38,8 +41,11 @@ def update_faq(
     faq = db.query(FAQ).filter(FAQ.id == faq_id, FAQ.business_id == current_user.business_id).first()
     if not faq:
         raise HTTPException(status_code=404, detail="FAQ not found")
-    for field, val in body.model_dump(exclude_none=True).items():
+    updates = body.model_dump(exclude_none=True)
+    for field, val in updates.items():
         setattr(faq, field, val)
+    if "question" in updates:
+        faq.embedding_json = json.dumps(embed_query(faq.question))
     db.commit()
     db.refresh(faq)
     return faq
