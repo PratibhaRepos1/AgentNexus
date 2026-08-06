@@ -9,6 +9,12 @@ class ChatMessageRequest(BaseModel):
     session_id: str
     message: str
     visitor_id: Optional[str] = None
+    # Widget's browser-locale-detected language (see Widget.tsx), used to pick
+    # the right fallback_messages entry and to tell the LLM definitively which
+    # language to reply in -- see chat_service.handle_message. Optional so
+    # older widget builds / direct API callers still work (falls back to the
+    # LLM detecting the language from the message itself).
+    lang: Optional[str] = None
 
 
 class ChatMessageResponse(BaseModel):

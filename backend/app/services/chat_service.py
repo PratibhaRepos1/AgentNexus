@@ -60,8 +60,22 @@ async def handle_message(db: Session, req: ChatMessageRequest) -> ChatMessageRes
     provider = biz_settings.llm_provider if biz_settings else "groq"
     model = biz_settings.llm_model if biz_settings else None
     fallback_message = biz_settings.fallback_message if biz_settings else None
+    fallback_messages = (biz_settings.fallback_messages if biz_settings else None) or {}
     tone = biz_settings.tone if biz_settings else "friendly"
-    languages = biz_settings.languages if biz_settings else ["en"]
+    languages = (biz_settings.languages if biz_settings else None) or ["en"]
+
+    # When the widget tells us the visitor's language, that's more reliable than
+    # asking the LLM to detect it from the message -- pass it as the ONLY
+    # enabled language so language_instruction() gives a deterministic "always
+    # respond in X" instruction instead of a "detect and match" one. Also picks
+    # the right translation for the no-context-found fallback below, which
+    # never reaches the LLM at all.
+    if req.lang and req.lang in languages:
+        effective_languages = [req.lang]
+        resolved_fallback = fallback_messages.get(req.lang) or fallback_message
+    else:
+        effective_languages = languages
+        resolved_fallback = fallback_message
 
     reply, intent, confidence = await run_rag(
         db=db,
@@ -69,10 +83,10 @@ async def handle_message(db: Session, req: ChatMessageRequest) -> ChatMessageRes
         message=req.message,
         llm_provider=provider,
         llm_model=model,
-        fallback_message=fallback_message,
+        fallback_message=resolved_fallback,
         tone=tone,
         history=history,
-        languages=languages,
+        languages=effective_languages,
     )
 
     ai_msg = Message(

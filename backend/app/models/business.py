@@ -53,6 +53,10 @@ class BusinessSettings(Base):
     fallback_message = Column(
         Text, default="I'm not sure about that. Would you like to speak with our team?"
     )
+    # Per-language overrides, same fallback rule as welcome_messages above --
+    # this is the "no info found" reply, returned without ever reaching the
+    # LLM (see run_rag in rag/pipeline.py), so it needs its own translations.
+    fallback_messages = Column(JSON, default=dict)
     business_hours = Column(JSON, default=dict)
     contact_email = Column(Text, nullable=True)
     contact_phone = Column(Text, nullable=True)

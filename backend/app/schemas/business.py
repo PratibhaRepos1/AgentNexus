@@ -22,6 +22,7 @@ class BusinessSettingsOut(BaseModel):
     welcome_message: str
     welcome_messages: Dict[str, str]
     fallback_message: str
+    fallback_messages: Dict[str, str]
     business_hours: Any
     contact_email: Optional[str]
     contact_phone: Optional[str]
@@ -48,6 +49,7 @@ class BusinessSettingsUpdate(BaseModel):
     welcome_message: Optional[str] = None
     welcome_messages: Optional[Dict[str, str]] = None
     fallback_message: Optional[str] = None
+    fallback_messages: Optional[Dict[str, str]] = None
     business_hours: Optional[Any] = None
     contact_email: Optional[str] = None
     contact_phone: Optional[str] = None

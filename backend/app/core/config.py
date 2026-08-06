@@ -58,7 +58,13 @@ class Settings(BaseSettings):
     # Where dashboard-facing links in emails (e.g. password reset) should point.
     frontend_url: str = "http://localhost:5173"
 
-    embedding_model: str = "all-MiniLM-L6-v2"
+    # Multilingual so retrieval works for non-English visitor questions against
+    # (typically English) source documents -- all-MiniLM-L6-v2 is English-only,
+    # which made cross-lingual queries score near zero and fall through to the
+    # generic fallback message almost every time. Same 384-dim output, so no
+    # storage/schema changes -- but existing chunks were embedded with the old
+    # model and must be re-embedded, see scripts/reembed_documents.py.
+    embedding_model: str = "paraphrase-multilingual-MiniLM-L12-v2"
     chunk_size: int = 600
     chunk_overlap: int = 50
     retrieval_top_k: int = 4

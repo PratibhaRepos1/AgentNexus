@@ -52,7 +52,7 @@ export function ChatWindow({
       const res = await fetch(`${apiBaseUrl}/api/chat/message`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ business_id: businessId, session_id: sessionId.current, message: msg }),
+        body: JSON.stringify({ business_id: businessId, session_id: sessionId.current, message: msg, lang }),
       })
       if (res.status === 429) {
         setMessages((m) => [...m, { sender: 'ai', content: strings.rateLimited }])
