@@ -61,6 +61,7 @@ async def handle_message(db: Session, req: ChatMessageRequest) -> ChatMessageRes
     model = biz_settings.llm_model if biz_settings else None
     fallback_message = biz_settings.fallback_message if biz_settings else None
     tone = biz_settings.tone if biz_settings else "friendly"
+    languages = biz_settings.languages if biz_settings else ["en"]
 
     reply, intent, confidence = await run_rag(
         db=db,
@@ -71,6 +72,7 @@ async def handle_message(db: Session, req: ChatMessageRequest) -> ChatMessageRes
         fallback_message=fallback_message,
         tone=tone,
         history=history,
+        languages=languages,
     )
 
     ai_msg = Message(

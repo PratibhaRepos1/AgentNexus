@@ -46,6 +46,10 @@ class BusinessSettings(Base):
     business_id = Column(UUID(as_uuid=True), ForeignKey("businesses.id"), nullable=False, unique=True)
     tone = Column(Text, default="friendly")
     welcome_message = Column(Text, default="Hi! How can I help you today?")
+    # Per-language overrides, e.g. {"no": "Hei! Hvordan kan jeg hjelpe deg i dag?"}.
+    # A language enabled in `languages` with no entry here falls back to
+    # `welcome_message` above -- see get_public_settings in api/businesses.py.
+    welcome_messages = Column(JSON, default=dict)
     fallback_message = Column(
         Text, default="I'm not sure about that. Would you like to speak with our team?"
     )

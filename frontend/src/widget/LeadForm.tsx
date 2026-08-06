@@ -1,17 +1,20 @@
 import { useState } from 'react'
+import { widgetStrings } from './i18n'
 
 interface Props {
   businessId: string
   sessionId: string
   primaryColor?: string
   apiBaseUrl?: string
+  lang?: string
   onSubmitted: () => void
 }
 
 const DEFAULT_API_BASE_URL = 'http://localhost:8000'
 const DEFAULT_PRIMARY_COLOR = '#ff6b00'
 
-export function LeadForm({ businessId, sessionId, primaryColor = DEFAULT_PRIMARY_COLOR, apiBaseUrl = DEFAULT_API_BASE_URL, onSubmitted }: Props) {
+export function LeadForm({ businessId, sessionId, primaryColor = DEFAULT_PRIMARY_COLOR, apiBaseUrl = DEFAULT_API_BASE_URL, lang, onSubmitted }: Props) {
+  const strings = widgetStrings(lang)
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -35,14 +38,14 @@ export function LeadForm({ businessId, sessionId, primaryColor = DEFAULT_PRIMARY
         const detail = body?.detail
         setError(
           Array.isArray(detail)
-            ? 'Please check your email and phone number are valid.'
-            : detail || 'Something went wrong. Please try again.'
+            ? strings.leadInvalidError
+            : detail || strings.leadGenericError
         )
         return
       }
       onSubmitted()
     } catch {
-      setError('Something went wrong. Please try again.')
+      setError(strings.leadGenericError)
     } finally {
       setLoading(false)
     }
@@ -50,19 +53,19 @@ export function LeadForm({ businessId, sessionId, primaryColor = DEFAULT_PRIMARY
 
   return (
     <form onSubmit={submit} className="space-y-2">
-      <input className="w-full rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm" placeholder="Your name *" required
+      <input className="w-full rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm" placeholder={strings.namePlaceholder} required
         value={form.name} onChange={set('name')} />
-      <input className="w-full rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm" placeholder="Email" type="email"
+      <input className="w-full rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm" placeholder={strings.emailPlaceholder} type="email"
         value={form.email} onChange={set('email')} />
-      <input className="w-full rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm" placeholder="Phone"
+      <input className="w-full rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm" placeholder={strings.phonePlaceholder}
         value={form.phone} onChange={set('phone')} />
-      <input className="w-full rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm" placeholder="Message (optional)"
+      <input className="w-full rounded-lg border border-gray-200 px-2.5 py-1.5 text-sm" placeholder={strings.messagePlaceholder}
         value={form.message} onChange={set('message')} />
       {error && <p className="text-xs text-red-500">{error}</p>}
       <button type="submit" disabled={loading}
         className="w-full text-white text-sm py-1.5 rounded-lg transition-[filter] hover:brightness-90 disabled:opacity-50"
         style={{ backgroundColor: primaryColor }}>
-        {loading ? 'Sending…' : 'Send'}
+        {loading ? strings.sending : strings.send}
       </button>
     </form>
   )

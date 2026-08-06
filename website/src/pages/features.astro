@@ -275,10 +275,11 @@ const whyChoose = en.WHY_CHOOSE.ITEMS;
           }
         </ul>
         <div class="mt-6 flex flex-wrap gap-2 rounded-2xl border border-slate-300 bg-slate-100 p-4">
-          <span class="rounded-full bg-white px-3 py-1.5 text-sm font-semibold text-indigo-700 shadow-sm">EN</span>
-          <span class="rounded-full bg-white px-3 py-1.5 text-sm font-semibold text-indigo-700 shadow-sm">NL</span>
-          <span class="rounded-full bg-white px-3 py-1.5 text-sm font-semibold text-indigo-700 shadow-sm">NO</span>
-          <span class="rounded-full bg-white/60 px-3 py-1.5 text-sm font-semibold text-indigo-300">HI</span>
+          {
+            ["EN", "NO", "DE", "FR", "ES", "IT", "NL", "PL", "PT", "SV"].map((code) => (
+              <span class="rounded-full bg-white px-3 py-1.5 text-sm font-semibold text-indigo-700 shadow-sm">{code}</span>
+            ))
+          }
         </div>
       </FeatureBentoCard>
 

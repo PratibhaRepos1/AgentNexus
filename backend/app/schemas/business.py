@@ -1,4 +1,4 @@
-from typing import Optional, Any, List
+from typing import Optional, Any, Dict, List
 from uuid import UUID
 from pydantic import BaseModel
 
@@ -20,6 +20,7 @@ class BusinessOut(BaseModel):
 class BusinessSettingsOut(BaseModel):
     tone: str
     welcome_message: str
+    welcome_messages: Dict[str, str]
     fallback_message: str
     business_hours: Any
     contact_email: Optional[str]
@@ -34,6 +35,8 @@ class BusinessSettingsOut(BaseModel):
 
 class PublicBusinessSettingsOut(BaseModel):
     welcome_message: str
+    welcome_messages: Dict[str, str]
+    languages: List[str]
     primary_color: str
 
     class Config:
@@ -43,6 +46,7 @@ class PublicBusinessSettingsOut(BaseModel):
 class BusinessSettingsUpdate(BaseModel):
     tone: Optional[str] = None
     welcome_message: Optional[str] = None
+    welcome_messages: Optional[Dict[str, str]] = None
     fallback_message: Optional[str] = None
     business_hours: Optional[Any] = None
     contact_email: Optional[str] = None

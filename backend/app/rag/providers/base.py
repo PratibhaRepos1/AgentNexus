@@ -14,6 +14,35 @@ def tone_instruction(tone: str) -> str:
     return f"Respond in a {style} tone."
 
 
+# Mirrors AVAILABLE_LANGUAGES in frontend/src/dashboard/pages/SettingsPage.tsx --
+# the curated set of codes a business can actually enable for their widget.
+_LANGUAGE_NAMES = {
+    "en": "English",
+    "no": "Norwegian",
+    "de": "German",
+    "fr": "French",
+    "es": "Spanish",
+    "it": "Italian",
+    "nl": "Dutch",
+    "pl": "Polish",
+    "pt": "Portuguese",
+    "sv": "Swedish",
+}
+
+
+def language_instruction(languages: Optional[List[str]]) -> str:
+    codes = languages or ["en"]
+    names = [_LANGUAGE_NAMES.get(code, code) for code in codes]
+    if len(names) == 1:
+        return f"Always respond in {names[0]}, regardless of what language the visitor writes in."
+    language_list = ", ".join(names)
+    return (
+        f"This business supports {language_list}. Detect which of these languages the visitor "
+        f"is writing in and respond in that same language. If the visitor's language isn't one of "
+        f"these, respond in {names[0]}."
+    )
+
+
 _BASE_SYSTEM_PROMPT = (
     "You are a helpful business assistant. Answer questions using only the provided context. "
     "The context may be irrelevant to the current question -- if it does not actually answer what was asked, "
@@ -28,8 +57,8 @@ _BASE_SYSTEM_PROMPT = (
 )
 
 
-def system_prompt(tone: str) -> str:
-    return f"{_BASE_SYSTEM_PROMPT} {tone_instruction(tone)}"
+def system_prompt(tone: str, languages: Optional[List[str]] = None) -> str:
+    return f"{_BASE_SYSTEM_PROMPT} {tone_instruction(tone)} {language_instruction(languages)}"
 
 
 def format_history(history: Optional[List[Dict[str, str]]]) -> str:
@@ -53,6 +82,7 @@ class LLMProvider(ABC):
         context: str,
         tone: str = "friendly",
         history: Optional[List[Dict[str, str]]] = None,
+        languages: Optional[List[str]] = None,
     ) -> str:
         pass
 

@@ -17,6 +17,11 @@ import { useCurrency } from '../../shared/hooks/useCurrency'
 // constant, see app/api/businesses.py's set_api_access_addon docstring) -- kept in sync here.
 const API_ADDON_USD = 12
 
+// max_languages: null means no numeric cap, but the widget only ever offers the curated
+// codes in AVAILABLE_LANGUAGES (SettingsPage.tsx) -- keep this count in sync with that list
+// so plan copy doesn't promise more languages than a business can actually pick.
+const SUPPORTED_LANGUAGE_COUNT = 10
+
 // WhatsApp/Instagram are real plan features but have no backend integration
 // built yet (see NOT_YET_IMPLEMENTED_FEATURES server-side) -- marked here so
 // the pricing cards don't imply they're usable today.
@@ -213,7 +218,7 @@ function planFeatureLines(entry: PlanCatalogEntry, format: (usd: number) => stri
     FEATURE_LABELS.email_notifications(features)!,
   ]
   if (features.instagram_integration) lines.push('Instagram integration')
-  if (limits.max_languages === null) lines.push('Unlimited languages')
+  if (limits.max_languages === null) lines.push(`Up to ${SUPPORTED_LANGUAGE_COUNT} languages`)
   else if (limits.max_languages > 1) lines.push(`${limits.max_languages} languages`)
   if (features.multi_currency) lines.push('Multi-currency')
   if (features.custom_branding) lines.push('Custom branding')

@@ -69,7 +69,7 @@ Four plans: a genuinely usable free tier to let customers experience the product
 | Email notifications | ✓ | ✓ | ✓ | ✓ |
 | WhatsApp notifications | ✗ | ✗ | ✓* | ✓* |
 | Instagram integration | ✗ | ✗ | ✓* | ✓* |
-| Multi-language | ✗ | 2 languages | Unlimited | Unlimited |
+| Multi-language | ✗ | 2 languages | Up to 10 languages | Up to 10 languages |
 | Multi-currency | ✗ | ✓ | ✓ | ✓ |
 | Custom branding | ✗ | ✓ | ✓ | ✓ |
 | API access | ✗ | ✗ | +$12/mo add-on | ✓ |

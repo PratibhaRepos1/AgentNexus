@@ -87,10 +87,9 @@
       "TITLE": "Flerspråklig støtte",
       "DESCRIPTION": "Snakk kundens språk og lever lokaltilpassede opplevelser med AI.",
       "ITEMS": [
-        { "TEXT": "Engelsk", "AVAILABLE": true },
-        { "TEXT": "Nederlandsk", "AVAILABLE": true },
-        { "TEXT": "Norsk", "AVAILABLE": true },
-        { "TEXT": "Hindi — kommer snart", "AVAILABLE": false }
+        { "TEXT": "10 språk, oppdaget automatisk fra den besøkendes nettleser", "AVAILABLE": true },
+        { "TEXT": "AI-svar tilpasses automatisk til den besøkendes språk", "AVAILABLE": true },
+        { "TEXT": "Kontaktskjemaet og alle tekster i chat-vinduet er også oversatt", "AVAILABLE": true }
       ]
     },
     "MULTI_CURRENCY": {

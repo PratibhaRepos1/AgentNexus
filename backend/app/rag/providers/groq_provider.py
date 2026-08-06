@@ -20,9 +20,10 @@ class GroqProvider(LLMProvider):
         context: str,
         tone: str = "friendly",
         history: Optional[List[Dict[str, str]]] = None,
+        languages: Optional[List[str]] = None,
     ) -> str:
         client = self._get_client()
-        system = system_prompt(tone)
+        system = system_prompt(tone, languages)
         user_message = f"Context:\n{context}\n\nQuestion: {prompt}"
 
         messages = [{"role": "system", "content": system}]

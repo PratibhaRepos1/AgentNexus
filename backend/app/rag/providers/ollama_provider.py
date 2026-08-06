@@ -15,9 +15,10 @@ class OllamaProvider(LLMProvider):
         context: str,
         tone: str = "friendly",
         history: Optional[List[Dict[str, str]]] = None,
+        languages: Optional[List[str]] = None,
     ) -> str:
         full_prompt = (
-            f"{system_prompt(tone)}\n\n"
+            f"{system_prompt(tone, languages)}\n\n"
             f"{format_history(history)}"
             f"Context:\n{context}\n\nQuestion: {prompt}\nAnswer:"
         )

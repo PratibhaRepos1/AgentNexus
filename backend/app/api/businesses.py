@@ -36,9 +36,20 @@ def get_public_settings(business_id: str, db: Session = Depends(get_db)):
     # info, no LLM provider/model, nothing tenant-sensitive).
     s = db.query(BusinessSettings).filter(BusinessSettings.business_id == business_id).first()
     welcome_message = s.welcome_message if s and s.welcome_message else DEFAULT_WELCOME_MESSAGE
+    languages = (s.languages if s and s.languages else None) or ["en"]
+    overrides = (s.welcome_messages if s and s.welcome_messages else None) or {}
+    # Every enabled language gets an entry -- one with its own translation if the
+    # business wrote one, otherwise the base welcome_message as a safe fallback
+    # (still on-brand, just not translated) rather than omitting the language.
+    welcome_messages = {lang: overrides.get(lang, welcome_message) for lang in languages}
     business = db.query(Business).filter(Business.id == business_id).first()
     primary_color = business.primary_color if business and business.primary_color else DEFAULT_PRIMARY_COLOR
-    return PublicBusinessSettingsOut(welcome_message=welcome_message, primary_color=primary_color)
+    return PublicBusinessSettingsOut(
+        welcome_message=welcome_message,
+        welcome_messages=welcome_messages,
+        languages=languages,
+        primary_color=primary_color,
+    )
 
 
 @router.get("/me", response_model=BusinessOut)

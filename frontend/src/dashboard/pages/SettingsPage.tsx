@@ -12,6 +12,7 @@ import { usePlan } from '../../shared/hooks/usePlan'
 interface Settings {
   tone: string
   welcome_message: string
+  welcome_messages: Record<string, string>
   fallback_message: string
   contact_email: string | null
   contact_phone: string | null
@@ -24,13 +25,15 @@ interface Settings {
 // extend as real demand shows up.
 const AVAILABLE_LANGUAGES = [
   { code: 'en', label: 'English' },
-  { code: 'es', label: 'Spanish' },
-  { code: 'fr', label: 'French' },
-  { code: 'de', label: 'German' },
   { code: 'no', label: 'Norwegian' },
+  { code: 'de', label: 'German' },
+  { code: 'fr', label: 'French' },
+  { code: 'es', label: 'Spanish' },
+  { code: 'it', label: 'Italian' },
+  { code: 'nl', label: 'Dutch' },
+  { code: 'pl', label: 'Polish' },
   { code: 'pt', label: 'Portuguese' },
-  { code: 'hi', label: 'Hindi' },
-  { code: 'zh', label: 'Chinese' },
+  { code: 'sv', label: 'Swedish' },
 ]
 
 interface Business {
@@ -91,6 +94,10 @@ export function SettingsPage() {
   const maxLanguages = plan?.limits.max_languages ?? 1
 
   const languages = form.languages ?? ['en']
+  const welcomeMessages = form.welcome_messages ?? {}
+  const setWelcomeMessageFor = (code: string) => (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+    setForm((f) => ({ ...f, welcome_messages: { ...(f.welcome_messages ?? {}), [code]: e.target.value } }))
+  const languageLabel = (code: string) => AVAILABLE_LANGUAGES.find((l) => l.code === code)?.label ?? code
   const toggleLanguage = (code: string) => {
     const has = languages.includes(code)
     if (has) {
@@ -121,10 +128,32 @@ export function SettingsPage() {
             </select>
           </div>
           <div>
-            <label className="block text-base font-medium text-slate-700 mb-1">Welcome message</label>
+            <label className="block text-base font-medium text-slate-700 mb-1">
+              Welcome message {languages.length > 1 && `(${languageLabel(languages[0])})`}
+            </label>
             <textarea className="w-full rounded-xl border border-slate-300 px-3 py-2 text-base" rows={2}
               value={form.welcome_message || ''} onChange={set('welcome_message')} />
+            <p className="text-sm text-slate-500 mt-1">
+              Shown to visitors whose browser language is {languages.length > 1 ? languageLabel(languages[0]) : 'not one of your other enabled languages'}, and as the fallback for any enabled language without its own translation below.
+            </p>
           </div>
+          {languages.slice(1).map((code) => (
+            <div key={code}>
+              <label className="block text-base font-medium text-slate-700 mb-1">
+                Welcome message ({languageLabel(code)})
+              </label>
+              <textarea
+                className="w-full rounded-xl border border-slate-300 px-3 py-2 text-base"
+                rows={2}
+                placeholder={form.welcome_message || ''}
+                value={welcomeMessages[code] || ''}
+                onChange={setWelcomeMessageFor(code)}
+              />
+              <p className="text-sm text-slate-500 mt-1">
+                Shown to visitors whose browser language is {languageLabel(code)}. Leave blank to use the {languageLabel(languages[0])} message above instead.
+              </p>
+            </div>
+          ))}
           <div>
             <label className="block text-base font-medium text-slate-700 mb-1">Fallback message</label>
             <textarea className="w-full rounded-xl border border-slate-300 px-3 py-2 text-base" rows={2}

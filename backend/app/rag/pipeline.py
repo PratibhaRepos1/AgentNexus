@@ -90,6 +90,7 @@ async def run_rag(
     fallback_message: Optional[str] = None,
     tone: str = "friendly",
     history: Optional[List[Dict[str, str]]] = None,
+    languages: Optional[List[str]] = None,
 ) -> Tuple[str, str, float]:
     history = history or []
     search_query = _build_contextual_query(history, message)
@@ -116,7 +117,7 @@ async def run_rag(
         return (fallback_message or default_fallback, intent, 0.0)
 
     provider = get_llm_provider(llm_provider, llm_model)
-    reply = await provider.generate(message, context, tone, history)
+    reply = await provider.generate(message, context, tone, history, languages)
     return reply, intent, best_score
 
 

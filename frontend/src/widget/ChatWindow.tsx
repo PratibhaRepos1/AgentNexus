@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Send } from 'lucide-react'
 import { LeadForm } from './LeadForm'
 import { MarkdownText } from './MarkdownText'
+import { widgetStrings } from './i18n'
 
 interface Message {
   sender: 'visitor' | 'ai'
@@ -13,6 +14,7 @@ interface Props {
   welcomeMessage?: string
   primaryColor?: string
   apiBaseUrl?: string
+  lang?: string
 }
 
 const genSession = () => `sess_${Math.random().toString(36).slice(2, 10)}`
@@ -24,7 +26,9 @@ export function ChatWindow({
   welcomeMessage = 'Hi! How can I help you today?',
   primaryColor = '#ff6b00',
   apiBaseUrl = DEFAULT_API_BASE_URL,
+  lang,
 }: Props) {
+  const strings = widgetStrings(lang)
   const sessionId = useRef(sessionStorage.getItem(SESSION_KEY) || (() => {
     const s = genSession(); sessionStorage.setItem(SESSION_KEY, s); return s
   })())
@@ -51,7 +55,7 @@ export function ChatWindow({
         body: JSON.stringify({ business_id: businessId, session_id: sessionId.current, message: msg }),
       })
       if (res.status === 429) {
-        setMessages((m) => [...m, { sender: 'ai', content: "You're sending messages a bit too fast — please wait a moment and try again." }])
+        setMessages((m) => [...m, { sender: 'ai', content: strings.rateLimited }])
         return
       }
       if (!res.ok) throw new Error('Request failed')
@@ -59,7 +63,7 @@ export function ChatWindow({
       setMessages((m) => [...m, { sender: 'ai', content: data.reply }])
       if (data.suggest_lead_capture) setShowLeadForm(true)
     } catch {
-      setMessages((m) => [...m, { sender: 'ai', content: 'Sorry, something went wrong. Please try again.' }])
+      setMessages((m) => [...m, { sender: 'ai', content: strings.chatError }])
     } finally {
       setLoading(false)
     }
@@ -95,15 +99,16 @@ export function ChatWindow({
         )}
         {showLeadForm && (
           <div className="bg-white border border-gray-200 rounded-xl p-3">
-            <p className="text-sm font-medium text-gray-800 mb-2">Leave your contact details and we'll get back to you:</p>
+            <p className="text-sm font-medium text-gray-800 mb-2">{strings.leadFormIntro}</p>
             <LeadForm
               businessId={businessId}
               sessionId={sessionId.current}
               primaryColor={primaryColor}
               apiBaseUrl={apiBaseUrl}
+              lang={lang}
               onSubmitted={() => {
                 setShowLeadForm(false)
-                setMessages((m) => [...m, { sender: 'ai', content: "Thanks! We'll be in touch soon." }])
+                setMessages((m) => [...m, { sender: 'ai', content: strings.leadThanks }])
               }}
             />
           </div>
@@ -115,7 +120,7 @@ export function ChatWindow({
         <input
           className="flex-1 rounded-full border px-4 py-2 text-sm outline-none"
           style={{ borderColor: inputFocused ? primaryColor : '#d1d5db' }}
-          placeholder="Type a message…"
+          placeholder={strings.inputPlaceholder}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && send()}
