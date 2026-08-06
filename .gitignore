@@ -18,6 +18,9 @@ node_modules/
 frontend/dist/
 frontend/public/widget.js
 
+# Astro generated types (in case astro is ever run from the repo root)
+.astro/
+
 # Uploads
 backend/uploads/
 
