@@ -6,11 +6,18 @@ import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from app.core.database import Base
+from app.core.config import settings
 from app.models import *  # noqa: ensure all models are imported
 
 config = context.config
 if config.config_file_name:
     fileConfig(config.config_file_name)
+
+# alembic.ini's sqlalchemy.url is just a local-dev fallback -- override it with
+# whatever DATABASE_URL the app itself is actually configured with (env var in
+# production/Docker, where the DB is reachable at the "db" service hostname,
+# not "localhost"), so migrations always target the same database the app uses.
+config.set_main_option("sqlalchemy.url", settings.database_url)
 
 target_metadata = Base.metadata
 
